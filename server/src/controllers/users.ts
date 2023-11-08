@@ -16,7 +16,7 @@ interface SignUpBody {
   gender?: string;
 }
 
-interface SignInBody {
+interface LogInBody {
   email?: string;
   password?: string;
 }
@@ -94,10 +94,10 @@ export const signUp: RequestHandler<
   }
 };
 
-export const signIn: RequestHandler<
+export const login: RequestHandler<
   unknown,
   unknown,
-  SignInBody,
+  LogInBody,
   unknown
 > = async (req, res) => {
   try {
@@ -119,7 +119,7 @@ export const signIn: RequestHandler<
       );
 
     res.send({
-      message: 'Signed in successfully',
+      message: 'Logged in successfully',
       id: user._id,
       username: user.username,
       picture: user.picture,
