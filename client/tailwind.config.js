@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
-      backgroundColor: {
-        'not-found': '#1c1b22',
+      boxShadow: {
+        "3xl": "0 3px 6px rgba(0,0,0,0.2)",
       },
     },
   },
