@@ -16,6 +16,11 @@ interface SignUpBody {
   gender?: string;
 }
 
+interface SignInBody {
+  email?: string;
+  password?: string;
+}
+
 export const signUp: RequestHandler<
   unknown,
   unknown,
@@ -76,7 +81,51 @@ export const signUp: RequestHandler<
       gender,
     });
 
-    res.json(newUser);
+    res.send({
+      message: 'Signed up successfully',
+      id: newUser._id,
+      username: newUser.username,
+      picture: newUser.picture,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+    });
+  } catch (err) {
+    res.status(err.status).json({ message: err.message });
+  }
+};
+
+export const signIn: RequestHandler<
+  unknown,
+  unknown,
+  SignInBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await UserModel.findOne({ email });
+
+    if (!user)
+      throw createHttpError(
+        400,
+        'Invalid email. Check your entered data and try again.'
+      );
+
+    const checkPassword = await bcrypt.compare(password, user.password);
+
+    if (!checkPassword)
+      throw createHttpError(
+        400,
+        'Invalid password. Check your entered data and try again.'
+      );
+
+    res.send({
+      message: 'Signed in successfully',
+      id: user._id,
+      username: user.username,
+      picture: user.picture,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
   } catch (err) {
     res.status(err.status).json({ message: err.message });
   }
