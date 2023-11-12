@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 export interface UserState {
   id: string;
   username: string;
@@ -20,7 +22,9 @@ const initialStateUser: UserState = {
 };
 
 export default function userReducer(
-  state = initialStateUser,
+  state: UserState = JSON.parse(
+    Cookies.get("user") ?? JSON.stringify(initialStateUser),
+  ),
   action: UserAction,
 ): UserState {
   switch (action.type) {

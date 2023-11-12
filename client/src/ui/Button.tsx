@@ -1,15 +1,17 @@
 interface Props {
-  className: string;
+  type: "submit" | "reset";
+  className?: string;
   children: string;
 }
 
-function Button({ className, children }: Props) {
+function Button({ type, className = "", children }: Props) {
   return (
-    <div
-      className={`${className} cursor-pointer rounded-lg px-4 py-2.5 text-lg font-bold text-white`}
+    <button
+      type={type}
+      className={`${className} rounded-lg px-4 py-1.5 text-lg font-bold text-white`}
     >
       {children}
-    </div>
+    </button>
   );
 }
 
