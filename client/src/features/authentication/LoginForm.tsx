@@ -1,8 +1,9 @@
 import { Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "../../ui/Button";
+import ButtonForm from "../../ui/ButtonForm";
 import LoginInput from "./LoginInput";
+import SignUp from "./SignUp";
 import { loginValidation } from "./validation";
 
 interface LoginData {
@@ -48,9 +49,9 @@ function LoginForm() {
               placeholder="Password"
               onChange={handleLoginChange}
             />
-            <Button type="submit" className="bg-blue-500">
+            <ButtonForm type="submit" className="bg-blue-500">
               Log In
-            </Button>
+            </ButtonForm>
           </Form>
         </Formik>
         <Link
@@ -59,9 +60,7 @@ function LoginForm() {
         >
           Forgot password?
         </Link>
-        <Button type="submit" className="mx-auto bg-green-500">
-          Create new account
-        </Button>
+        <SignUp />
       </div>
       <Link to="/" className="px-10 py-6 text-sm">
         <span className="font-bold">Create a Page</span> for a celebrity, brand
