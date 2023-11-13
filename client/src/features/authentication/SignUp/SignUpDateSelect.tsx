@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import { HiMiniQuestionMarkCircle } from "react-icons/hi2";
-import { getDays, getMonths, getYears } from "../../utils/helpers";
+import { getDays, getMonths, getYears } from "../../../utils/helpers";
 
 interface Props {
   birthYear: number;
@@ -33,9 +33,9 @@ function SignUpDateSelect({
           name="birthMonth"
           value={birthMonth}
         >
-          {getMonths().map((month, i) => (
-            <option value={i + 1} key={month}>
-              {month}
+          {Object.entries(getMonths()).map((month) => (
+            <option value={month[0]} key={month[0]}>
+              {month[1]}
             </option>
           ))}
         </select>

@@ -8,7 +8,6 @@ import {
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import Button from "./Button";
 
 interface ModalContextProps {
   openName: string;
@@ -49,9 +48,10 @@ function Open({ children, opens: opensWindowName }: OpenProps) {
 interface WindowProps {
   children: ReactNode;
   name: string;
+  isLoading: boolean;
 }
 
-function Window({ children, name }: WindowProps) {
+function Window({ children, name, isLoading }: WindowProps) {
   const { openName, close } = useContext(ModalContext) as ModalContextProps;
 
   const { ref } = useOutsideClick(close);
@@ -64,9 +64,11 @@ function Window({ children, name }: WindowProps) {
         ref={ref}
         className="absolute left-1/2 top-1/2 flex w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl"
       >
-        <Button onClick={close}>
-          <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />
-        </Button>
+        {isLoading && (
+          <button onClick={close}>
+            <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />
+          </button>
+        )}
         {children}
       </div>
     </div>,

@@ -1,26 +1,61 @@
+import axios from "axios";
 import { Form, Formik } from "formik";
+import Cookies from "js-cookie";
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import ButtonForm from "../../ui/ButtonForm";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import ButtonForm from "../../../ui/ButtonForm";
+import Spinner from "../../../ui/Spinner";
+import SignUp from "../SignUp/SignUp";
+import { loginValidation } from "../validation";
 import LoginInput from "./LoginInput";
-import SignUp from "./SignUp";
-import { loginValidation } from "./validation";
 
 interface LoginData {
   email: string;
   password: string;
 }
 
+const initialState: LoginData = {
+  email: "",
+  password: "",
+};
+
 function LoginForm() {
-  const [login, setLogin] = useState<LoginData>({
-    email: "",
-    password: "",
-  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [login, setLogin] = useState<LoginData>(initialState);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  if (isLoading) return <Spinner />;
 
   function handleLoginChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
     setLogin({ ...login, [name]: value });
+  }
+
+  async function handleSubmit() {
+    const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
+
+    try {
+      setIsLoading(true);
+
+      const { data } = await axios.post(`${apiUrl}/login`, login);
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { message, ...rest } = data;
+
+      toast.success(data.message);
+      dispatch({ type: "user/login", payload: rest });
+      Cookies.set("user", JSON.stringify(rest));
+
+      navigate("/");
+    } catch (err) {
+      toast.error(err.response?.data?.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   loginValidation();
@@ -32,9 +67,7 @@ function LoginForm() {
           enableReinitialize
           initialValues={login}
           validationSchema={loginValidation}
-          onSubmit={(values) => {
-            console.log(values);
-          }}
+          onSubmit={handleSubmit}
         >
           <Form className="flex flex-col gap-4">
             <LoginInput
