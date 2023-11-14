@@ -5,6 +5,7 @@ import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { SignUpData, signup } from "../../../services/apiAuth";
 import ButtonForm from "../../../ui/ButtonForm";
 import SignUpFooter from "../../../ui/SignUpFooter";
 import SignUpHeader from "../../../ui/SignUpHeader";
@@ -17,17 +18,6 @@ import SignUpInput from "./SignUpInput";
 interface Props {
   isLoading: boolean;
   setIsLoading: (arg: boolean) => void;
-}
-
-interface SignUpData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  birthDay: number;
-  birthMonth: number;
-  birthYear: number;
-  gender: string;
 }
 
 const initialState: SignUpData = {
@@ -87,23 +77,20 @@ function SignUpForm({ isLoading, setIsLoading }: Props) {
       return;
     }
 
-    const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
-
     try {
       setIsLoading(true);
 
-      const { data } = await axios.post(`${apiUrl}/signup`, user);
+      const { message, signUpData } = await signup(user);
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { message, ...rest } = data;
-
-      toast.success(data.message);
-      dispatch({ type: "user/login", payload: rest });
-      Cookies.set("user", JSON.stringify(rest));
+      toast.success(message);
+      dispatch({ type: "user/login", payload: signUpData });
+      Cookies.set("user", JSON.stringify(signUpData));
 
       navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.message);
+      axios.isAxiosError(err)
+        ? toast.error(err.response?.data?.message)
+        : toast.error("An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }

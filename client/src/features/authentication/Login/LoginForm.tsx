@@ -5,16 +5,12 @@ import { ChangeEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { LoginData, login } from "../../../services/apiAuth";
 import ButtonForm from "../../../ui/ButtonForm";
 import Spinner from "../../../ui/Spinner";
 import SignUp from "../SignUp/SignUp";
 import { loginValidation } from "../validation";
 import LoginInput from "./LoginInput";
-
-interface LoginData {
-  email: string;
-  password: string;
-}
 
 const initialState: LoginData = {
   email: "",
@@ -24,7 +20,7 @@ const initialState: LoginData = {
 function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [login, setLogin] = useState<LoginData>(initialState);
+  const [user, setUser] = useState<LoginData>(initialState);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   if (isLoading) return <Spinner />;
@@ -32,27 +28,24 @@ function LoginForm() {
   function handleLoginChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
 
-    setLogin({ ...login, [name]: value });
+    setUser({ ...user, [name]: value });
   }
 
   async function handleSubmit() {
-    const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
-
     try {
       setIsLoading(true);
 
-      const { data } = await axios.post(`${apiUrl}/login`, login);
+      const { message, loginData } = await login(user);
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { message, ...rest } = data;
-
-      toast.success(data.message);
-      dispatch({ type: "user/login", payload: rest });
-      Cookies.set("user", JSON.stringify(rest));
+      toast.success(message);
+      dispatch({ type: "user/login", payload: loginData });
+      Cookies.set("user", JSON.stringify(loginData));
 
       navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.message);
+      axios.isAxiosError(err)
+        ? toast.error(err.response?.data?.message)
+        : toast.error("An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }

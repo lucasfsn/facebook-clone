@@ -7,7 +7,7 @@ export const signUpValidation = () =>
       .min(2, "First name must be at least 2 characters.")
       .max(50, "First name cannot contain more than 50 characters.")
       .matches(
-        /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{1,}$/,
+        /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/,
         "First name cannot contain numbers and special characters.",
       ),
     lastName: Yup.string()
@@ -15,7 +15,7 @@ export const signUpValidation = () =>
       .min(2, "Last name must be at least 2 characters.")
       .max(50, "Last name cannot contain more than 50 characters.")
       .matches(
-        /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{1,}$/,
+        /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/,
         "Last name cannot contain numbers and special characters.",
       ),
     email: Yup.string()
