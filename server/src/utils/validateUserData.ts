@@ -6,5 +6,7 @@ export function validateEmail(email: string): RegExpMatchArray {
 export function validateName(name: string): RegExpMatchArray {
   return name
     .toString()
-    .match(/^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{1,}$/);
+    .match(
+      /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/
+    );
 }
