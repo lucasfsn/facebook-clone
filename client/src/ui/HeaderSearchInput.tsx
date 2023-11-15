@@ -2,6 +2,7 @@ import { RefObject } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 
 interface Props {
+  placeholder: string;
   showIcon?: boolean;
   setShowIcon?: (arg: boolean) => void;
   onClick?: () => void;
@@ -10,16 +11,17 @@ interface Props {
 }
 
 function HeaderSearchInput({
+  placeholder,
   showIcon = true,
   setShowIcon = () => {},
   onClick,
-  full = true,
+  full = false,
   input,
 }: Props) {
   return (
     <div
       onClick={onClick}
-      className="flex h-[40px] min-w-[40px] cursor-text items-center justify-center gap-2 rounded-full bg-gray-100 px-3 py-1"
+      className="flex h-[40px] min-w-[40px] cursor-text items-center justify-start gap-2 rounded-full bg-gray-100 px-3 py-1"
     >
       {showIcon && <HiMagnifyingGlass className="text-md" />}
       <input
@@ -27,7 +29,7 @@ function HeaderSearchInput({
           full ? "" : "hidden"
         }`}
         type="text"
-        placeholder="Search Facebook"
+        placeholder={placeholder}
         onFocus={() => setShowIcon(false)}
         onBlur={() => setShowIcon(true)}
         ref={input}

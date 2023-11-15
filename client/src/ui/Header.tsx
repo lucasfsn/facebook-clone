@@ -18,17 +18,18 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../store";
 import HeaderLink from "./HeaderLink";
-import HeaderSearch from "./HeaderSearch";
 import HeaderSearchInput from "./HeaderSearchInput";
+import HeaderSearch from "./HeaderSearchModal";
 import LogoIcon from "./LogoIcon";
+import Menu from "./Menu";
 
 function Header() {
   const [showSearchPanel, setShowSearchPanel] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
   const { user } = useSelector((state: RootState) => ({
     ...state,
   }));
-
-  // const pictures = useSelector((state) => state.user.picture);
 
   return (
     <header className="fixed left-0 top-0 grid h-[55px] w-full grid-cols-3 px-3 py-1 shadow-md">
@@ -39,7 +40,10 @@ function Header() {
         {showSearchPanel ? (
           <HeaderSearch setShowSearchPanel={setShowSearchPanel} />
         ) : (
-          <HeaderSearchInput onClick={() => setShowSearchPanel(true)} />
+          <HeaderSearchInput
+            placeholder="Search Facebook"
+            onClick={() => setShowSearchPanel(true)}
+          />
         )}
       </div>
       <div className="grid grid-cols-5 items-center justify-between gap-2">
@@ -65,9 +69,13 @@ function Header() {
         </HeaderLink>
       </div>
       <div className="flex flex-row items-center justify-end gap-2">
-        <HeaderLink to="" right={true}>
-          <CgMenuGridO />
-        </HeaderLink>
+        {showMenu && <Menu setShowMenu={setShowMenu} />}
+        <button
+          onClick={() => setShowMenu((show) => !show)}
+          className="relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full bg-gray-200 text-2xl text-stone-600 hover:bg-gray-300 hover:text-stone-700"
+        >
+          <CgMenuGridO className={`${showMenu ? "text-blue-600" : ""}`} />
+        </button>
         <HeaderLink to="/" right={true}>
           <FaFacebookMessenger />
         </HeaderLink>

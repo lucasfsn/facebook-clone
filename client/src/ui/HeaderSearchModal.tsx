@@ -34,6 +34,7 @@ function HeaderSearch({ setShowSearchPanel }: Props) {
           <HiArrowLeft className="text-xl" />
         </button>
         <HeaderSearchInput
+          placeholder="Search Facebook"
           showIcon={showIcon}
           setShowIcon={setShowIcon}
           full={true}
