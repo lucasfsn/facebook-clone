@@ -18,7 +18,11 @@ const userSchema = new Schema(
       trim: true,
     },
     password: { type: String, required: true },
-    picture: { type: String, default: '' },
+    picture: {
+      type: String,
+      default:
+        'https://res.cloudinary.com/dmhcnhtng/image/upload/v1643044376/avatars/default_pic_jeaybr.png',
+    },
     cover: { type: String, trim: true },
     gender: { type: String, required: true, trim: true },
     birthDay: { type: Number, required: true, trim: true },
