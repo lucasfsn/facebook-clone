@@ -8,12 +8,7 @@ export interface UserState {
   lastName: string;
 }
 
-interface UserAction {
-  type: string;
-  payload: Partial<UserState>;
-}
-
-const initialStateUser: UserState = {
+const initialStateUser = {
   id: "",
   username: "",
   picture: "",
@@ -21,11 +16,13 @@ const initialStateUser: UserState = {
   lastName: "",
 };
 
+type Action = { type: string; payload: Partial<UserState> };
+
 export default function userReducer(
   state: UserState = JSON.parse(
     Cookies.get("user") ?? JSON.stringify(initialStateUser),
   ),
-  action: UserAction,
+  action: Action,
 ): UserState {
   switch (action.type) {
     case "user/login":

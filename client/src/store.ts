@@ -1,7 +1,7 @@
 import { Store, combineReducers, createStore } from "redux";
 import userReducer, { UserState } from "./features/user/userSlice";
 
-interface RootState {
+export interface RootState {
   user: UserState;
 }
 

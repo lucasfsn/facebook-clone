@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { LoginData, login } from "../../../services/apiAuth";
 import ButtonForm from "../../../ui/ButtonForm";
 import Spinner from "../../../ui/Spinner";
-import SignUp from "../SignUp/SignUp";
+import SignUp from "../signup/SignUp";
 import { loginValidation } from "../validation";
 import LoginInput from "./LoginInput";
 

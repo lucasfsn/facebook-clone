@@ -48,10 +48,10 @@ function Open({ children, opens: opensWindowName }: OpenProps) {
 interface WindowProps {
   children: ReactNode;
   name: string;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
-function Window({ children, name, isLoading }: WindowProps) {
+function Window({ children, name, isLoading = false }: WindowProps) {
   const { openName, close } = useContext(ModalContext) as ModalContextProps;
 
   const { ref } = useOutsideClick(close);

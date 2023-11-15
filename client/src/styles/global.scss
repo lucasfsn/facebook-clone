@@ -56,6 +56,10 @@ select {
   border: 1px solid lightgray;
 }
 
+.active {
+  border-bottom: 3px solid #1d4ed8;
+}
+
 .loader {
   width: 50px;
   padding: 8px;
