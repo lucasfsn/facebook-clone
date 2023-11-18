@@ -42,35 +42,49 @@ interface OpenProps {
 function Open({ children, opens: opensWindowName }: OpenProps) {
   const { open } = useContext(ModalContext) as ModalContextProps;
 
-  return cloneElement(children, { onClick: () => open(opensWindowName) });
+  return cloneElement(children, {
+    onClick: () => open(opensWindowName),
+  });
 }
+
+type WindowType = "center" | "custom";
 
 interface WindowProps {
   children: ReactNode;
   name: string;
+  type: WindowType;
   isLoading?: boolean;
 }
 
-function Window({ children, name, isLoading = false }: WindowProps) {
+function Window({ children, name, type, isLoading = false }: WindowProps) {
   const { openName, close } = useContext(ModalContext) as ModalContextProps;
 
   const { ref } = useOutsideClick(close);
 
   if (name !== openName) return null;
 
+  if (type === "center") {
+    return createPortal(
+      <div className="fixed bottom-0 left-0 right-0 top-0 backdrop-blur-sm">
+        <div
+          ref={ref}
+          className="absolute left-1/2 top-1/2 flex w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl"
+        >
+          {!isLoading && (
+            <button onClick={close}>
+              <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />
+            </button>
+          )}
+          {children}
+        </div>
+      </div>,
+      document.body,
+    );
+  }
+
   return createPortal(
-    <div className="w fixed bottom-0 left-0 right-0 top-0 backdrop-blur-sm">
-      <div
-        ref={ref}
-        className="absolute left-1/2 top-1/2 flex w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl"
-      >
-        {isLoading && (
-          <button onClick={close}>
-            <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />
-          </button>
-        )}
-        {children}
-      </div>
+    <div className="fixed bottom-0 left-0 right-0 top-0">
+      <div ref={ref}>{children}</div>
     </div>,
     document.body,
   );

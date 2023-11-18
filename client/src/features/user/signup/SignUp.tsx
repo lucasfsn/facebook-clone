@@ -11,7 +11,7 @@ function SignUp() {
       <Modal.Open opens="signup-form">
         <Button className="mx-auto bg-green-500">Create new account</Button>
       </Modal.Open>
-      <Modal.Window name="signup-form" isLoading={isLoading}>
+      <Modal.Window name="signup-form" type="center" isLoading={isLoading}>
         <SignUpForm
           isLoading={isLoading}
           setIsLoading={() => setIsLoading((loading) => !loading)}

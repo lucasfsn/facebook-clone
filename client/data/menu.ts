@@ -131,3 +131,46 @@ export const menu = [
     ],
   },
 ];
+
+export const menuRight = [
+  {
+    id: 0,
+    items: [
+      {
+        name: "Post",
+      },
+      {
+        name: "Story",
+      },
+      {
+        name: "Reel",
+      },
+      {
+        name: "Life event",
+      },
+    ],
+  },
+  {
+    id: 1,
+    items: [
+      {
+        name: "Page",
+      },
+      {
+        name: "Ad",
+      },
+      {
+        name: "Group",
+      },
+      {
+        name: "Event",
+      },
+      {
+        name: "Marketplace listing",
+      },
+      {
+        name: "Fundraiser",
+      },
+    ],
+  },
+];

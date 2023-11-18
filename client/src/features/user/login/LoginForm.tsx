@@ -58,7 +58,7 @@ function LoginForm() {
       <div className="flex flex-col gap-4 rounded-lg bg-white p-4 text-center shadow-3xl">
         <Formik
           enableReinitialize
-          initialValues={login}
+          initialValues={user}
           validationSchema={loginValidation}
           onSubmit={handleSubmit}
         >

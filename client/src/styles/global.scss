@@ -60,6 +60,11 @@ select {
   border-bottom: 3px solid #1d4ed8;
 }
 
+.dark-mode {
+  filter: invert(100%);
+  transition: all 0.5s;
+}
+
 .loader {
   width: 50px;
   padding: 8px;
