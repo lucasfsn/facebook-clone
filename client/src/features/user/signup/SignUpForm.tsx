@@ -1,24 +1,17 @@
-import axios from "axios";
 import { Form, Formik } from "formik";
-import Cookies from "js-cookie";
 import { ChangeEvent, useState } from "react";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { SignUpData, signup } from "../../../services/apiAuth";
+import { useSelector } from "react-redux";
+import { SignUpData } from "../../../services/apiAuth";
+import { RootState } from "../../../store";
 import ButtonForm from "../../../ui/ButtonForm";
 import SignUpFooter from "../../../ui/SignUpFooter";
 import SignUpHeader from "../../../ui/SignUpHeader";
 import Spinner from "../../../ui/Spinner";
+import { useSignup } from "../useSignup";
 import { signUpValidation } from "../validation";
 import SignUpDateSelect from "./SignUpDateSelect";
 import SignUpGenderSelect from "./SignUpGenderSelect";
 import SignUpInput from "./SignUpInput";
-
-interface Props {
-  isLoading: boolean;
-  setIsLoading: (arg: boolean) => void;
-}
 
 const initialState: SignUpData = {
   firstName: "",
@@ -31,14 +24,16 @@ const initialState: SignUpData = {
   gender: "",
 };
 
-function SignUpForm({ isLoading, setIsLoading }: Props) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+const initialStateErrors = {
+  date: "",
+  gender: "",
+};
+
+function SignUpForm() {
+  const { signUpUser } = useSignup();
   const [user, setUser] = useState<SignUpData>(initialState);
-  const [errors, setErrors] = useState({
-    date: "",
-    gender: "",
-  });
+  const [errors, setErrors] = useState(initialStateErrors);
+  const isLoading = useSelector((state: RootState) => state.user?.isLoading);
 
   if (isLoading) return <Spinner />;
 
@@ -77,23 +72,7 @@ function SignUpForm({ isLoading, setIsLoading }: Props) {
       return;
     }
 
-    try {
-      setIsLoading(true);
-
-      const { message, signUpData } = await signup(user);
-
-      toast.success(message);
-      dispatch({ type: "user/login", payload: signUpData });
-      Cookies.set("user", JSON.stringify(signUpData));
-
-      navigate("/");
-    } catch (err) {
-      axios.isAxiosError(err)
-        ? toast.error(err.response?.data?.message)
-        : toast.error("An unexpected error occurred.");
-    } finally {
-      setIsLoading(false);
-    }
+    await signUpUser(user);
   }
 
   signUpValidation();

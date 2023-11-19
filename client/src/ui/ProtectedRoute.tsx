@@ -5,18 +5,16 @@ import { RootState } from "../store";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
-  const { user: isAuthenticated } = useSelector((state: RootState) => ({
-    ...state,
-  }));
+  const user = useSelector((state: RootState) => state.user);
 
   useEffect(
     function () {
-      if (!isAuthenticated) navigate("/login");
+      if (!user) navigate("/login");
     },
-    [isAuthenticated, navigate],
+    [user, navigate],
   );
 
-  if (isAuthenticated) return children;
+  if (user) return children;
 }
 
 export default ProtectedRoute;

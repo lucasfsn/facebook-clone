@@ -23,7 +23,7 @@ function MenuModal() {
             </ul>
           ))}
         </div>
-        <div className="h-fit rounded-lg bg-white px-4 py-3 shadow-sm">
+        <div className="overflow-y-scroll rounded-lg bg-white px-4 py-3 shadow-sm">
           <h2 className="text-xl font-bold">Create</h2>
           <div>
             {menuRight.map(({ id, items }, i) => (
@@ -36,8 +36,11 @@ function MenuModal() {
                 {items.map((item) => (
                   <li
                     key={item.name}
-                    className="cursor-pointer rounded-lg p-2 hover:bg-gray-50"
+                    className="flex cursor-pointer flex-row items-center gap-2 rounded-lg p-2 hover:bg-gray-50"
                   >
+                    <div className="flex h-[35px] w-[35px] min-w-[35px] items-center justify-center rounded-full bg-gray-200 text-lg text-stone-600">
+                      {item.icon}
+                    </div>
                     {item.name}
                   </li>
                 ))}

@@ -1,27 +1,40 @@
+import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
 export interface UserState {
-  id: string;
-  username: string;
-  picture: string;
-  firstName: string;
-  lastName: string;
+  user: {
+    id: string;
+    username: string;
+    picture: string;
+    firstName: string;
+    lastName: string;
+  };
+  isLoading: boolean;
 }
 
-type Action = { type: string; payload: Partial<UserState> };
+const initialState: UserState | null = Cookies.get("user")
+  ? { user: JSON.parse(Cookies.get("user") as string), isLoading: false }
+  : null;
 
-export default function userReducer(
-  state = Cookies.get("user")
-    ? JSON.parse(Cookies.get("user") as string)
-    : null,
-  action: Action,
-) {
-  switch (action.type) {
-    case "user/login":
-      return { ...state, ...action.payload };
-    case "user/logout":
-      return state;
-    default:
-      return state;
-  }
-}
+const userSlice = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    login(state, action) {
+      if (state) {
+        state.user = action.payload;
+        state.isLoading = false;
+      }
+    },
+    logout() {
+      return initialState;
+    },
+    loading(state, action) {
+      if (state) state.isLoading = action.payload;
+    },
+  },
+});
+
+export const { login, logout, loading } = userSlice.actions;
+
+export default userSlice.reducer;

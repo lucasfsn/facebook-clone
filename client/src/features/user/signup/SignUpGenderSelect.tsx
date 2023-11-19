@@ -45,15 +45,15 @@ function SignUpGenderSelect({ handleSignUpChange, error = "" }: Props) {
           />
         </label>
         <label
-          htmlFor="custom"
+          htmlFor="other"
           className="flex cursor-pointer flex-row justify-between gap-2 rounded-[5px] border p-1"
         >
-          <span>Custom</span>
+          <span>Other</span>
           <input
             type="radio"
             name="gender"
-            id="custom"
-            value="custom"
+            id="other"
+            value="other"
             onChange={handleSignUpChange}
           />
         </label>

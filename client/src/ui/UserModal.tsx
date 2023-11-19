@@ -12,14 +12,12 @@ import UserModalHelp from "./UserModalHelp";
 import UserModalSettings from "./UserModalSettings";
 
 function UserModal() {
-  const { logout } = useLogout();
+  const { logoutUser } = useLogout();
   const [showSettings, setShowSettings] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showAccessibility, setShowAccessibility] = useState(false);
 
-  const { user } = useSelector((state: RootState) => ({
-    ...state,
-  }));
+  const user = useSelector((state: RootState) => state.user?.user);
 
   if (showSettings)
     return <UserModalSettings handleGoBack={() => setShowSettings(false)} />;
@@ -42,12 +40,12 @@ function UserModal() {
           className="flex cursor-pointer items-center gap-2 rounded-lg p-2.5 hover:bg-gray-100"
         >
           <img
-            src={user.picture}
+            src={user?.picture}
             alt="Profile picture"
             className="w-[40px] rounded-full"
           />
           <span className="text-lg font-semibold">
-            {user.firstName} {user.lastName}
+            {user?.firstName} {user?.lastName}
           </span>
         </Link>
       </div>
@@ -96,7 +94,7 @@ function UserModal() {
         </div>
         <div
           className="flex cursor-pointer items-center gap-2 rounded-lg  p-2 text-base hover:bg-gray-100"
-          onClick={logout}
+          onClick={logoutUser}
         >
           <div className="rounded-full bg-gray-200 p-2 text-xl">
             <IoLogOut />

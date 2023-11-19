@@ -1,14 +1,13 @@
-import axios from "axios";
 import { Form, Formik } from "formik";
-import Cookies from "js-cookie";
 import { ChangeEvent, useState } from "react";
-import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { LoginData, login } from "../../../services/apiAuth";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { LoginData } from "../../../services/apiAuth";
+import { RootState } from "../../../store";
 import ButtonForm from "../../../ui/ButtonForm";
 import Spinner from "../../../ui/Spinner";
 import SignUp from "../signup/SignUp";
+import { useLogin } from "../useLogin";
 import { loginValidation } from "../validation";
 import LoginInput from "./LoginInput";
 
@@ -18,10 +17,9 @@ const initialState: LoginData = {
 };
 
 function LoginForm() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { loginUser } = useLogin();
   const [user, setUser] = useState<LoginData>(initialState);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const isLoading = useSelector((state: RootState) => state.user?.isLoading);
 
   if (isLoading) return <Spinner />;
 
@@ -32,23 +30,7 @@ function LoginForm() {
   }
 
   async function handleSubmit() {
-    try {
-      setIsLoading(true);
-
-      const { message, loginData } = await login(user);
-
-      toast.success(message);
-      dispatch({ type: "user/login", payload: loginData });
-      Cookies.set("user", JSON.stringify(loginData));
-
-      navigate("/");
-    } catch (err) {
-      axios.isAxiosError(err)
-        ? toast.error(err.response?.data?.message)
-        : toast.error("An unexpected error occurred.");
-    } finally {
-      setIsLoading(false);
-    }
+    await loginUser(user);
   }
 
   loginValidation();

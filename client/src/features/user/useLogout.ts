@@ -2,20 +2,21 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { logout } from "./userSlice";
 
 export function useLogout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  function logout() {
-    dispatch({ type: "user/logout" });
+  function logoutUser() {
+    dispatch(logout());
 
-    Cookies.set("user", "");
+    Cookies.remove("user");
 
     toast.success("Logged out successfully");
 
     navigate("/login");
   }
 
-  return { logout };
+  return { logoutUser };
 }

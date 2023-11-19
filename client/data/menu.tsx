@@ -1,3 +1,11 @@
+import { BiSolidMoviePlay } from "react-icons/bi";
+import { BsCalendar2EventFill } from "react-icons/bs";
+import { FaBookOpen, FaFlag, FaShoppingBag, FaStar } from "react-icons/fa";
+import { FaRegPenToSquare } from "react-icons/fa6";
+import { HiSpeakerphone } from "react-icons/hi";
+import { MdGroups } from "react-icons/md";
+import { PiCoinFill } from "react-icons/pi";
+
 export const menu = [
   {
     title: "Social",
@@ -138,15 +146,19 @@ export const menuRight = [
     items: [
       {
         name: "Post",
+        icon: <FaRegPenToSquare />,
       },
       {
         name: "Story",
+        icon: <FaBookOpen />,
       },
       {
         name: "Reel",
+        icon: <BiSolidMoviePlay />,
       },
       {
         name: "Life event",
+        icon: <FaStar />,
       },
     ],
   },
@@ -155,21 +167,27 @@ export const menuRight = [
     items: [
       {
         name: "Page",
+        icon: <FaFlag />,
       },
       {
         name: "Ad",
+        icon: <HiSpeakerphone />,
       },
       {
         name: "Group",
+        icon: <MdGroups />,
       },
       {
         name: "Event",
+        icon: <BsCalendar2EventFill />,
       },
       {
         name: "Marketplace listing",
+        icon: <FaShoppingBag />,
       },
       {
         name: "Fundraiser",
+        icon: <PiCoinFill />,
       },
     ],
   },

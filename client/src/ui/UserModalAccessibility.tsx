@@ -11,8 +11,6 @@ function UserModalAccessibility({ handleGoBack }: Props) {
   const { darkMode, toggleDarkMode } = useDarkMode();
   const [selectedMode, setSelectedMode] = useState(darkMode);
 
-  console.log(selectedMode, darkMode);
-
   const onOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.value as DarkModeOptions;
 

@@ -22,12 +22,10 @@ import UserModal from "./UserModal";
 
 function Header() {
   const [showSearchPanel, setShowSearchPanel] = useState(false);
-  const { user } = useSelector((state: RootState) => ({
-    ...state,
-  }));
+  const user = useSelector((state: RootState) => state.user?.user);
 
   return (
-    <header className="fixed left-0 top-0 grid h-[55px] w-full grid-cols-3 px-3 shadow-md">
+    <header className="fixed left-0 top-0 grid h-[55px] w-full grid-cols-3 bg-white px-3 shadow-md">
       <div className="flex flex-row items-center gap-5">
         <Link to="/">
           <LogoIcon />
@@ -78,16 +76,11 @@ function Header() {
             </div>
           </button>
           <Modal.Open opens="profile">
-            <Link
-              to="/profile"
-              className="relative flex h-[40px] w-[40px] min-w-[40px] cursor-pointer active:h-[39px] active:min-w-[39px]"
-            >
-              <img
-                src={user?.picture}
-                alt="Profile image"
-                className="rounded-full transition-all hover:brightness-95"
-              />
-            </Link>
+            <img
+              src={user?.picture}
+              alt="Profile image"
+              className="relative flex h-[40px] w-[40px] min-w-[40px] cursor-pointer rounded-full transition-all  hover:brightness-95 active:h-[39px] active:min-w-[39px]"
+            />
           </Modal.Open>
           <Modal.Window name="profile" type="custom">
             <UserModal />

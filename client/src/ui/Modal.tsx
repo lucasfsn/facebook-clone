@@ -56,7 +56,7 @@ interface WindowProps {
   isLoading?: boolean;
 }
 
-function Window({ children, name, type, isLoading = false }: WindowProps) {
+function Window({ children, name, type }: WindowProps) {
   const { openName, close } = useContext(ModalContext) as ModalContextProps;
 
   const { ref } = useOutsideClick(close);
@@ -70,11 +70,9 @@ function Window({ children, name, type, isLoading = false }: WindowProps) {
           ref={ref}
           className="absolute left-1/2 top-1/2 flex w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl"
         >
-          {!isLoading && (
-            <button onClick={close}>
-              <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />
-            </button>
-          )}
+          <button onClick={close}>
+            <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />
+          </button>
           {children}
         </div>
       </div>,
