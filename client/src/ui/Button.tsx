@@ -1,15 +1,12 @@
-import { MouseEvent, ReactNode } from "react";
-
 interface Props {
-  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   className?: string;
-  children: ReactNode;
+  children: string;
 }
 
-function Button({ onClick = () => {}, className = "", children }: Props) {
+function Button({ className = "", children }: Props) {
   return (
     <button
-      onClick={onClick}
+      type="submit"
       className={`${className} rounded-lg px-4 py-1.5 text-lg font-bold text-white`}
     >
       {children}

@@ -1,4 +1,11 @@
-function Logo() {
+type LogoType = "icon" | "text";
+
+function Logo({ style = "icon" }: { style: LogoType }) {
+  if (style === "icon")
+    return (
+      <img className="h-[40px] min-w-[40px]" src="/logo/icon.png" alt="Logo" />
+    );
+
   return (
     <div className="flex flex-col gap-4">
       <img

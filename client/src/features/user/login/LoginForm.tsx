@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { LoginData } from "../../../services/apiAuth";
 import { RootState } from "../../../store";
-import ButtonForm from "../../../ui/ButtonForm";
+import Button from "../../../ui/Button";
 import Spinner from "../../../ui/Spinner";
 import SignUp from "../signup/SignUp";
 import { useLogin } from "../useLogin";
@@ -57,9 +57,7 @@ function LoginForm() {
               placeholder="Password"
               onChange={handleLoginChange}
             />
-            <ButtonForm type="submit" className="bg-blue-500">
-              Log In
-            </ButtonForm>
+            <Button className="bg-blue-500">Log In</Button>
           </Form>
         </Formik>
         <Link

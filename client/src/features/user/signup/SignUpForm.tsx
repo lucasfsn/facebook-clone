@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { SignUpData } from "../../../services/apiAuth";
 import { RootState } from "../../../store";
-import ButtonForm from "../../../ui/ButtonForm";
+import Button from "../../../ui/Button";
 import SignUpFooter from "../../../ui/SignUpFooter";
 import SignUpHeader from "../../../ui/SignUpHeader";
 import Spinner from "../../../ui/Spinner";
@@ -126,12 +126,9 @@ function SignUpForm() {
               error={errors.gender}
             />
             <SignUpFooter />
-            <ButtonForm
-              type="submit"
-              className="mx-auto my-4 w-1/2 bg-green-500 hover:bg-green-600"
-            >
+            <Button className="mx-auto my-4 w-1/2 bg-green-500 hover:bg-green-600">
               Sign Up
-            </ButtonForm>
+            </Button>
           </Form>
         </Formik>
       </div>

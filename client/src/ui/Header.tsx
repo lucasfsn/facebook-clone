@@ -2,20 +2,23 @@ import { useState } from "react";
 import { CgMenuGridO } from "react-icons/cg";
 import { FaFacebookMessenger } from "react-icons/fa";
 import {
+  HiBuildingStorefront,
   HiOutlineBuildingStorefront,
-  HiOutlineHome,
   HiOutlineTv,
   HiOutlineUserGroup,
   HiOutlineUsers,
+  HiTv,
+  HiUserGroup,
+  HiUsers,
 } from "react-icons/hi2";
-import { RiNotification2Fill } from "react-icons/ri";
+import { RiHome5Fill, RiHome5Line, RiNotification2Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { RootState } from "../store";
 import HeaderLink from "./HeaderLink";
 import HeaderSearchInput from "./HeaderSearchInput";
 import HeaderSearch from "./HeaderSearchModal";
-import LogoIcon from "./LogoIcon";
+import Logo from "./Logo";
 import MenuModal from "./MenuModal";
 import Modal from "./Modal";
 import UserModal from "./UserModal";
@@ -23,12 +26,16 @@ import UserModal from "./UserModal";
 function Header() {
   const [showSearchPanel, setShowSearchPanel] = useState(false);
   const user = useSelector((state: RootState) => state.user?.user);
+  const location = useLocation();
+
+  const currentPage =
+    location.pathname === "/" ? "home" : location.pathname.split("/")[1];
 
   return (
-    <header className="fixed left-0 top-0 grid h-[55px] w-full grid-cols-3 bg-white px-3 shadow-md">
+    <header className="fixed left-0 top-0 grid h-[55px] w-full grid-cols-3 bg-white px-3 py-[4px] shadow-md">
       <div className="flex flex-row items-center gap-5">
         <Link to="/">
-          <LogoIcon />
+          <Logo style="icon" />
         </Link>
         {showSearchPanel ? (
           <HeaderSearch setShowSearchPanel={setShowSearchPanel} />
@@ -40,20 +47,56 @@ function Header() {
         )}
       </div>
       <div className="flex items-center justify-between gap-2">
-        <HeaderLink to="/" active={true} className="md:flex">
-          <HiOutlineHome />
+        <HeaderLink to="/" active={currentPage === "home"} className="md:flex">
+          {currentPage === "home" ? (
+            <RiHome5Fill className="text-blue-600" />
+          ) : (
+            <RiHome5Line />
+          )}
         </HeaderLink>
-        <HeaderLink to="/" active={false} className="md:flex">
-          <HiOutlineUsers />
+        <HeaderLink
+          to="/friends"
+          active={currentPage === "friends"}
+          className="md:flex"
+        >
+          {currentPage === "friends" ? (
+            <HiUsers className="text-blue-600" />
+          ) : (
+            <HiOutlineUsers />
+          )}
         </HeaderLink>
-        <HeaderLink to="/" active={false} className="md:flex">
-          <HiOutlineTv />
+        <HeaderLink
+          to="/watch"
+          active={currentPage === "watch"}
+          className="md:flex"
+        >
+          {currentPage === "watch" ? (
+            <HiTv className="text-blue-600" />
+          ) : (
+            <HiOutlineTv />
+          )}
         </HeaderLink>
-        <HeaderLink to="/" active={false} className="md:flex">
-          <HiOutlineBuildingStorefront />
+        <HeaderLink
+          to="/marketplace"
+          active={currentPage === "marketplace"}
+          className="md:flex"
+        >
+          {currentPage === "marketplace" ? (
+            <HiBuildingStorefront className="text-blue-600" />
+          ) : (
+            <HiOutlineBuildingStorefront />
+          )}
         </HeaderLink>
-        <HeaderLink to="/" active={false} className="lg:flex">
-          <HiOutlineUserGroup />
+        <HeaderLink
+          to="/profile"
+          active={currentPage === "profile"}
+          className="lg:flex"
+        >
+          {currentPage === "profile" ? (
+            <HiUserGroup className="text-blue-600" />
+          ) : (
+            <HiOutlineUserGroup />
+          )}
         </HeaderLink>
       </div>
       <div className="flex flex-row items-center justify-end gap-2">
