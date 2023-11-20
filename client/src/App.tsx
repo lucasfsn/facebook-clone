@@ -2,6 +2,7 @@ import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DarkModeProvider } from "./context/DarkModeContext";
 import Friends from "./pages/Friends";
+import Groups from "./pages/Groups";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Marketplace from "./pages/Marketplace";
@@ -28,6 +29,7 @@ function App() {
             <Route path="/friends" element={<Friends />} />
             <Route path="/watch" element={<Watch />} />
             <Route path="/marketplace" element={<Marketplace />} />
+            <Route path="/groups" element={<Groups />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>

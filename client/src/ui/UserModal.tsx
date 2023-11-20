@@ -6,7 +6,7 @@ import { MdFeedback } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useLogout } from "../features/user/useLogout";
-import { RootState } from "../store";
+import { getUser } from "../features/user/userSlice";
 import UserModalAccessibility from "./UserModalAccessibility";
 import UserModalHelp from "./UserModalHelp";
 import UserModalSettings from "./UserModalSettings";
@@ -17,7 +17,7 @@ function UserModal() {
   const [showHelp, setShowHelp] = useState(false);
   const [showAccessibility, setShowAccessibility] = useState(false);
 
-  const user = useSelector((state: RootState) => state.user?.user);
+  const user = useSelector(getUser);
 
   if (showSettings)
     return <UserModalSettings handleGoBack={() => setShowSettings(false)} />;
@@ -36,7 +36,7 @@ function UserModal() {
     <div className="absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg bg-white p-3 shadow-md">
       <div className="rounded-lg bg-white p-1 shadow-3xl">
         <Link
-          to="/me"
+          to="/profile"
           className="flex cursor-pointer items-center gap-2 rounded-lg p-2.5 hover:bg-gray-100"
         >
           <img

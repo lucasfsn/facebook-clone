@@ -1,10 +1,12 @@
-import { ErrorMessage, FieldAttributes, useField } from "formik";
+import { ErrorMessage, useField } from "formik";
+import { ChangeEvent } from "react";
 import { HiExclamationTriangle } from "react-icons/hi2";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface LoginInputProps extends FieldAttributes<any> {
+interface LoginInputProps {
   placeholder: string;
   name: string;
+  type: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 function LoginInput({ placeholder, ...props }: LoginInputProps) {

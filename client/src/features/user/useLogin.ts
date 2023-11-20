@@ -18,7 +18,7 @@ export function useLogin() {
 
       dispatch(login(loginData));
 
-      Cookies.set("user", JSON.stringify(loginData));
+      Cookies.set("user", JSON.stringify(loginData), { expires: 1 / 24 });
 
       toast.success(message);
 

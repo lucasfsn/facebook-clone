@@ -2,12 +2,12 @@ import { Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { SignUpData } from "../../../services/apiAuth";
-import { RootState } from "../../../store";
 import Button from "../../../ui/Button";
 import SignUpFooter from "../../../ui/SignUpFooter";
 import SignUpHeader from "../../../ui/SignUpHeader";
 import Spinner from "../../../ui/Spinner";
 import { useSignup } from "../useSignup";
+import { getLoading } from "../userSlice";
 import { signUpValidation } from "../validation";
 import SignUpDateSelect from "./SignUpDateSelect";
 import SignUpGenderSelect from "./SignUpGenderSelect";
@@ -33,7 +33,7 @@ function SignUpForm() {
   const { signUpUser } = useSignup();
   const [user, setUser] = useState<SignUpData>(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
-  const isLoading = useSelector((state: RootState) => state.user?.isLoading);
+  const isLoading = useSelector(getLoading);
 
   if (isLoading) return <Spinner />;
 

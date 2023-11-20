@@ -3,11 +3,11 @@ import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { LoginData } from "../../../services/apiAuth";
-import { RootState } from "../../../store";
 import Button from "../../../ui/Button";
 import Spinner from "../../../ui/Spinner";
 import SignUp from "../signup/SignUp";
 import { useLogin } from "../useLogin";
+import { getLoading } from "../userSlice";
 import { loginValidation } from "../validation";
 import LoginInput from "./LoginInput";
 
@@ -19,7 +19,7 @@ const initialState: LoginData = {
 function LoginForm() {
   const { loginUser } = useLogin();
   const [user, setUser] = useState<LoginData>(initialState);
-  const isLoading = useSelector((state: RootState) => state.user?.isLoading);
+  const isLoading = useSelector(getLoading);
 
   if (isLoading) return <Spinner />;
 

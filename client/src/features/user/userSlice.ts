@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
+import { RootState } from "../../store";
 
 export interface UserState {
   user: {
@@ -38,3 +39,7 @@ const userSlice = createSlice({
 export const { login, logout, loading } = userSlice.actions;
 
 export default userSlice.reducer;
+
+export const getUser = (state: RootState) => state.user?.user;
+
+export const getLoading = (state: RootState) => state.user?.isLoading;

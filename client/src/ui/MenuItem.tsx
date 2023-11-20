@@ -8,7 +8,7 @@ function MenuItem({ item }: { item: Props }) {
   return (
     <li className="flex cursor-pointer items-center gap-2 rounded-lg px-1.5 py-2 hover:bg-gray-100">
       <img
-        src={`../../icons-menu/${item.icon}.png`}
+        src={`../../icons/${item.icon}.png`}
         alt={item.name}
         className="h-8 w-8"
       />

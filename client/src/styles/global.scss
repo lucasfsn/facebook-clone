@@ -11,6 +11,8 @@ $--shadow-2: rgba(0, 0, 0, 0.1);
 $--shadow-3: rgba(0, 0, 0, 0.3);
 $--shadow-inset: rgba(255, 255, 255, 0.5);
 
+// $--text-color-primary: #2563eb;
+
 // Light mode
 $--bgc-primary: #ffffff;
 $--bgc-secondary: #f0f2f5;
@@ -58,7 +60,6 @@ select {
 
 .active {
   position: relative;
-  // border-bottom: 3px solid #1d4ed8;
 }
 
 .active::after {
@@ -106,7 +107,7 @@ select {
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 *::-webkit-scrollbar-track {

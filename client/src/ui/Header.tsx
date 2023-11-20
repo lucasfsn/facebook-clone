@@ -14,7 +14,7 @@ import {
 import { RiHome5Fill, RiHome5Line, RiNotification2Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { RootState } from "../store";
+import { getUser } from "../features/user/userSlice";
 import HeaderLink from "./HeaderLink";
 import HeaderSearchInput from "./HeaderSearchInput";
 import HeaderSearch from "./HeaderSearchModal";
@@ -25,14 +25,14 @@ import UserModal from "./UserModal";
 
 function Header() {
   const [showSearchPanel, setShowSearchPanel] = useState(false);
-  const user = useSelector((state: RootState) => state.user?.user);
+  const user = useSelector(getUser);
   const location = useLocation();
 
   const currentPage =
     location.pathname === "/" ? "home" : location.pathname.split("/")[1];
 
   return (
-    <header className="fixed left-0 top-0 grid h-[55px] w-full grid-cols-3 bg-white px-3 py-[4px] shadow-md">
+    <header className="fixed left-0 top-0 z-10 grid h-[55px] w-full grid-cols-3 bg-white px-3 py-[4px] shadow-md">
       <div className="flex flex-row items-center gap-5">
         <Link to="/">
           <Logo style="icon" />
@@ -88,11 +88,11 @@ function Header() {
           )}
         </HeaderLink>
         <HeaderLink
-          to="/profile"
-          active={currentPage === "profile"}
+          to="/groups"
+          active={currentPage === "groups"}
           className="lg:flex"
         >
-          {currentPage === "profile" ? (
+          {currentPage === "groups" ? (
             <HiUserGroup className="text-blue-600" />
           ) : (
             <HiOutlineUserGroup />
