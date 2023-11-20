@@ -1,5 +1,5 @@
 function Marketplace() {
-  return <div>Marketplace</div>;
+  return <div className="bg-secondary">Marketplace</div>;
 }
 
 export default Marketplace;

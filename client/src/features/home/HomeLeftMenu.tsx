@@ -20,15 +20,15 @@ function HomeLeftMenu() {
   }
 
   return (
-    <div className="icon-text hidden h-fit max-h-[calc(100dvh_-90px)] overflow-y-scroll border-b border-neutral-500 pb-2 lg:block">
+    <div className="text-secondary separator fixed hidden h-fit max-h-[calc(100dvh_-90px)] w-[275px] overflow-y-scroll border-b pb-2 lg:block">
       <Link
         to="/profile"
-        className="icon-bg-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2"
+        className="bg-tertiary-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2"
       >
         <img
           src={user?.picture}
           alt="Profile picture"
-          className="relative flex h-[35px] w-[35px] min-w-[35px] rounded-full"
+          className="relative flex h-[30px] w-[30px] min-w-[30px] rounded-full"
         />
         <span className="text-base">
           {user?.firstName} {user?.lastName}
@@ -38,10 +38,10 @@ function HomeLeftMenu() {
         <HomeLeftItem key={item.name} item={item} />
       ))}
       <div
-        className="icon-bg-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2"
+        className="bg-tertiary-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2"
         onClick={handleShow}
       >
-        <div className="icon-bg flex h-[35px] w-[35px] min-w-[35px] items-center justify-center rounded-full text-2xl">
+        <div className="bg-tertiary flex h-[30px] w-[30px] min-w-[30px] items-center justify-center rounded-full text-2xl">
           {showText === "See more" ? (
             <MdKeyboardArrowDown />
           ) : (

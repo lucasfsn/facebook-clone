@@ -102,17 +102,17 @@ function Header() {
       <div className="flex flex-row items-center justify-end gap-2">
         <Modal>
           <Modal.Open opens="menu">
-            <button className="icon-bg icon-text icon-bg-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl active:h-[39px] active:min-w-[39px]">
+            <button className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl active:h-[39px] active:min-w-[39px]">
               <CgMenuGridO />
             </button>
           </Modal.Open>
           <Modal.Window name="menu" type="custom">
             <MenuModal />
           </Modal.Window>
-          <button className="icon-bg icon-text icon-bg-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
+          <button className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
             <FaFacebookMessenger />
           </button>
-          <button className="icon-bg icon-text icon-bg-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
+          <button className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
             <RiNotification2Fill />
             <div className="absolute -right-1 -top-1 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-red-600 text-center text-sm text-white">
               1

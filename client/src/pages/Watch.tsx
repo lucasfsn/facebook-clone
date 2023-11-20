@@ -1,5 +1,5 @@
 function Watch() {
-  return <div>Watch</div>;
+  return <div className="bg-secondary">Watch</div>;
 }
 
 export default Watch;

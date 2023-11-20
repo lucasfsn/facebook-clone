@@ -1,5 +1,5 @@
 function Profile() {
-  return <div>Profile</div>;
+  return <div className="bg-secondary">Profile</div>;
 }
 
 export default Profile;

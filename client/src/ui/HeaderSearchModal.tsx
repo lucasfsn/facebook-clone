@@ -28,10 +28,10 @@ function HeaderSearch({ setShowSearchPanel }: Props) {
     >
       <div className="flex flex-row gap-2">
         <button
-          className="icon-bg-hover flex h-[40px] min-w-[40px] items-center justify-center rounded-full"
+          className="bg-tertiary-hover flex h-[40px] min-w-[40px] items-center justify-center rounded-full"
           onClick={close}
         >
-          <HiArrowLeft className="icon-text icon-bg-hover text-xl" />
+          <HiArrowLeft className="text-secondary text-xl" />
         </button>
         <HeaderSearchInput
           placeholder="Search Facebook"
