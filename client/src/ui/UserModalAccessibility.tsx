@@ -19,10 +19,10 @@ function UserModalAccessibility({ handleGoBack }: Props) {
   };
 
   return (
-    <div className="absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] max-w-[350px] flex-col gap-3 rounded-lg bg-white p-3 shadow-md">
+    <div className="bg-primary icon-text absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] max-w-[350px] flex-col gap-3 rounded-lg p-3 shadow-md">
       <div className="flex items-center gap-2">
         <div
-          className="cursor-pointer rounded-full p-2 text-xl hover:bg-gray-100"
+          className="icon-bg-hover cursor-pointer rounded-full p-2 text-xl"
           onClick={handleGoBack}
         >
           <FaArrowLeft />
@@ -30,18 +30,18 @@ function UserModalAccessibility({ handleGoBack }: Props) {
         <p className="px-2 text-2xl font-bold">Display & accessibility</p>
       </div>
       <div className="flex justify-start gap-2">
-        <div className="h-fit rounded-full bg-gray-200 p-2 text-xl">
+        <div className="icon-bg h-fit rounded-full p-2 text-xl">
           <IoMdMoon />
         </div>
         <div className="flex flex-col gap-2 text-base">
           <div className="flex flex-col px-2">
             <span className="text-xl font-semibold">Dark mode</span>
-            <span className="text-sm text-gray-500">
+            <span className="menu-text text-sm">
               Adjust the appearance of Facebook to reduce glare and give your
               eyes a break.
             </span>
           </div>
-          <label className="flex cursor-pointer justify-between rounded-lg p-2 text-base hover:bg-gray-100">
+          <label className="icon-bg-hover flex cursor-pointer justify-between rounded-lg p-2 text-base">
             <span>Off</span>
             <input
               type="radio"
@@ -53,7 +53,7 @@ function UserModalAccessibility({ handleGoBack }: Props) {
               onChange={onOptionChange}
             />
           </label>
-          <label className="flex cursor-pointer justify-between rounded-lg p-2 text-base hover:bg-gray-100">
+          <label className="icon-bg-hover flex cursor-pointer justify-between rounded-lg p-2 text-base">
             <span>On</span>
             <input
               type="radio"
@@ -65,10 +65,10 @@ function UserModalAccessibility({ handleGoBack }: Props) {
               onChange={onOptionChange}
             />
           </label>
-          <label className="flex cursor-pointer justify-between rounded-lg p-2 text-base hover:bg-gray-100">
+          <label className="icon-bg-hover flex cursor-pointer justify-between rounded-lg p-2 text-base">
             <div className="flex flex-col">
               <span>Automatic</span>
-              <span className="pr-2 text-xs text-gray-500">
+              <span className="menu-text pr-2 text-xs">
                 We'll automatically adjust the display based on your device's
                 system settings.
               </span>

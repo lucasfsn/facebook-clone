@@ -12,8 +12,8 @@ function HeaderLink({ to, active, className, children }: Props) {
   return (
     <Link
       to={to}
-      className={`${className} hidden h-full flex-grow cursor-pointer items-center justify-center text-2xl text-stone-600 hover:text-stone-700 ${
-        active ? "active" : "rounded-lg hover:bg-gray-100"
+      className={`${className} icon-text hidden h-full flex-grow cursor-pointer items-center justify-center text-2xl ${
+        active ? "active" : "icon-bg-hover rounded-lg"
       }`}
     >
       {children}

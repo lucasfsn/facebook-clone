@@ -24,14 +24,14 @@ function HeaderSearch({ setShowSearchPanel }: Props) {
   return (
     <div
       ref={ref}
-      className="absolute left-0 top-0 z-50 flex w-[310px] flex-col justify-center gap-2 rounded-b-lg bg-white p-2 shadow-md"
+      className="bg-primary absolute left-0 top-0 z-50 flex w-[310px] flex-col justify-center gap-2 rounded-b-lg p-2 shadow-md"
     >
       <div className="flex flex-row gap-2">
         <button
-          className="flex h-[40px] min-w-[40px] items-center justify-center rounded-full hover:bg-gray-100"
+          className="icon-bg-hover flex h-[40px] min-w-[40px] items-center justify-center rounded-full"
           onClick={close}
         >
-          <HiArrowLeft className="text-xl" />
+          <HiArrowLeft className="icon-text icon-bg-hover text-xl" />
         </button>
         <HeaderSearchInput
           placeholder="Search Facebook"

@@ -5,7 +5,7 @@ function AppLayout() {
   return (
     <div className="flex flex-col">
       <Header />
-      <main className="mt-[56px]">
+      <main className="mt-[55px]">
         <Outlet />
       </main>
     </div>

@@ -5,7 +5,7 @@ interface Props {
 
 function HomeLeftItem({ item }: { item: Props }) {
   return (
-    <div className="flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2 hover:bg-gray-200">
+    <div className="icon-bg-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2">
       <img
         src={`../../icons/${item.icon}.png`}
         alt="Profile picture"

@@ -33,73 +33,73 @@ function UserModal() {
     );
 
   return (
-    <div className="absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg bg-white p-3 shadow-md">
-      <div className="rounded-lg bg-white p-1 shadow-3xl">
+    <div className="bg-primary absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg p-3 shadow-md">
+      <div className="icon-bg rounded-lg p-1 shadow-3xl">
         <Link
           to="/profile"
-          className="flex cursor-pointer items-center gap-2 rounded-lg p-2.5 hover:bg-gray-100"
+          className="icon-bg-hover icon-bg flex cursor-pointer items-center gap-2 rounded-lg p-2.5"
         >
           <img
             src={user?.picture}
             alt="Profile picture"
             className="w-[40px] rounded-full"
           />
-          <span className="text-lg font-semibold">
+          <span className="icon-text text-lg font-semibold">
             {user?.firstName} {user?.lastName}
           </span>
         </Link>
       </div>
       <div className="flex flex-col">
         <div
-          className="flex cursor-pointer items-center justify-between rounded-lg p-2 text-base hover:bg-gray-100"
+          className="icon-bg-hover flex cursor-pointer items-center justify-between rounded-lg p-2 text-base"
           onClick={() => setShowSettings(true)}
         >
           <div className="flex items-center gap-2">
-            <div className="rounded-full bg-gray-200 p-2 text-xl">
+            <div className="icon-bg icon-text rounded-full p-2 text-xl">
               <IoMdSettings />
             </div>
-            <span>Settings & privacy</span>
+            <span className="icon-text">Settings & privacy</span>
           </div>
-          <HiChevronRight className="text-2xl" />
+          <HiChevronRight className="icon-text text-2xl" />
         </div>
         <div
-          className="flex cursor-pointer items-center justify-between rounded-lg p-2 text-base hover:bg-gray-100"
+          className="icon-bg-hover flex cursor-pointer items-center justify-between rounded-lg p-2 text-base"
           onClick={() => setShowHelp(true)}
         >
           <div className="flex items-center gap-2">
-            <div className="rounded-full bg-gray-200 p-2 text-xl">
+            <div className="icon-bg icon-text rounded-full p-2 text-xl">
               <IoMdHelpCircle />
             </div>
-            <span>Help & support</span>
+            <span className="icon-text">Help & support</span>
           </div>
-          <HiChevronRight className="text-2xl" />
+          <HiChevronRight className="icon-text text-2xl" />
         </div>
         <div
-          className="flex cursor-pointer items-center justify-between rounded-lg p-2 text-base hover:bg-gray-100"
+          className="icon-bg-hover flex cursor-pointer items-center justify-between rounded-lg p-2 text-base"
           onClick={() => setShowAccessibility(true)}
         >
           <div className="flex items-center gap-2">
-            <div className="rounded-full bg-gray-200 p-2 text-xl">
+            <div className="icon-bg icon-text rounded-full p-2 text-xl">
               <IoMdMoon />
             </div>
-            <span>Display & accessibility</span>
+            <span className="icon-text">Display & accessibility</span>
           </div>
-          <HiChevronRight className="text-2xl" />
+          <HiChevronRight className="icon-text text-2xl" />
         </div>
-        <div className="flex cursor-pointer items-center gap-2 rounded-lg p-2 text-base hover:bg-gray-100">
-          <div className="rounded-full bg-gray-200 p-2 text-xl">
+        <div className="icon-bg-hover flex cursor-pointer items-center gap-2 rounded-lg p-2 text-base">
+          <div className="icon-bg icon-text rounded-full p-2 text-xl">
             <MdFeedback />
           </div>
-          <span>Give feedback</span>
+          <span className="icon-text">Give feedback</span>
         </div>
         <div
-          className="flex cursor-pointer items-center gap-2 rounded-lg  p-2 text-base hover:bg-gray-100"
+          className="icon-bg-hover flex cursor-pointer items-center gap-2  rounded-lg p-2 text-base"
           onClick={logoutUser}
         >
-          <div className="rounded-full bg-gray-200 p-2 text-xl">
+          <div className="icon-bg icon-text rounded-full p-2 text-xl">
             <IoLogOut />
           </div>
-          <span>Log Out</span>
+          <span className="icon-text">Log Out</span>
         </div>
       </div>
     </div>

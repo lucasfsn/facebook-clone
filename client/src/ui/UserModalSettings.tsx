@@ -12,55 +12,55 @@ interface Props {
 
 function UserModalSettings({ handleGoBack }: Props) {
   return (
-    <div className="absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg bg-white p-3 shadow-md">
+    <div className="bg-primary absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg p-3 shadow-md">
       <div className="flex items-center gap-2 p-2">
         <div
-          className="cursor-pointer rounded-full p-2 text-xl hover:bg-gray-100"
+          className="icon-bg-hover icon-text cursor-pointer rounded-full p-2 text-xl"
           onClick={handleGoBack}
         >
           <FaArrowLeft />
         </div>
-        <p className="text-2xl font-bold">Settings & privacy</p>
+        <p className="icon-text text-2xl font-bold">Settings & privacy</p>
       </div>
       <div className="flex flex-col">
-        <div className="flex cursor-pointer items-center gap-2 rounded-lg p-2 text-base hover:bg-gray-100">
-          <div className="rounded-full bg-gray-200 p-2 text-xl">
+        <div className="icon-bg-hover flex cursor-pointer items-center gap-2 rounded-lg p-2 text-base">
+          <div className="icon-text icon-bg rounded-full p-2 text-xl">
             <IoMdSettings />
           </div>
-          <span>Settings</span>
+          <span className="icon-text">Settings</span>
         </div>
-        <div className="flex cursor-pointer items-center justify-between rounded-lg p-2 text-base hover:bg-gray-100">
+        <div className="icon-bg-hover flex cursor-pointer items-center justify-between rounded-lg p-2 text-base">
           <div className="flex items-center gap-2">
-            <div className="rounded-full bg-gray-200 p-2 text-xl">
+            <div className="icon-text icon-bg rounded-full p-2 text-xl">
               <MdLanguage />
             </div>
-            <span>Language</span>
+            <span className="icon-text">Language</span>
           </div>
-          <HiChevronRight className="text-2xl" />
+          <HiChevronRight className="icon-text text-2xl" />
         </div>
-        <div className="flex cursor-pointer items-center gap-2 rounded-lg  p-2 text-base hover:bg-gray-100">
-          <div className="rounded-full bg-gray-200 p-2 text-xl">
+        <div className="icon-bg-hover flex cursor-pointer items-center gap-2  rounded-lg p-2 text-base">
+          <div className="icon-bg icon-text rounded-full p-2 text-xl">
             <GiDialPadlock />
           </div>
-          <span>Privacy Checkup</span>
+          <span className="icon-text">Privacy Checkup</span>
         </div>
-        <div className="flex cursor-pointer items-center gap-2 rounded-lg  p-2 text-base hover:bg-gray-100">
-          <div className="rounded-full bg-gray-200 p-2 text-xl">
+        <div className="icon-bg-hover flex cursor-pointer items-center gap-2  rounded-lg p-2 text-base">
+          <div className="icon-text icon-bg rounded-full p-2 text-xl">
             <GiPadlock />
           </div>
-          <span>Privacy Center</span>
+          <span className="icon-text">Privacy Center</span>
         </div>
-        <div className="flex cursor-pointer items-center gap-2 rounded-lg  p-2 text-base hover:bg-gray-100">
-          <div className="rounded-full bg-gray-200 p-2 text-xl">
+        <div className="icon-bg-hover flex cursor-pointer items-center gap-2  rounded-lg p-2 text-base">
+          <div className="icon-bg icon-text rounded-full p-2 text-xl">
             <RxActivityLog />
           </div>
-          <span>Activity log</span>
+          <span className="icon-text">Activity log</span>
         </div>
-        <div className="flex cursor-pointer items-center gap-2 rounded-lg  p-2 text-base hover:bg-gray-100">
-          <div className="rounded-full bg-gray-200 p-2 text-xl">
+        <div className="icon-bg-hover flex cursor-pointer items-center gap-2  rounded-lg p-2 text-base">
+          <div className="icon-text icon-bg rounded-full p-2 text-xl">
             <LuSettings2 />
           </div>
-          <span>Feed</span>
+          <span className="icon-text">Feed</span>
         </div>
       </div>
     </div>

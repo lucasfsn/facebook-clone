@@ -32,7 +32,7 @@ function Header() {
     location.pathname === "/" ? "home" : location.pathname.split("/")[1];
 
   return (
-    <header className="fixed left-0 top-0 z-10 grid h-[55px] w-full grid-cols-3 bg-white px-3 py-[4px] shadow-md">
+    <header className="bg-primary fixed left-0 top-0 z-10 grid h-[55px] w-full grid-cols-3 px-3 py-[4px] shadow-md">
       <div className="flex flex-row items-center gap-5">
         <Link to="/">
           <Logo style="icon" />
@@ -102,17 +102,17 @@ function Header() {
       <div className="flex flex-row items-center justify-end gap-2">
         <Modal>
           <Modal.Open opens="menu">
-            <button className="relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full bg-gray-200 text-2xl text-stone-600 hover:bg-gray-300 hover:text-stone-700 active:h-[39px] active:min-w-[39px]">
+            <button className="icon-bg icon-text icon-bg-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl active:h-[39px] active:min-w-[39px]">
               <CgMenuGridO />
             </button>
           </Modal.Open>
           <Modal.Window name="menu" type="custom">
             <MenuModal />
           </Modal.Window>
-          <button className="relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full bg-gray-200 text-2xl text-stone-600 hover:bg-gray-300 hover:text-stone-700 active:h-[39px] active:min-w-[39px]">
+          <button className="icon-bg icon-text icon-bg-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
             <FaFacebookMessenger />
           </button>
-          <button className="relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full bg-gray-200 text-2xl text-stone-600 hover:bg-gray-300 hover:text-stone-700 active:h-[39px] active:min-w-[39px]">
+          <button className="icon-bg icon-text icon-bg-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
             <RiNotification2Fill />
             <div className="absolute -right-1 -top-1 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-red-600 text-center text-sm text-white">
               1

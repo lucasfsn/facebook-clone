@@ -21,11 +21,11 @@ function HeaderSearchInput({
   return (
     <div
       onClick={onClick}
-      className="flex h-[40px] min-w-[40px] cursor-text items-center justify-start gap-2 rounded-full bg-gray-100 px-3 py-1"
+      className="icon-bg flex h-[40px] min-w-[40px] cursor-text items-center justify-start gap-2 rounded-full px-3 py-1"
     >
-      {showIcon && <HiMagnifyingGlass className="text-md" />}
+      {showIcon && <HiMagnifyingGlass className="text-md icon-text" />}
       <input
-        className={`border-none bg-gray-100 text-base outline-none lg:block ${
+        className={`icon-bg border-none text-base outline-none lg:block ${
           full ? "" : "hidden"
         }`}
         type="text"
