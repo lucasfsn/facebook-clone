@@ -65,7 +65,7 @@ function Window({ children, name, type }: WindowProps) {
 
   if (type === "center") {
     return createPortal(
-      <div className="fixed bottom-0 left-0 right-0 top-0 backdrop-blur-sm">
+      <div className="fixed bottom-0 left-0 right-0 top-0 z-50 backdrop-blur-sm">
         <div
           ref={ref}
           className="absolute left-1/2 top-1/2 flex w-[400px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl"
@@ -81,7 +81,7 @@ function Window({ children, name, type }: WindowProps) {
   }
 
   return createPortal(
-    <div className="fixed bottom-0 left-0 right-0 top-0">
+    <div className="fixed bottom-0 left-0 right-0 top-0 z-50">
       <div ref={ref}>{children}</div>
     </div>,
     document.body,
