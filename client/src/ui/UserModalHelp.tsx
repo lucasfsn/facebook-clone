@@ -2,11 +2,11 @@ import { FaArrowLeft } from "react-icons/fa";
 import { IoMdHelpCircle, IoMdMail } from "react-icons/io";
 import { MdError } from "react-icons/md";
 
-interface Props {
+interface UserModalHelpProps {
   handleGoBack: () => void;
 }
 
-function UserModalHelp({ handleGoBack }: Props) {
+function UserModalHelp({ handleGoBack }: UserModalHelpProps) {
   return (
     <div className="bg-primary text-secondary absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg p-3 shadow-md">
       <div className="flex items-center gap-2 p-2">

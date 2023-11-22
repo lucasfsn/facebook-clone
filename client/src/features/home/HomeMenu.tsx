@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import { home } from "../../../data/home";
 import { SHOW_LIMIT } from "../../utils/constants";
 import { getUser } from "../user/userSlice";
-import HomeLeftItem from "./HomeLeftItem";
+import HomeMenuItem from "./HomeMenuItem";
 
-function HomeLeftMenu() {
+function HomeMenu() {
   const [showCount, setShowCount] = useState(SHOW_LIMIT);
   const [showText, setShowText] = useState("See more");
   const user = useSelector(getUser);
@@ -35,7 +35,7 @@ function HomeLeftMenu() {
         </span>
       </Link>
       {home.slice(0, showCount).map((item) => (
-        <HomeLeftItem key={item.name} item={item} />
+        <HomeMenuItem key={item.name} item={item} />
       ))}
       <div
         className="bg-tertiary-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2"
@@ -54,4 +54,4 @@ function HomeLeftMenu() {
   );
 }
 
-export default HomeLeftMenu;
+export default HomeMenu;

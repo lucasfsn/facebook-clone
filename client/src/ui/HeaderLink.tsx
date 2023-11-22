@@ -1,14 +1,14 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
-interface Props {
+interface HeaderLinkProps {
   to: string;
   active: boolean;
   className: string;
   children: ReactNode;
 }
 
-function HeaderLink({ to, active, className, children }: Props) {
+function HeaderLink({ to, active, className, children }: HeaderLinkProps) {
   return (
     <Link
       to={to}

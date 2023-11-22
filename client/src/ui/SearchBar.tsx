@@ -1,7 +1,7 @@
 import { RefObject } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 
-interface Props {
+interface SearchBarProps {
   placeholder: string;
   showIcon?: boolean;
   setShowIcon?: (arg: boolean) => void;
@@ -10,14 +10,14 @@ interface Props {
   input?: RefObject<HTMLInputElement>;
 }
 
-function HeaderSearchInput({
+function SearchBar({
   placeholder,
   showIcon = true,
   setShowIcon = () => {},
   onClick,
   full = false,
   input,
-}: Props) {
+}: SearchBarProps) {
   return (
     <div
       onClick={onClick}
@@ -38,4 +38,4 @@ function HeaderSearchInput({
   );
 }
 
-export default HeaderSearchInput;
+export default SearchBar;

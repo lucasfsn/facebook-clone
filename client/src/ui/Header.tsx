@@ -16,11 +16,11 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { getUser } from "../features/user/userSlice";
 import HeaderLink from "./HeaderLink";
-import HeaderSearchInput from "./HeaderSearchInput";
-import HeaderSearch from "./HeaderSearchModal";
+import HeaderSearchModal from "./HeaderSearchModal";
 import Logo from "./Logo";
 import MenuModal from "./MenuModal";
 import Modal from "./Modal";
+import SearchBar from "./SearchBar";
 import UserModal from "./UserModal";
 
 function Header() {
@@ -38,9 +38,9 @@ function Header() {
           <Logo style="icon" />
         </Link>
         {showSearchPanel ? (
-          <HeaderSearch setShowSearchPanel={setShowSearchPanel} />
+          <HeaderSearchModal setShowSearchPanel={setShowSearchPanel} />
         ) : (
-          <HeaderSearchInput
+          <SearchBar
             placeholder="Search Facebook"
             onClick={() => setShowSearchPanel(true)}
           />

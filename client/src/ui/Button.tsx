@@ -1,9 +1,9 @@
-interface Props {
+interface ButtonProps {
   className?: string;
   children: string;
 }
 
-function Button({ className = "", children }: Props) {
+function Button({ className = "", children }: ButtonProps) {
   return (
     <button
       type="submit"

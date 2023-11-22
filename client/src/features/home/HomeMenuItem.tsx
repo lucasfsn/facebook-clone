@@ -1,9 +1,11 @@
-interface Props {
-  name: string;
-  icon: string;
+interface HomeMenuItemProps {
+  item: {
+    name: string;
+    icon: string;
+  };
 }
 
-function HomeLeftItem({ item }: { item: Props }) {
+function HomeMenuItem({ item }: HomeMenuItemProps) {
   return (
     <div className="bg-tertiary-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2">
       <img
@@ -16,4 +18,4 @@ function HomeLeftItem({ item }: { item: Props }) {
   );
 }
 
-export default HomeLeftItem;
+export default HomeMenuItem;

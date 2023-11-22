@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { HiArrowLeft } from "react-icons/hi2";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import HeaderSearchInput from "./HeaderSearchInput";
+import SearchBar from "./SearchBar";
 
-interface Props {
+interface HeaderSearchModalProps {
   setShowSearchPanel: (arg: boolean) => void;
 }
 
-function HeaderSearch({ setShowSearchPanel }: Props) {
+function HeaderSearchModal({ setShowSearchPanel }: HeaderSearchModalProps) {
   const [showIcon, setShowIcon] = useState(true);
   const input = useRef<HTMLInputElement>(null);
 
@@ -33,7 +33,7 @@ function HeaderSearch({ setShowSearchPanel }: Props) {
         >
           <HiArrowLeft className="text-secondary text-xl" />
         </button>
-        <HeaderSearchInput
+        <SearchBar
           placeholder="Search Facebook"
           showIcon={showIcon}
           setShowIcon={setShowIcon}
@@ -46,4 +46,4 @@ function HeaderSearch({ setShowSearchPanel }: Props) {
   );
 }
 
-export default HeaderSearch;
+export default HeaderSearchModal;

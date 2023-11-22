@@ -3,11 +3,11 @@ import { FaArrowLeft } from "react-icons/fa";
 import { IoMdMoon } from "react-icons/io";
 import { DarkModeOptions, useDarkMode } from "../context/DarkModeContext";
 
-interface Props {
+interface UserModalDisplayProps {
   handleGoBack: () => void;
 }
 
-function UserModalAccessibility({ handleGoBack }: Props) {
+function UserModalDisplay({ handleGoBack }: UserModalDisplayProps) {
   const { darkMode, toggleDarkMode } = useDarkMode();
   const [selectedMode, setSelectedMode] = useState(darkMode);
 
@@ -89,4 +89,4 @@ function UserModalAccessibility({ handleGoBack }: Props) {
   );
 }
 
-export default UserModalAccessibility;
+export default UserModalDisplay;

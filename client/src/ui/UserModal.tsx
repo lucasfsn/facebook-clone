@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useLogout } from "../features/user/useLogout";
 import { getUser } from "../features/user/userSlice";
-import UserModalAccessibility from "./UserModalAccessibility";
+import UserModalDisplay from "./UserModalDisplay";
 import UserModalHelp from "./UserModalHelp";
 import UserModalSettings from "./UserModalSettings";
 
@@ -15,7 +15,7 @@ function UserModal() {
   const { logoutUser } = useLogout();
   const [showSettings, setShowSettings] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
-  const [showAccessibility, setShowAccessibility] = useState(false);
+  const [showDisplau, setShowDisplau] = useState(false);
 
   const user = useSelector(getUser);
 
@@ -25,12 +25,8 @@ function UserModal() {
   if (showHelp)
     return <UserModalHelp handleGoBack={() => setShowHelp(false)} />;
 
-  if (showAccessibility)
-    return (
-      <UserModalAccessibility
-        handleGoBack={() => setShowAccessibility(false)}
-      />
-    );
+  if (showDisplau)
+    return <UserModalDisplay handleGoBack={() => setShowDisplau(false)} />;
 
   return (
     <div className="bg-primary absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg p-3 shadow-md">
@@ -76,7 +72,7 @@ function UserModal() {
         </div>
         <div
           className="bg-tertiary-hover flex cursor-pointer items-center justify-between rounded-lg p-2 text-base"
-          onClick={() => setShowAccessibility(true)}
+          onClick={() => setShowDisplau(true)}
         >
           <div className="flex items-center gap-2">
             <div className="bg-tertiary text-secondary rounded-full p-2 text-xl">

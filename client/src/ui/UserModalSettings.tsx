@@ -6,11 +6,11 @@ import { LuSettings2 } from "react-icons/lu";
 import { MdLanguage } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
 
-interface Props {
+interface UserModalSettingsProps {
   handleGoBack: () => void;
 }
 
-function UserModalSettings({ handleGoBack }: Props) {
+function UserModalSettings({ handleGoBack }: UserModalSettingsProps) {
   return (
     <div className="bg-primary absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg p-3 shadow-md">
       <div className="flex items-center gap-2 p-2">

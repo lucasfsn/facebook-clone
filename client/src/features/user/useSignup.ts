@@ -23,8 +23,8 @@ export function useSignup() {
 
       navigate("/", { replace: true });
     } catch (err) {
-      axios.isAxiosError(err)
-        ? toast.error(err.response?.data?.message)
+      axios.isAxiosError(err) && err.code !== "ERR_NETWORK"
+        ? toast.error(err.response?.data.message)
         : toast.error("An unexpected error occurred.");
 
       dispatch(loading(false));

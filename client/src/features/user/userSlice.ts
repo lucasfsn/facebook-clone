@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { RootState } from "../../store";
 
-export interface UserState {
+export interface ExistingUserState {
   user: {
     id: string;
     username: string;
@@ -13,7 +13,9 @@ export interface UserState {
   isLoading: boolean;
 }
 
-const initialState: UserState | null = Cookies.get("user")
+type UserState = ExistingUserState | null;
+
+const initialState: UserState = Cookies.get("user")
   ? { user: JSON.parse(Cookies.get("user") as string), isLoading: false }
   : null;
 

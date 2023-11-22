@@ -1,10 +1,12 @@
-interface Props {
-  name: string;
-  description: string;
-  icon: string;
+interface MenuModalItemProps {
+  item: {
+    name: string;
+    description: string;
+    icon: string;
+  };
 }
 
-function MenuItem({ item }: { item: Props }) {
+function MenuModalItem({ item }: MenuModalItemProps) {
   return (
     <li className="bg-tertiary-hover flex cursor-pointer items-center gap-2 rounded-lg px-1.5 py-2">
       <img
@@ -20,4 +22,4 @@ function MenuItem({ item }: { item: Props }) {
   );
 }
 
-export default MenuItem;
+export default MenuModalItem;

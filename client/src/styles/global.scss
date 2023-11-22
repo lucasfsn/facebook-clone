@@ -86,9 +86,6 @@ $--separator-dark: #3e4042;
   }
 }
 
-.test {
-  background-color: $--bg-color-dark-primary;
-}
 *,
 *::before,
 *::after {
@@ -170,8 +167,8 @@ select {
   background: rgba($color: #ffffff, $alpha: 0);
 }
 
-// *::-webkit-scrollbar-thumb {
-//   background-color: rgba($color: #c3c3c3, $alpha: 1);
-//   border-radius: 10px;
-//   border: none;
-// }
+*::-webkit-scrollbar-thumb {
+  background-color: rgba($color: #c3c3c3, $alpha: 1);
+  border-radius: 10px;
+  border: none;
+}

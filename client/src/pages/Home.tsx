@@ -1,13 +1,13 @@
-import HomeLeftMenu from "../features/home/HomeLeftMenu";
-import HomeMiddle from "../features/home/HomeMiddle";
-import HomeRightMenu from "../features/home/HomeRightMenu";
+import HomeContacts from "../features/home/HomeContacts";
+import HomeMain from "../features/home/HomeMain";
+import HomeMenu from "../features/home/HomeMenu";
 
 function Home() {
   return (
     <div>
-      <HomeLeftMenu />
-      <HomeMiddle />
-      <HomeRightMenu />
+      <HomeMenu />
+      <HomeMain />
+      <HomeContacts />
     </div>
   );
 }

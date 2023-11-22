@@ -1,6 +1,6 @@
 import { menu, menuRight } from "../../data/menu";
-import HeaderSearchInput from "./HeaderSearchInput";
-import MenuItem from "./MenuItem";
+import MenuModalItem from "./MenuModalItem";
+import SearchBar from "./SearchBar";
 
 function MenuModal() {
   return (
@@ -8,7 +8,7 @@ function MenuModal() {
       <h1 className="text-secondary text-2xl font-bold">Menu</h1>
       <div className="flex flex-row gap-3 overflow-y-scroll">
         <div className="bg-primary flex max-w-md flex-col gap-3 overflow-y-scroll rounded-lg px-4 py-3 shadow-sm">
-          <HeaderSearchInput placeholder="Search menu" full={true} />
+          <SearchBar placeholder="Search menu" full={true} />
           {menu.map(({ title, items }, i) => (
             <ul
               key={title}
@@ -18,7 +18,7 @@ function MenuModal() {
             >
               <h2 className="text-secondary text-lg font-semibold">{title}</h2>
               {items.map((item) => (
-                <MenuItem item={item} key={item.name} />
+                <MenuModalItem item={item} key={item.name} />
               ))}
             </ul>
           ))}

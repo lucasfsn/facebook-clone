@@ -1,4 +1,4 @@
-function HomeMiddle() {
+function HomeMain() {
   return (
     <div className="text-secondary ml-[275px] h-screen px-4 lg:px-2">
       Middle
@@ -6,4 +6,4 @@ function HomeMiddle() {
   );
 }
 
-export default HomeMiddle;
+export default HomeMain;

@@ -2,7 +2,7 @@ import { FaPenToSquare } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 
-function HomeRightMenu() {
+function HomeContacts() {
   return (
     <div className="text-secondary fixed right-0 top-0 mt-[60px] flex w-[275px] flex-col items-end pr-3 pt-3">
       <div className="flex w-[200px] flex-col justify-center">
@@ -34,4 +34,4 @@ function HomeRightMenu() {
   );
 }
 
-export default HomeRightMenu;
+export default HomeContacts;
