@@ -20,7 +20,7 @@ function HomeMenu() {
   }
 
   return (
-    <div className="text-secondary separator fixed hidden h-fit max-h-[calc(100dvh_-90px)] w-[275px] overflow-y-scroll border-b pb-2 lg:block">
+    <div className="text-secondary separator sticky top-0 col-start-1 col-end-2 hidden h-fit max-h-[calc(100dvh_-90px)] min-w-[350px] overflow-y-scroll border-b pb-2 lg:block">
       <Link
         to="/profile"
         className="bg-tertiary-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2"

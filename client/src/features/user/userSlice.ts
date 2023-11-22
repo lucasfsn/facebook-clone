@@ -1,15 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { RootState } from "../../store";
 
-export interface ExistingUserState {
-  user: {
-    id: string;
-    username: string;
-    picture: string;
-    firstName: string;
-    lastName: string;
-  };
+interface User {
+  id: string;
+  username: string;
+  picture: string;
+  firstName: string;
+  lastName: string;
+}
+
+interface ExistingUserState {
+  user: User;
   isLoading: boolean;
 }
 
@@ -23,7 +25,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login(state, action) {
+    login(state, action: PayloadAction<User>) {
       if (state) {
         state.user = action.payload;
         state.isLoading = false;
@@ -32,7 +34,7 @@ const userSlice = createSlice({
     logout() {
       return initialState;
     },
-    loading(state, action) {
+    loading(state, action: PayloadAction<boolean>) {
       if (state) state.isLoading = action.payload;
     },
   },

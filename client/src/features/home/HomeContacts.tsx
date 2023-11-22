@@ -4,8 +4,8 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 
 function HomeContacts() {
   return (
-    <div className="text-secondary fixed right-0 top-0 mt-[60px] flex w-[275px] flex-col items-end pr-3 pt-3">
-      <div className="flex w-[200px] flex-col justify-center">
+    <div className="text-secondary sticky top-0 hidden w-[350px] flex-col pr-3 pt-3 md:block">
+      <div className="flex flex-col justify-center">
         <div className="separator flex flex-col border-b pb-2">
           <div className="flex flex-row justify-between">
             <span className="ml-2 font-semibold">Contacts</span>
@@ -27,7 +27,7 @@ function HomeContacts() {
           </div>
         </div>
       </div>
-      <div className="bg-tertiary bg-tertiary-hover text-secondary fixed bottom-3 right-3 flex h-[45px] w-[45px] min-w-[45px] cursor-pointer items-center justify-center self-end rounded-full text-xl shadow-lg">
+      <div className="bg-tertiary bg-tertiary-hover text-secondary fixed bottom-5 right-5 flex h-[45px] w-[45px] min-w-[45px] cursor-pointer items-center justify-center self-end rounded-full text-xl shadow-lg">
         <FaPenToSquare />
       </div>
     </div>

@@ -4,7 +4,7 @@ import HomeMenu from "../features/home/HomeMenu";
 
 function Home() {
   return (
-    <div>
+    <div className="flex max-h-[calc(100vh_-_87px)] flex-row justify-between overflow-scroll">
       <HomeMenu />
       <HomeMain />
       <HomeContacts />
