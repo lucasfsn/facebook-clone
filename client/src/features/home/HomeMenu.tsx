@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactElement, useReducer } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,17 +7,44 @@ import { SHOW_LIMIT } from "../../utils/constants";
 import { getUser } from "../user/userSlice";
 import HomeMenuItem from "./HomeMenuItem";
 
-function HomeMenu() {
-  const [showCount, setShowCount] = useState(SHOW_LIMIT);
-  const [showText, setShowText] = useState("See more");
-  const user = useSelector(getUser);
+interface State {
+  limit: number;
+  text: string;
+  icon: ReactElement;
+}
 
-  function handleShow() {
-    setShowCount((show) =>
-      show === SHOW_LIMIT ? home.length - 1 : SHOW_LIMIT,
-    );
-    setShowText((show) => (show === "See more" ? "See less" : "See more"));
+interface Action {
+  type: "toggle_show";
+}
+
+const initialState = {
+  limit: SHOW_LIMIT,
+  text: "See more",
+  icon: <MdKeyboardArrowDown />,
+};
+
+function reducer(state: State, action: Action) {
+  switch (action.type) {
+    case "toggle_show":
+      return {
+        ...state,
+        limit: state.limit === SHOW_LIMIT ? home.length - 1 : SHOW_LIMIT,
+        text: state.text === "See more" ? "See less" : "See more",
+        icon:
+          state.text === "See more" ? (
+            <MdKeyboardArrowUp />
+          ) : (
+            <MdKeyboardArrowDown />
+          ),
+      };
+    default:
+      return state;
   }
+}
+
+function HomeMenu() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const user = useSelector(getUser);
 
   return (
     <div className="text-secondary separator sticky top-0 col-start-1 col-end-2 hidden h-fit max-h-[calc(100dvh_-90px)] min-w-[350px] overflow-y-scroll border-b pb-2 lg:block">
@@ -34,21 +61,17 @@ function HomeMenu() {
           {user?.firstName} {user?.lastName}
         </span>
       </Link>
-      {home.slice(0, showCount).map((item) => (
+      {home.slice(0, state.limit).map((item) => (
         <HomeMenuItem key={item.name} item={item} />
       ))}
       <div
         className="bg-tertiary-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2"
-        onClick={handleShow}
+        onClick={() => dispatch({ type: "toggle_show" })}
       >
         <div className="bg-tertiary flex h-[30px] w-[30px] min-w-[30px] items-center justify-center rounded-full text-2xl">
-          {showText === "See more" ? (
-            <MdKeyboardArrowDown />
-          ) : (
-            <MdKeyboardArrowUp />
-          )}
+          {state.icon}
         </div>
-        <span className="text-base">{showText}</span>
+        <span className="text-base">{state.text}</span>
       </div>
     </div>
   );

@@ -1,17 +1,22 @@
 export const stories = [
   {
-    storyImage: "../public/stories/cat-story.jpg",
+    storyImage: "cat-story.jpg",
     profileName: "Funny cats",
-    profilePicture: "../public/stories/cat-profile.jpg",
+    profilePicture: "cat-profile.jpg",
   },
   {
-    storyImage: "../public/stories/car-story.jpg",
+    storyImage: "car-story.jpg",
     profileName: "Porsche",
-    profilePicture: "../public/stories/car-profile.jpg",
+    profilePicture: "car-profile.jpg",
   },
   {
-    storyImage: "../public/stories/working-story.jpg",
+    storyImage: "working-story.jpg",
     profileName: "Adam Smith",
-    profilePicture: "../public/stories/working-profile.jpg",
+    profilePicture: "working-profile.jpg",
+  },
+  {
+    storyImage: "volleyball-story.jpg",
+    profileName: "Bartosz Kurek",
+    profilePicture: "volleyball-profile.jpg",
   },
 ];
