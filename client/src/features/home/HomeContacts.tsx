@@ -4,7 +4,7 @@ import { HiMagnifyingGlass } from "react-icons/hi2";
 
 function HomeContacts() {
   return (
-    <div className="text-secondary sticky top-0 hidden min-w-[350px] flex-col pr-3 pt-3 md:block">
+    <div className="text-secondary sticky top-0 hidden min-w-[275px] flex-col pr-3 pt-3 md:block">
       <div className="flex flex-col justify-center">
         <div className="separator flex flex-col border-b pb-2">
           <div className="flex flex-row justify-between">
