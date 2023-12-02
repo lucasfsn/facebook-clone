@@ -1,6 +1,8 @@
 import { IoHappyOutline, IoImages, IoVideocam } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
+import AddPostForm from "./AddPostForm";
 
 function AddPost() {
   const user = useSelector(getUser);
@@ -12,9 +14,16 @@ function AddPost() {
           alt={user?.firstName}
           className="h-[40px] w-auto cursor-pointer rounded-full transition-all hover:brightness-95"
         />
-        <button className="bg-tertiary bg-tertiary-hover w-full rounded-full px-3 text-left">
-          What's on your mind, {user?.firstName}?
-        </button>
+        <Modal>
+          <Modal.Open opens="menu">
+            <button className="bg-tertiary bg-tertiary-hover w-full rounded-full px-3 text-left">
+              What's on your mind, {user?.firstName}?
+            </button>
+          </Modal.Open>
+          <Modal.Window name="menu" type="center">
+            <AddPostForm />
+          </Modal.Window>
+        </Modal>
       </div>
       <div className="flex flex-row justify-around gap-2">
         <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">

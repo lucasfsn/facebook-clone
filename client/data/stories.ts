@@ -19,4 +19,9 @@ export const stories = [
     profileName: "Bartosz Kurek",
     profilePicture: "volleyball-profile.jpg",
   },
+  {
+    storyImage: "working-story.jpg",
+    profileName: "Christmas",
+    profilePicture: "working-profile.jpg",
+  },
 ];

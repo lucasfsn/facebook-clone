@@ -11,6 +11,7 @@ $--bg-tertiary-light: #ececec;
 $--bg-tertiary-hover-light: #f0f0f0;
 $--menu-subtitle-light: #3c3a38;
 $--separator-light: #ced0d4;
+$--text-tertiary-light: #b1b1b1;
 
 // Dark mode
 $--bg-color-dark-primary: #242526;
@@ -21,6 +22,7 @@ $--bg-tertiary-dark: #323436;
 $--bg-tertiary-hover-dark: #4e4f50ab;
 $--menu-subtitle-dark: #b6b6b6;
 $--separator-dark: #3e4042;
+$--text-tertiary-dark: #b0b3b8;
 
 .light-mode {
   .bg-primary {
@@ -49,6 +51,9 @@ $--separator-dark: #3e4042;
   }
   .border-primary {
     border-color: $--bg-color-light-primary;
+  }
+  .text-tertiary {
+    color: $--text-tertiary-light;
   }
   *::-webkit-scrollbar-thumb {
     background-color: rgba($color: #c3c3c3, $alpha: 1);
@@ -84,6 +89,9 @@ $--separator-dark: #3e4042;
   }
   .border-primary {
     border-color: $--bg-color-dark-primary;
+  }
+  .text-tertiary {
+    color: $--text-tertiary-dark;
   }
   *::-webkit-scrollbar-thumb {
     background-color: rgba($color: #c3c3c3, $alpha: 0.3);
