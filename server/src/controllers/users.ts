@@ -21,6 +21,11 @@ interface LogInBody {
   password?: string;
 }
 
+interface ChangePasswordBody {
+  email: string;
+  password: string;
+}
+
 export const signUp: RequestHandler<
   unknown,
   unknown,
@@ -88,6 +93,7 @@ export const signUp: RequestHandler<
       picture: newUser.picture,
       firstName: newUser.firstName,
       lastName: newUser.lastName,
+      email: newUser.email,
     });
   } catch (err) {
     res.status(err.status).json({ message: err.message });
@@ -114,7 +120,7 @@ export const login: RequestHandler<
 
     if (!checkPassword)
       throw createHttpError(
-        400,
+        401,
         'Invalid password. Check your entered data and try again.'
       );
 
@@ -125,6 +131,41 @@ export const login: RequestHandler<
       picture: user.picture,
       firstName: user.firstName,
       lastName: user.lastName,
+      email: user.email,
+    });
+  } catch (err) {
+    res.status(err.status).json({ message: err.message });
+  }
+};
+
+export const changePassword: RequestHandler<
+  unknown,
+  unknown,
+  ChangePasswordBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await UserModel.findOne({ email });
+    const checkPassword = await bcrypt.compare(password, user.password);
+
+    if (checkPassword)
+      throw createHttpError(
+        400,
+        'Please choose a different password than your current one.'
+      );
+
+    const passwordHashed = await bcrypt.hash(password, 10);
+
+    user.password = passwordHashed;
+
+    await user.save();
+
+    // await UserModel.findOneAndUpdate({ email }, { password: passwordHashed });
+
+    res.send({
+      message: 'Password changed successfully',
     });
   } catch (err) {
     res.status(err.status).json({ message: err.message });

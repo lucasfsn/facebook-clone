@@ -4,4 +4,5 @@ import * as UserController from '../controllers/users';
 
 export const userRouter = Router()
   .post('/signup', UserController.signUp)
-  .post('/login', UserController.login);
+  .post('/login', UserController.login)
+  .post('/change-password', UserController.changePassword);
