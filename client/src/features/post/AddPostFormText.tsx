@@ -65,7 +65,7 @@ function AddPostFormText({
       />
       {showEmojiPicker && (
         <div
-          className={`absolute z-10 ${
+          className={`absolute z-50 ${
             isShowingImage ? "-right-1/2 top-8" : "-right-1/3 bottom-8"
           }`}
         >

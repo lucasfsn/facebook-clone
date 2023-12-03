@@ -3,17 +3,42 @@ import { FaLock, FaUserTag } from "react-icons/fa";
 import { IoIosImages, IoMdArrowDropdown } from "react-icons/io";
 import { useSelector } from "react-redux";
 import Button from "../../ui/Button";
+import Loader from "../../ui/Loader";
 import { getUser } from "../user/userSlice";
 import AddPostFormImage from "./AddPostFormImage";
 import AddPostFormText from "./AddPostFormText";
+import { getError, getLoading } from "./postSlice";
+import { useAddPost } from "./useAddPost";
 
 function AddPostForm() {
+  const { createPostWithImages, createPost } = useAddPost();
+
   const [post, setPost] = useState<string>("");
-  const [image, setImage] = useState<string[]>([]);
+  const [images, setImages] = useState<string[]>([]);
   const [showAddImage, setShowAddImage] = useState<boolean>(false);
-  console.log(image);
 
   const user = useSelector(getUser);
+  const isLoading = useSelector(getLoading);
+  const error = useSelector(getError);
+
+  async function handlePostSubmit() {
+    images.length !== 0
+      ? await createPostWithImages(
+          {
+            content: post,
+            images,
+            user: user?.id,
+          },
+          user?.username,
+        )
+      : await createPost({ content: post, user: user?.id });
+
+    if (error) return;
+
+    setPost("");
+    setImages([]);
+    setShowAddImage(false);
+  }
 
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md">
@@ -45,18 +70,22 @@ function AddPostForm() {
           setPost={setPost}
           isShowingImage={showAddImage}
         />
-        {showAddImage && (
-          <AddPostFormImage
-            image={image}
-            setImage={setImage}
-            setShowAddImage={setShowAddImage}
-          />
-        )}
+        <div className="max-h-[200px] overflow-y-scroll">
+          {showAddImage && (
+            <AddPostFormImage
+              images={images}
+              setImages={setImages}
+              setShowAddImage={setShowAddImage}
+            />
+          )}
+        </div>
         <div className="separator flex flex-row items-center justify-between rounded-lg border px-4 py-2.5">
           <span className="font-semibold">Add to your post</span>
           <div className="flex flex-row gap-2 text-2xl">
             <div
-              className="bg-tertiary-hover flex cursor-pointer items-center justify-center rounded-full p-1.5"
+              className={`bg-tertiary-hover flex cursor-pointer items-center justify-center rounded-full p-1.5 ${
+                showAddImage ? "bg-tertiary" : ""
+              }`}
               onClick={() => setShowAddImage(true)}
             >
               <IoIosImages className="text-green-500" />
@@ -67,10 +96,13 @@ function AddPostForm() {
           </div>
         </div>
         <Button
-          className="bg-blue-600 text-sm disabled:cursor-not-allowed disabled:bg-neutral-600 disabled:text-neutral-500"
-          disabled={!post}
+          className={`bg-post-disabled bg-blue-600 text-sm disabled:cursor-not-allowed disabled:text-neutral-500 ${
+            isLoading ? "h-[2rem]" : ""
+          }`}
+          disabled={(!post && images.length === 0) || isLoading}
+          onClick={handlePostSubmit}
         >
-          Post
+          {isLoading ? <Loader /> : "Post"}
         </Button>
       </div>
     </div>

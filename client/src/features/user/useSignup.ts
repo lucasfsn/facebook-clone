@@ -17,7 +17,11 @@ export function useSignup() {
 
       dispatch(login(signUpData));
 
-      Cookies.set("user", JSON.stringify(signUpData), { expires: 1 / 24 });
+      Cookies.set("user", JSON.stringify(signUpData), {
+        expires: 1 / 24,
+        sameSite: "None",
+        secure: true,
+      });
 
       toast.success(message);
 

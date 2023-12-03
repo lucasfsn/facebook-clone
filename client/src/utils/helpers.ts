@@ -25,3 +25,17 @@ export const getDays = (year: number, month: number) => {
     (_, i) => i + 1,
   );
 };
+
+export const imageToBlob = (dataURI: string): Blob => {
+  const [header, data] = dataURI.split(",");
+
+  const byteString = header.includes("base64") ? atob(data) : unescape(data);
+
+  const mimeString = header.split(":")[1].split(";")[0];
+
+  const ia = new Uint8Array(byteString.length).map((_, i) =>
+    byteString.charCodeAt(i),
+  );
+
+  return new Blob([ia], { type: mimeString });
+};
