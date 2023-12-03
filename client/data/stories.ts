@@ -5,9 +5,9 @@ export const stories = [
     profilePicture: "cat-profile.jpg",
   },
   {
-    storyImage: "car-story.jpg",
-    profileName: "Porsche",
-    profilePicture: "car-profile.jpg",
+    storyImage: "winter-story.jpg",
+    profileName: "Elizabeth Windsor",
+    profilePicture: "winter-profile.jpg",
   },
   {
     storyImage: "working-story.jpg",
@@ -20,8 +20,8 @@ export const stories = [
     profilePicture: "volleyball-profile.jpg",
   },
   {
-    storyImage: "working-story.jpg",
-    profileName: "Christmas",
-    profilePicture: "working-profile.jpg",
+    storyImage: "car-story.jpg",
+    profileName: "Porsche",
+    profilePicture: "car-profile.jpg",
   },
 ];

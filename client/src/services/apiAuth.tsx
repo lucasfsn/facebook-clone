@@ -33,3 +33,16 @@ export async function login(login: LoginData) {
 
   return { message, loginData };
 }
+
+export interface ChangePasswordData {
+  email: string;
+  password: string;
+}
+
+export async function changePassword(user: ChangePasswordData) {
+  const { data } = await axios.post(`${apiUrl}/change-password`, user);
+
+  const { message } = data;
+
+  return { message };
+}

@@ -22,10 +22,11 @@ export const signUpValidation = () =>
       .required(`Please enter your email.`)
       .email(`Email must be valid.`),
     password: Yup.string()
-      .required(
-        `Enter a combination of at least six numbers, letters and punctation marks (like ! and &).`,
-      )
-      .min(6, "Please enter at least 6 characters."),
+      .required(`Please enter your password.`)
+      .matches(
+        /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 8 characters long.",
+      ),
     birthDay: Yup.number().required(`Please enter your birth day.`),
     birthMonth: Yup.number().required(`Please enter your birth month.`),
     birthYear: Yup.number().required(`Please enter your birth year.`),
@@ -38,4 +39,17 @@ export const loginValidation = () =>
       .required(`Please enter your email.`)
       .email(`Email must be valid.`),
     password: Yup.string().required(`Please enter your password.`),
+  });
+
+export const changePasswordValidation = () =>
+  Yup.object({
+    password: Yup.string()
+      .required(`Please enter your new password.`)
+      .matches(
+        /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character, and be at least 8 characters long.",
+      ),
+    confirmPassword: Yup.string()
+      .required(`Please confirm your new password.`)
+      .oneOf([Yup.ref("password")], "Passwords must match."),
   });

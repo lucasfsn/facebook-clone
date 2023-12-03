@@ -8,6 +8,7 @@ interface User {
   picture: string;
   firstName: string;
   lastName: string;
+  email: string;
 }
 
 interface ExistingUserState {
@@ -37,10 +38,13 @@ const userSlice = createSlice({
     loading(state, action: PayloadAction<boolean>) {
       if (state) state.isLoading = action.payload;
     },
+    passwordChanged(state) {
+      if (state) state.isLoading = false;
+    },
   },
 });
 
-export const { login, logout, loading } = userSlice.actions;
+export const { login, logout, loading, passwordChanged } = userSlice.actions;
 
 export default userSlice.reducer;
 

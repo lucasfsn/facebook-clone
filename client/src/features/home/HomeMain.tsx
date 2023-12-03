@@ -110,7 +110,7 @@ function HomeMain() {
   }
 
   return (
-    <div className="main-middle text-secondary relative flex h-screen w-[800px] flex-col gap-6 overflow-x-hidden">
+    <div className="main-middle text-secondary relative flex w-[800px] flex-col gap-6 overflow-x-hidden">
       {state.position > 0 && (
         <button
           onClick={() => handleClick("left")}

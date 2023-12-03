@@ -5,12 +5,15 @@ import { IoMdSettings } from "react-icons/io";
 import { LuSettings2 } from "react-icons/lu";
 import { MdLanguage } from "react-icons/md";
 import { RxActivityLog } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 
 interface UserModalSettingsProps {
   handleGoBack: () => void;
 }
 
 function UserModalSettings({ handleGoBack }: UserModalSettingsProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-primary absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg p-3 shadow-md">
       <div className="flex items-center gap-2 p-2">
@@ -23,7 +26,10 @@ function UserModalSettings({ handleGoBack }: UserModalSettingsProps) {
         <p className="text-secondary text-2xl font-bold">Settings & privacy</p>
       </div>
       <div className="flex flex-col">
-        <div className="bg-tertiary-hover flex cursor-pointer items-center gap-2 rounded-lg p-2 text-base">
+        <div
+          className="bg-tertiary-hover flex cursor-pointer items-center gap-2 rounded-lg p-2 text-base"
+          onClick={() => navigate("/change-password")}
+        >
           <div className="text-secondary bg-tertiary rounded-full p-2 text-xl">
             <IoMdSettings />
           </div>

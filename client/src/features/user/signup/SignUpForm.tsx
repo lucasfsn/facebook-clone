@@ -3,14 +3,14 @@ import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { SignUpData } from "../../../services/apiAuth";
 import Button from "../../../ui/Button";
-import SignUpFooter from "./SignUpFooter";
-import SignUpHeader from "./SignUpHeader";
 import Spinner from "../../../ui/Spinner";
 import { useSignup } from "../useSignup";
 import { getLoading } from "../userSlice";
 import { signUpValidation } from "../validation";
 import SignUpDateSelect from "./SignUpDateSelect";
+import SignUpFooter from "./SignUpFooter";
 import SignUpGenderSelect from "./SignUpGenderSelect";
+import SignUpHeader from "./SignUpHeader";
 import SignUpInput from "./SignUpInput";
 
 const initialState: SignUpData = {
@@ -88,7 +88,7 @@ function SignUpForm() {
           onSubmit={handleSubmit}
         >
           <Form className="flex flex-col gap-2">
-            <div className="flex flex-row gap-3">
+            <div className="flex flex-row justify-between gap-3">
               <SignUpInput
                 placeholder="First name"
                 type="text"
@@ -109,7 +109,7 @@ function SignUpForm() {
               onChange={handleSignUpChange}
             />
             <SignUpInput
-              placeholder="New password"
+              placeholder="Password"
               type="password"
               name="password"
               onChange={handleSignUpChange}
