@@ -15,7 +15,6 @@ export const createPost: RequestHandler<
 > = async (req, res) => {
   try {
     const newPost = await PostModel.create(req.body);
-    console.log(req.body);
 
     res.send({
       message: 'Post created successfully',
