@@ -27,7 +27,7 @@ function ChangeEmailForm() {
   }
 
   return (
-    <div className="bg-primary flex flex-col items-center gap-4 rounded-lg p-4 shadow-lg">
+    <div className="bg-primary flex flex-col items-center gap-4 rounded-md p-4 shadow-lg">
       <div className="text-secondary text-lg font-semibold">Change Email</div>
       <Formik
         enableReinitialize

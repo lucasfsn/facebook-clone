@@ -15,7 +15,7 @@ function ChangeUserDataInput({
   const [field, meta] = useField(props);
 
   return (
-    <div className="relative max-w-[400px]">
+    <div className="relative w-full">
       {meta.touched && meta.error && (
         <HiExclamationTriangle className="absolute right-3 top-[10px] text-2xl text-red-500" />
       )}

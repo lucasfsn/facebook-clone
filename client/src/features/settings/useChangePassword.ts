@@ -1,12 +1,10 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { changePassword as changePasswordApi } from "../../services/apiSettings";
 import { loading, passwordChanged } from "../user/userSlice";
 
 export function useChangePassword() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   async function changePassword(email: string | undefined, password: string) {
@@ -19,8 +17,6 @@ export function useChangePassword() {
       const { message } = await changePasswordApi({ email, password });
 
       toast.success(message);
-
-      navigate("/");
     } catch (err) {
       axios.isAxiosError(err) && err.code !== "ERR_NETWORK"
         ? toast.error(err.response?.data.message)

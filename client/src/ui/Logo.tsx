@@ -1,9 +1,13 @@
 type LogoType = "icon" | "text";
 
-function Logo({ style = "icon" }: { style: LogoType }) {
+interface LogoProps {
+  style?: LogoType;
+}
+
+function Logo({ style = "icon" }: LogoProps) {
   if (style === "icon")
     return (
-      <img className="h-[40px] min-w-[40px]" src="/logo/icon.png" alt="Logo" />
+      <img className="h-[40px] max-w-[40px]" src="/logo/icon.png" alt="Logo" />
     );
 
   return (

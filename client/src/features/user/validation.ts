@@ -4,7 +4,7 @@ export const signUpValidation = () =>
   Yup.object({
     firstName: Yup.string()
       .required(`Please enter your first name.`)
-      .min(2, "First name must be at least 2 characters.")
+      .min(2, "First name must be at least 2 characters long.")
       .max(50, "First name cannot contain more than 50 characters.")
       .matches(
         /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/,
@@ -12,7 +12,7 @@ export const signUpValidation = () =>
       ),
     lastName: Yup.string()
       .required(`Please enter your last name.`)
-      .min(2, "Last name must be at least 2 characters.")
+      .min(2, "Last name must be at least 2 characters long.")
       .max(50, "Last name cannot contain more than 50 characters.")
       .matches(
         /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/,
@@ -62,7 +62,7 @@ export const changeNameValidation = () =>
   Yup.object({
     name: Yup.string()
       .required(`Please enter your new name.`)
-      .min(2, "Name must be at least 2 characters.")
+      .min(2, "Name must be at least 2 characters long.")
       .max(50, "Name cannot contain more than 50 characters.")
       .matches(
         /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/,
