@@ -1,19 +1,22 @@
 import { RequestHandler } from 'express';
 import PostModel from '../models/post';
 
-// interface PostBody {
-//   email?: string;
-//   password?: string;
-// }
+interface PostBody {
+  content: string;
+  images?: string[];
+  user: string;
+}
 
 export const createPost: RequestHandler<
   unknown,
   unknown,
-  unknown,
+  PostBody,
   unknown
 > = async (req, res) => {
   try {
     const newPost = await PostModel.create(req.body);
+    console.log(req.body);
+
     res.send({
       message: 'Post created successfully',
       post: newPost,

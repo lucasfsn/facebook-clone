@@ -167,8 +167,6 @@ export const changePassword: RequestHandler<
 
     await user.save();
 
-    // await UserModel.findOneAndUpdate({ email }, { password: passwordHashed });
-
     res.send({
       message: `Your password has been changed successfully`,
     });
@@ -246,6 +244,34 @@ export const changeUserInfo: RequestHandler<
     res.send({
       message,
       [data]: value,
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+interface DeleteUserParams {
+  id: string;
+}
+
+export const deleteUser: RequestHandler<
+  DeleteUserParams,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+
+    const user = await UserModel.findById(id);
+
+    if (!user) throw createHttpError(404, 'User not found');
+
+    await UserModel.deleteOne({ _id: id });
+
+    res.send({
+      message: 'Your account has been deleted successfully',
     });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });

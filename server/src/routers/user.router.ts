@@ -6,4 +6,5 @@ export const userRouter = Router()
   .post('/signup', UserController.signUp)
   .post('/login', UserController.login)
   .patch('/change-password', UserController.changePassword)
-  .put('/change/:data', UserController.changeUserInfo);
+  .put('/change/:data', UserController.changeUserInfo)
+  .delete('/delete/:id', UserController.deleteUser);
