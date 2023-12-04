@@ -28,7 +28,7 @@ function UserModalSettings({ handleGoBack }: UserModalSettingsProps) {
       <div className="flex flex-col">
         <div
           className="bg-tertiary-hover flex cursor-pointer items-center gap-2 rounded-lg p-2 text-base"
-          onClick={() => navigate("/change-password")}
+          onClick={() => navigate("/settings")}
         >
           <div className="text-secondary bg-tertiary rounded-full p-2 text-xl">
             <IoMdSettings />

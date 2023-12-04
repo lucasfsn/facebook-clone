@@ -54,10 +54,10 @@ interface WindowProps {
   children: ReactNode;
   name: string;
   type: WindowType;
-  isLoading?: boolean;
+  width?: string;
 }
 
-function Window({ children, name, type }: WindowProps) {
+function Window({ children, name, type, width = "475px" }: WindowProps) {
   const { openName, close } = useContext(ModalContext) as ModalContextProps;
 
   const { ref } = useOutsideClick(close);
@@ -69,7 +69,7 @@ function Window({ children, name, type }: WindowProps) {
       <div className="fixed bottom-0 left-0 right-0 top-0 z-50 backdrop-blur-sm">
         <div
           ref={ref}
-          className="absolute left-1/2 top-1/2 flex w-[475px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl"
+          className={`absolute left-1/2 top-1/2 flex w-[${width}] -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl`}
         >
           <button onClick={close}>
             <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />

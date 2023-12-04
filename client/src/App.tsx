@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DarkModeProvider } from "./context/DarkModeContext";
-import ChangePassword from "./pages/ChangePassword";
+import ChangePassword from "./pages/Settings";
 import Friends from "./pages/Friends";
 import Groups from "./pages/Groups";
 import Home from "./pages/Home";
@@ -32,7 +32,7 @@ function App() {
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/groups" element={<Groups />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/settings" element={<ChangePassword />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
           <Route path="/login" element={<Login />} />

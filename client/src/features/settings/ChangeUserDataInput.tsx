@@ -1,17 +1,17 @@
 import { ErrorMessage, useField } from "formik";
 import { HiExclamationTriangle } from "react-icons/hi2";
 
-interface ChangePasswordInputProps {
+interface ChangeDataInputProps {
   placeholder: string;
   name: string;
   type: string;
 }
 
-function ChangePasswordInput({
+function ChangeUserDataInput({
   placeholder,
   type,
   ...props
-}: ChangePasswordInputProps) {
+}: ChangeDataInputProps) {
   const [field, meta] = useField(props);
 
   return (
@@ -23,7 +23,7 @@ function ChangePasswordInput({
         placeholder={placeholder}
         type={type}
         {...field}
-        className={`w-full rounded-md border p-2 text-base focus:outline-none ${
+        className={`bg-tertiary separator w-full rounded-md border p-2 text-base focus:outline-none ${
           meta.touched && meta.error && "border-red-500"
         }`}
       />
@@ -34,4 +34,4 @@ function ChangePasswordInput({
   );
 }
 
-export default ChangePasswordInput;
+export default ChangeUserDataInput;

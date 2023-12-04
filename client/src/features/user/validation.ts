@@ -20,7 +20,11 @@ export const signUpValidation = () =>
       ),
     email: Yup.string()
       .required(`Please enter your email.`)
-      .email(`Email must be valid.`),
+      .email(`Email must be valid.`)
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Email must be valid.",
+      ),
     password: Yup.string()
       .required(`Please enter your password.`)
       .matches(
@@ -52,4 +56,27 @@ export const changePasswordValidation = () =>
     confirmPassword: Yup.string()
       .required(`Please confirm your new password.`)
       .oneOf([Yup.ref("password")], "Passwords must match."),
+  });
+
+export const changeNameValidation = () =>
+  Yup.object({
+    name: Yup.string()
+      .required(`Please enter your new name.`)
+      .min(2, "Name must be at least 2 characters.")
+      .max(50, "Name cannot contain more than 50 characters.")
+      .matches(
+        /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/,
+        "Name cannot contain numbers and special characters.",
+      ),
+  });
+
+export const changeEmailValidation = () =>
+  Yup.object({
+    email: Yup.string()
+      .required(`Please enter your email.`)
+      .email(`Email must be valid.`)
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Email must be valid.",
+      ),
   });

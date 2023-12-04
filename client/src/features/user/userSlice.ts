@@ -18,6 +18,11 @@ interface ExistingUserState {
 
 type UserState = ExistingUserState | null;
 
+interface SettingsChangePayload {
+  field: keyof User;
+  value: string;
+}
+
 const initialState: UserState = Cookies.get("user")
   ? { user: JSON.parse(Cookies.get("user") as string), isLoading: false }
   : null;
@@ -41,10 +46,17 @@ const userSlice = createSlice({
     passwordChanged(state) {
       if (state) state.isLoading = false;
     },
+    settingsChanged(state, action: PayloadAction<SettingsChangePayload>) {
+      if (state) {
+        state.user[action.payload.field] = action.payload.value;
+        state.isLoading = false;
+      }
+    },
   },
 });
 
-export const { login, logout, loading, passwordChanged } = userSlice.actions;
+export const { login, logout, loading, passwordChanged, settingsChanged } =
+  userSlice.actions;
 
 export default userSlice.reducer;
 

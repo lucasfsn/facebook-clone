@@ -2,8 +2,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { changePassword as changePasswordApi } from "../../services/apiAuth";
-import { loading, passwordChanged } from "./userSlice";
+import { changePassword as changePasswordApi } from "../../services/apiSettings";
+import { loading, passwordChanged } from "../user/userSlice";
 
 export function useChangePassword() {
   const navigate = useNavigate();
