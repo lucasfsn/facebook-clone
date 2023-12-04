@@ -1,8 +1,9 @@
 import 'dotenv/config';
 import { Router } from 'express';
-import * as UserController from '../controllers/users';
+import * as UserController from '../controllers/user';
 
 export const userRouter = Router()
   .post('/signup', UserController.signUp)
   .post('/login', UserController.login)
-  .post('/change-password', UserController.changePassword);
+  .patch('/change-password', UserController.changePassword)
+  .put('/change/:data', UserController.changeUserInfo);
