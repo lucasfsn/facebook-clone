@@ -22,16 +22,18 @@ function AddPostForm() {
   const error = useSelector(getError);
 
   async function handlePostSubmit() {
+    if (!user) return;
+
     images.length !== 0
       ? await createPostWithImages(
           {
             content: post,
             images,
-            user: user?.id,
+            user: user.id,
           },
-          user?.username,
+          user.username,
         )
-      : await createPost({ content: post, user: user?.id });
+      : await createPost({ content: post, user: user.id });
 
     if (error) return;
 

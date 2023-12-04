@@ -14,6 +14,7 @@ interface User {
 interface ExistingUserState {
   user: User;
   isLoading: boolean;
+  error: boolean;
 }
 
 type UserState = ExistingUserState | null;
@@ -24,7 +25,11 @@ interface SettingsChangePayload {
 }
 
 const initialState: UserState = Cookies.get("user")
-  ? { user: JSON.parse(Cookies.get("user") as string), isLoading: false }
+  ? {
+      user: JSON.parse(Cookies.get("user") as string),
+      isLoading: false,
+      error: false,
+    }
   : null;
 
 const userSlice = createSlice({
@@ -40,23 +45,39 @@ const userSlice = createSlice({
     logout() {
       return initialState;
     },
-    loading(state, action: PayloadAction<boolean>) {
-      if (state) state.isLoading = action.payload;
+    deleteUser() {
+      return initialState;
     },
-    passwordChanged(state) {
+    loading(state) {
+      if (state) state.isLoading = true;
+    },
+    changedPassword(state) {
       if (state) state.isLoading = false;
     },
-    settingsChanged(state, action: PayloadAction<SettingsChangePayload>) {
+    changedSetting(state, action: PayloadAction<SettingsChangePayload>) {
       if (state) {
         state.user[action.payload.field] = action.payload.value;
+        state.isLoading = false;
+      }
+    },
+    error(state) {
+      if (state) {
+        state.error = true;
         state.isLoading = false;
       }
     },
   },
 });
 
-export const { login, logout, loading, passwordChanged, settingsChanged } =
-  userSlice.actions;
+export const {
+  login,
+  logout,
+  deleteUser,
+  loading,
+  changedPassword,
+  changedSetting,
+  error,
+} = userSlice.actions;
 
 export default userSlice.reducer;
 

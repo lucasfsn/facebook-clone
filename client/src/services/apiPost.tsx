@@ -4,7 +4,7 @@ const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
 export interface PostData {
   content: string;
-  user: unknown;
+  user: string;
 }
 
 export interface PostDataWithImages extends PostData {

@@ -4,14 +4,14 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SignUpData, signup as signupApi } from "../../services/apiAuth";
-import { loading, login } from "./userSlice";
+import { error, loading, login } from "./userSlice";
 
 export function useSignup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   async function signUpUser(user: SignUpData) {
-    dispatch(loading(true));
+    dispatch(loading());
     try {
       const { message, signUpData } = await signupApi(user);
 
@@ -31,7 +31,7 @@ export function useSignup() {
         ? toast.error(err.response?.data.message)
         : toast.error("An unexpected error occurred.");
 
-      dispatch(loading(false));
+      dispatch(error());
     }
   }
 

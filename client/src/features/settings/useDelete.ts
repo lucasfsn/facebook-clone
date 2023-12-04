@@ -3,30 +3,26 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { LoginData, login as loginApi } from "../../services/apiAuth";
-import { error, loading, login } from "./userSlice";
+import { deleteAccount as deleteAccountApi } from "../../services/apiSettings";
+import { deleteUser, error, loading } from "../user/userSlice";
 
-export function useLogin() {
+export function useDelete() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function loginUser(user: LoginData) {
+  async function deleteAccount(id: string) {
     dispatch(loading());
 
     try {
-      const { message, loginData } = await loginApi(user);
+      const { message } = await deleteAccountApi(id);
 
-      dispatch(login(loginData));
+      dispatch(deleteUser());
 
-      Cookies.set("user", JSON.stringify(loginData), {
-        expires: 1 / 24,
-        sameSite: "None",
-        secure: true,
-      });
+      Cookies.remove("user");
 
       toast.success(message);
 
-      navigate("/", { replace: true });
+      navigate("/login");
     } catch (err) {
       axios.isAxiosError(err) && err.code !== "ERR_NETWORK"
         ? toast.error(err.response?.data.message)
@@ -36,5 +32,5 @@ export function useLogin() {
     }
   }
 
-  return { loginUser };
+  return { deleteAccount };
 }

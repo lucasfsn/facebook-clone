@@ -15,9 +15,9 @@ export function useAddPost() {
 
   async function createPostWithImages(
     post: PostDataWithImages,
-    username: string | undefined,
+    username: string,
   ) {
-    dispatch(loading(true));
+    dispatch(loading());
 
     try {
       const { images } = post;
@@ -42,12 +42,12 @@ export function useAddPost() {
         ? toast.error(err.response?.data.message)
         : toast.error("An unexpected error occurred");
 
-      dispatch(error(true));
+      dispatch(error());
     }
   }
 
   async function createPost(post: PostData) {
-    dispatch(loading(true));
+    dispatch(loading());
 
     try {
       const { message, postData } = await addPostApi(post);
@@ -62,7 +62,7 @@ export function useAddPost() {
         ? toast.error(err.response?.data.message)
         : toast.error("An unexpected error occurred");
 
-      dispatch(error(true));
+      dispatch(error());
     }
   }
 

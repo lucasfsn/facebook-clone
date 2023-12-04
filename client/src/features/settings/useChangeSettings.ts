@@ -2,7 +2,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { changeSettings as changeSettingsApi } from "../../services/apiSettings";
-import { loading, settingsChanged } from "../user/userSlice";
+import { changedSetting, error, loading } from "../user/userSlice";
 
 export function useChangeSettings() {
   const dispatch = useDispatch();
@@ -12,7 +12,7 @@ export function useChangeSettings() {
     field: "firstName" | "lastName" | "email",
     value: string,
   ) {
-    dispatch(loading(true));
+    dispatch(loading());
     try {
       if (!email) return;
 
@@ -22,7 +22,7 @@ export function useChangeSettings() {
         value,
       });
 
-      dispatch(settingsChanged({ field, value: newValue }));
+      dispatch(changedSetting({ field, value: newValue }));
 
       toast.success(message);
     } catch (err) {
@@ -30,7 +30,7 @@ export function useChangeSettings() {
         ? toast.error(err.response?.data.message)
         : toast.error("An unexpected error occurred.");
 
-      dispatch(loading(false));
+      dispatch(error());
     }
   }
 

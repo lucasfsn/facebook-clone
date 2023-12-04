@@ -36,12 +36,12 @@ const postSlice = createSlice({
         state.error = false;
       }
     },
-    loading(state, action: PayloadAction<boolean>) {
-      if (state) state.isLoading = action.payload;
+    loading(state) {
+      if (state) state.isLoading = true;
     },
-    error(state, action: PayloadAction<boolean>) {
+    error(state) {
       if (state) {
-        state.error = action.payload;
+        state.error = true;
         state.isLoading = false;
       }
     },

@@ -6,6 +6,7 @@ import { getUser } from "../user/userSlice";
 import ChangeEmailForm from "./ChangeEmailForm";
 import ChangeNameForm from "./ChangeNameForm";
 import ChangePasswordForm from "./ChangePasswordForm";
+import DeleteAccountForm from "./DeleteAccountForm";
 
 function UserSettings() {
   const user = useSelector(getUser);
@@ -65,6 +66,17 @@ function UserSettings() {
             </Modal.Open>
             <Modal.Window name="password" type="center" width="375px">
               <ChangePasswordForm />
+            </Modal.Window>
+          </div>
+          <div className="fixed bottom-5 left-5 flex flex-row items-center justify-between gap-2 text-rose-900">
+            <span>Delete account</span>
+            <Modal.Open opens="deleteAccount">
+              <button className="bg-primary bg-tertiary-hover shake flex rounded-full p-2 text-lg">
+                <IoIosArrowForward />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="deleteAccount" type="center">
+              <DeleteAccountForm />
             </Modal.Window>
           </div>
         </Modal>

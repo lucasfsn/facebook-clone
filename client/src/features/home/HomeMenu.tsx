@@ -14,7 +14,7 @@ interface State {
 }
 
 interface Action {
-  type: "toggle_show";
+  type: "menu/toggle";
 }
 
 const initialState = {
@@ -25,7 +25,7 @@ const initialState = {
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    case "toggle_show":
+    case "menu/toggle":
       return {
         ...state,
         limit: state.limit === SHOW_LIMIT ? home.length - 1 : SHOW_LIMIT,
@@ -66,7 +66,7 @@ function HomeMenu() {
       ))}
       <div
         className="bg-tertiary-hover flex cursor-pointer flex-row items-center justify-start gap-2 rounded-lg p-2"
-        onClick={() => dispatch({ type: "toggle_show" })}
+        onClick={() => dispatch({ type: "menu/toggle" })}
       >
         <div className="bg-tertiary flex h-[30px] w-[30px] min-w-[30px] items-center justify-center rounded-full text-2xl">
           {state.icon}

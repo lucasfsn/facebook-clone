@@ -2,19 +2,20 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { changePassword as changePasswordApi } from "../../services/apiSettings";
-import { loading, passwordChanged } from "../user/userSlice";
+import { changedPassword, error, loading } from "../user/userSlice";
 
 export function useChangePassword() {
   const dispatch = useDispatch();
 
   async function changePassword(email: string | undefined, password: string) {
-    dispatch(loading(true));
+    dispatch(loading());
+
     try {
       if (!email) return;
 
-      dispatch(passwordChanged());
-
       const { message } = await changePasswordApi({ email, password });
+
+      dispatch(changedPassword());
 
       toast.success(message);
     } catch (err) {
@@ -22,7 +23,7 @@ export function useChangePassword() {
         ? toast.error(err.response?.data.message)
         : toast.error("An unexpected error occurred.");
 
-      dispatch(loading(false));
+      dispatch(error());
     }
   }
 

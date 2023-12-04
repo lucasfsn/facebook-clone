@@ -18,10 +18,10 @@ interface State {
 }
 
 type Action =
-  | { type: "set_position"; payload: number }
-  | { type: "set_main_width"; payload: number }
-  | { type: "set_story_width"; payload: number }
-  | { type: "set_is_adjusted"; payload: boolean };
+  | { type: "stories/setPosition"; payload: number }
+  | { type: "stories/setStoriesWrapperWidth"; payload: number }
+  | { type: "stories/setStoryWidth"; payload: number }
+  | { type: "stories/setAdjusted"; payload: boolean };
 
 const initialState = {
   position: 0,
@@ -33,13 +33,13 @@ const initialState = {
 
 function reducer(state: State, action: Action) {
   switch (action.type) {
-    case "set_position":
+    case "stories/setPosition":
       return { ...state, position: action.payload };
-    case "set_main_width":
+    case "stories/setStoriesWrapperWidth":
       return { ...state, mainWidth: action.payload };
-    case "set_story_width":
+    case "stories/setStoryWidth":
       return { ...state, storyWidth: action.payload };
-    case "set_is_adjusted":
+    case "stories/setAdjusted":
       return { ...state, isAdjusted: action.payload };
     default:
       return state;
@@ -52,19 +52,28 @@ function HomeMain() {
   const storiesRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const element = document.querySelector<HTMLDivElement>(".main-middle");
-    const storyElement =
-      document.querySelector<HTMLDivElement>(".middle-story");
+    const storiesWrapper =
+      document.querySelector<HTMLDivElement>(".main-middle");
 
     dispatch({
-      type: "set_story_width",
-      payload: storyElement?.clientWidth || 0,
+      type: "stories/setStoriesWrapperWidth",
+      payload: storiesWrapper?.clientWidth || 0,
     });
-    dispatch({ type: "set_main_width", payload: element?.clientWidth || 0 });
+
+    const stories = document.querySelector<HTMLDivElement>(".middle-story");
+
+    dispatch({
+      type: "stories/setStoryWidth",
+      payload: stories?.clientWidth || 0,
+    });
 
     function handleWindowResize() {
-      dispatch({ type: "set_main_width", payload: element?.clientWidth || 0 });
-      dispatch({ type: "set_is_adjusted", payload: false });
+      dispatch({
+        type: "stories/setStoriesWrapperWidth",
+        payload: storiesWrapper?.clientWidth || 0,
+      });
+
+      dispatch({ type: "stories/setAdjusted", payload: false });
     }
 
     window.addEventListener("resize", handleWindowResize);
@@ -84,7 +93,7 @@ function HomeMain() {
           : state.storyWidth + 10);
 
       if (newPos <= 0) {
-        dispatch({ type: "set_is_adjusted", payload: false });
+        dispatch({ type: "stories/setAdjusted", payload: false });
         newPos = 0;
       }
     } else {
@@ -96,10 +105,10 @@ function HomeMain() {
       newPos =
         state.position +
         (direction === "left" ? -calcWidthRemaining : calcWidthRemaining);
-      dispatch({ type: "set_is_adjusted", payload: true });
+      dispatch({ type: "stories/setAdjusted", payload: true });
     }
 
-    dispatch({ type: "set_position", payload: newPos });
+    dispatch({ type: "stories/setPosition", payload: newPos });
 
     if (storiesRef.current) {
       storiesRef.current.scrollTo({

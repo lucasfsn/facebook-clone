@@ -25,10 +25,17 @@ export interface ChangeUserSettingsData {
 
 export async function changeSettings(user: ChangeUserSettingsData) {
   const { data } = await axios.put(`${apiUrl}/change/${user.field}`, user);
-  console.log(data);
 
   const { message } = data;
   const newValue = data[user.field];
 
   return { message, newValue };
+}
+
+export async function deleteAccount(id: string) {
+  const { data } = await axios.delete(`${apiUrl}/delete/${id}`);
+
+  const { message } = data;
+
+  return { message };
 }
