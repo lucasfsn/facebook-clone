@@ -14,7 +14,7 @@ function HomeStory({ story }: HomeStoryProps) {
       <img
         src={`../../stories/${profilePicture}`}
         alt={profileName}
-        className="absolute left-2.5 top-2.5 z-[1] h-[45px] w-[45px] rounded-full border-4 border-gray-700 object-cover"
+        className="absolute left-2.5 top-2.5 z-[1] h-[45px] w-[45px] rounded-full border-4 border-blue-700 object-cover"
       />
       <img
         src={`../../stories/${storyImage}`}

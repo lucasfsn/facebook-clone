@@ -4,6 +4,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { stories } from "../../../data/stories";
 import AddPost from "../post/AddPost";
+import Posts from "../post/Posts";
 import { getUser } from "../user/userSlice";
 import HomeStory from "./HomeStory";
 
@@ -163,6 +164,7 @@ function HomeMain() {
         ))}
       </div>
       <AddPost />
+      <Posts />
     </div>
   );
 }

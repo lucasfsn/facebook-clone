@@ -32,8 +32,7 @@ function AddPostFormText({
   }
 
   function handleAddEmoji({ emoji }: EmojiClickData) {
-    const ref = postRef.current;
-    ref?.focus();
+    postRef.current?.focus();
 
     setPost((prev) => prev + emoji);
   }
@@ -79,6 +78,7 @@ function AddPostFormText({
             previewConfig={{
               showPreview: false,
             }}
+            lazyLoadEmojis={true}
             onEmojiClick={handleAddEmoji}
           />
         </div>

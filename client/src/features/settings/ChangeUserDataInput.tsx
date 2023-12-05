@@ -23,7 +23,7 @@ function ChangeUserDataInput({
         placeholder={placeholder}
         type={type}
         {...field}
-        className={`bg-tertiary separator w-full rounded-md border p-2 text-base focus:outline-none ${
+        className={`bg-tertiary text-secondary separator w-full rounded-md border p-2 text-base focus:outline-none ${
           meta.touched && meta.error && "border-red-500"
         }`}
       />

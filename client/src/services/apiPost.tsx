@@ -5,10 +5,7 @@ const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 export interface PostData {
   content: string;
   user: string;
-}
-
-export interface PostDataWithImages extends PostData {
-  images: string[];
+  images?: string[];
 }
 
 export async function addPost(post: PostData) {
@@ -25,6 +22,12 @@ export async function addImage(formData: FormData) {
       "Content-Type": "multipart/form-data",
     },
   });
+
+  return { data };
+}
+
+export async function getPosts() {
+  const { data } = await axios.get(`${apiUrl}/post/all`);
 
   return { data };
 }

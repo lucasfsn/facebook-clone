@@ -1,37 +1,58 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getPosts as getPostsApi } from "../../services/apiPost";
 import { RootState } from "../../store";
 
-interface Post {
-  content: string;
-  images?: string[];
-  user: unknown;
+interface Comment {
+  comment: string;
+  image: string;
+  by: string;
+  commentDate: Date;
+}
+interface User {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  picture: string;
 }
 
-interface ExistingPostState {
-  post: Post;
+export interface PostRes {
+  _id: string;
+  type: "profile" | "cover" | null;
+  images: string[];
+  content: string;
+  user: User;
+  comments: Comment[];
+  createdAt: string;
+  updatedAt: Date;
+}
+
+interface PostsState {
+  posts: PostRes[];
   isLoading: boolean;
   error: boolean;
 }
 
-type PostState = ExistingPostState;
-
-const initialState: PostState = {
-  post: {
-    content: "",
-    images: [],
-    user: null,
-  },
+const initialState: PostsState = {
+  posts: [],
   isLoading: false,
   error: false,
 };
+
+export const getPosts = createAsyncThunk<PostRes[]>(
+  "post/getPosts",
+  async () => {
+    const { data } = await getPostsApi();
+    return data.posts;
+  },
+);
 
 const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    addPost(state, action: PayloadAction<Post>) {
+    addPost(state) {
       if (state) {
-        state.post = action.payload;
         state.isLoading = false;
         state.error = false;
       }
@@ -46,13 +67,34 @@ const postSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getPosts.pending, (state) => {
+      if (state) {
+        state.isLoading = true;
+        state.error = false;
+      }
+    });
+    builder.addCase(getPosts.fulfilled, (state, action) => {
+      if (state) {
+        state.posts = action.payload;
+        state.isLoading = false;
+        state.error = false;
+      }
+    });
+    builder.addCase(getPosts.rejected, (state) => {
+      if (state) {
+        state.isLoading = false;
+        state.error = true;
+      }
+    });
+  },
 });
 
 export const { addPost, loading, error } = postSlice.actions;
 
 export default postSlice.reducer;
 
-export const getPosts = (state: RootState) => state.user?.user;
+export const getAllPosts = (state: RootState) => state.post?.posts;
 
 export const getLoading = (state: RootState) => state.post?.isLoading;
 

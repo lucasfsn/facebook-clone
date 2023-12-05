@@ -6,6 +6,7 @@ import AddPostForm from "./AddPostForm";
 
 function AddPost() {
   const user = useSelector(getUser);
+
   return (
     <div className="bg-primary flex flex-col gap-2 rounded-lg p-4">
       <Modal>
@@ -25,20 +26,26 @@ function AddPost() {
           </Modal.Window>
         </div>
         <div className="flex flex-row justify-around gap-2">
-          <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">
-            <IoVideocam className="text-2xl text-red-500" />
-            <span className="whitespace-nowrap font-semibold">Live video</span>
-          </div>
+          <Modal.Open opens="post">
+            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">
+              <IoVideocam className="text-2xl text-red-500" />
+              <span className="whitespace-nowrap font-semibold">
+                Live video
+              </span>
+            </div>
+          </Modal.Open>
           <Modal.Open opens="post">
             <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">
               <IoImages className="text-2xl text-green-500" />
               <span className="font-semibold">Photo/video</span>
             </div>
           </Modal.Open>
-          <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">
-            <IoHappyOutline className="text-2xl text-yellow-500" />
-            <span className="font-semibold">Feeling/activity</span>
-          </div>
+          <Modal.Open opens="post">
+            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">
+              <IoHappyOutline className="text-2xl text-yellow-500" />
+              <span className="font-semibold">Feeling/activity</span>
+            </div>
+          </Modal.Open>
         </div>
       </Modal>
     </div>

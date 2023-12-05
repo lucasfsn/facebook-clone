@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaLock, FaUserTag } from "react-icons/fa";
+import { FaGlobeEurope, FaUserTag } from "react-icons/fa";
 import { IoIosImages, IoMdArrowDropdown } from "react-icons/io";
 import { useSelector } from "react-redux";
 import Button from "../../ui/Button";
@@ -59,9 +59,8 @@ function AddPostForm() {
               {user?.firstName} {user?.lastName}
             </span>
             <div className="bg-tertiary flex cursor-pointer flex-row items-center justify-center gap-1 rounded-md px-2 py-0.5 text-sm">
-              {/* <FaGlobeEurope /> */}
-              <FaLock className="text-xs" />
-              <span>Only me</span>
+              <FaGlobeEurope className="text-xs" />
+              <span>Public</span>
               <IoMdArrowDropdown />
             </div>
           </div>
@@ -92,7 +91,10 @@ function AddPostForm() {
             >
               <IoIosImages className="text-green-500" />
             </div>
-            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center rounded-full p-1.5">
+            <div
+              className="bg-tertiary-hover flex cursor-pointer items-center justify-center rounded-full p-1.5"
+              onClick={() => setShowAddImage(false)}
+            >
               <FaUserTag className="translate-x-0.5 text-blue-600" />
             </div>
           </div>

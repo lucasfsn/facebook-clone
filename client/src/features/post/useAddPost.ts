@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import {
   PostData,
-  PostDataWithImages,
   addImage,
   addPost as addPostApi,
 } from "../../services/apiPost";
@@ -13,10 +12,9 @@ import { addPost, error, loading } from "./postSlice";
 export function useAddPost() {
   const dispatch = useDispatch();
 
-  async function createPostWithImages(
-    post: PostDataWithImages,
-    username: string,
-  ) {
+  async function createPostWithImages(post: PostData, username: string) {
+    if (!post.images) return;
+
     dispatch(loading());
 
     try {
@@ -32,9 +30,9 @@ export function useAddPost() {
         formData.append("file", blobImage);
       });
 
-      await addImage(formData);
+      const { data } = await addImage(formData);
 
-      await createPost(post);
+      await createPost({ ...post, images: data.images });
     } catch (err) {
       axios.isAxiosError(err) &&
       err.code !== "ERR_NETWORK" &&
