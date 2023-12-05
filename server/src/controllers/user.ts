@@ -262,7 +262,6 @@ export const deleteUser: RequestHandler<
 > = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
 
     const user = await UserModel.findById(id);
 
