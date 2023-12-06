@@ -25,7 +25,6 @@ function AddComment() {
   const inputFileRef = useRef<HTMLInputElement>(null);
 
   function handleShowEmojiPicker() {
-    console.log("halo");
     setShowEmojiPicker((show) => !show);
   }
 

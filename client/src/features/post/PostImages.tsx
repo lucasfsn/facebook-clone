@@ -1,11 +1,11 @@
-import ImagesGrid from "./ImagesGrid";
+import ImagesGridPost from "../images/ImagesGridPost";
 
 interface PostImagesProps {
   images: string[];
 }
 
 function PostImages({ images }: PostImagesProps) {
-  return <ImagesGrid images={images} />;
+  return <ImagesGridPost images={images} />;
 }
 
 export default PostImages;

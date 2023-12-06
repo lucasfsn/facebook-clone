@@ -1,30 +1,12 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../../store";
-import Spinner from "../../ui/Spinner";
-import { fetchImages, getImages, getLoading } from "./imagesSlice";
+import ImagesGridProfile from "./ImagesGridProfile";
 
 function Images() {
-  const dispatch: AppDispatch = useDispatch();
-  const images = useSelector(getImages);
-  const isLoading = useSelector(getLoading);
-
-  useEffect(() => {
-    dispatch(
-      fetchImages({
-        path: "test/posts/images",
-        sort: "desc",
-      }),
-    );
-  }, [dispatch]);
-
-  if (isLoading) return <Spinner />;
-
-  console.log(images);
-
   return (
-    <div className="bg-primary flex flex-col ">
-      <div>dsa</div>
+    <div className="text-secondary w-full p-4 lg:mx-auto lg:w-4/6">
+      <div className="bg-primary flex w-full flex-col gap-4 rounded-md px-4 py-3">
+        <h2 className="text-xl font-bold">Photos</h2>
+        <ImagesGridProfile space={2} />
+      </div>
     </div>
   );
 }

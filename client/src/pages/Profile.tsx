@@ -1,7 +1,7 @@
-import UserProfile from "../features/profile/UserProfile";
+import ProfileMain from "../features/profile/ProfileMain";
 
 function Profile() {
-  return <UserProfile />;
+  return <ProfileMain />;
 }
 
 export default Profile;

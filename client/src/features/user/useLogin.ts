@@ -16,13 +16,13 @@ export function useLogin() {
     try {
       const { message, loginData } = await loginApi(user);
 
-      dispatch(login(loginData));
-
       Cookies.set("user", JSON.stringify(loginData), {
         expires: 1 / 24,
         sameSite: "None",
         secure: true,
       });
+
+      dispatch(login(loginData));
 
       toast.success(message);
 

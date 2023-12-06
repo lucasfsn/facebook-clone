@@ -126,6 +126,11 @@ html {
   overflow-y: scroll;
 }
 
+.no-scroll {
+  height: 100vh;
+  overflow-y: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;

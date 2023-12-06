@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { HiXMark } from "react-icons/hi2";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { MAX_FILE_SIZE, VALID_MIMETYPES } from "../../utils/constants";
-import ImagesGrid from "./ImagesGrid";
+import ImagesGridPost from "../images/ImagesGridPost";
 
 interface AddPostFormImageProps {
   images: string[];
@@ -83,7 +83,7 @@ function AddPostFormImage({
           onChange={handleAddImage}
           accept="image/jpeg,image/png,image/gif"
         />
-        <ImagesGrid images={images} />
+        <ImagesGridPost images={images} />
         {images.length === 0 && (
           <div
             className="flex h-[150px] flex-col items-center justify-center"

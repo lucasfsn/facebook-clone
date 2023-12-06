@@ -1,11 +1,11 @@
 import { useState } from "react";
 import ImageSlider from "../../ui/ImageSlider";
 
-interface ImagesGridProps {
+interface ImagesGridPostProps {
   images: string[];
 }
 
-function ImagesGrid({ images }: ImagesGridProps) {
+function ImagesGridPost({ images }: ImagesGridPostProps) {
   const [showSlider, setShowSlider] = useState(false);
 
   function handleCloseSlider() {
@@ -45,4 +45,4 @@ function ImagesGrid({ images }: ImagesGridProps) {
   );
 }
 
-export default ImagesGrid;
+export default ImagesGridPost;

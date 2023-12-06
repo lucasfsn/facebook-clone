@@ -13,6 +13,7 @@ import Watch from "./pages/Watch";
 import "./styles/global.scss";
 import AppLayout from "./ui/AppLayout";
 import PageNotFound from "./ui/PageNotFound";
+import ProfileLayout from "./ui/ProfileLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
 
 function App() {
@@ -32,8 +33,10 @@ function App() {
             <Route path="/watch" element={<Watch />} />
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/groups" element={<Groups />} />
-            <Route path="/profile/:username?" element={<Profile />} />
-            <Route path="/profile/:username/photos" element={<Photos />} />
+            <Route path="/profile/:username?" element={<ProfileLayout />}>
+              <Route index element={<Profile />} />
+              <Route path="photos" element={<Photos />} />
+            </Route>
             <Route path="/settings" element={<ChangePassword />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>

@@ -1,14 +1,34 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaCamera, FaPencilAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
+import { useDarkMode } from "../../context/DarkModeContext";
 import { getUser } from "../user/userSlice";
 import AddCoverModal from "./AddCoverModal";
 import { getUserProfile } from "./profileSlice";
 
 function ProfileHeader() {
+  const { darkMode } = useDarkMode();
+  const location = useLocation();
+
   const profile = useSelector(getUserProfile);
   const user = useSelector(getUser);
-  const [showAddCover, setShowAddCover] = useState(false);
+
+  const [activePage, setActivePage] = useState<"home" | "friends" | "photos">(
+    "home",
+  );
+  const [showAddCover, setShowAddCover] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (location.pathname.includes("/photos")) {
+      setActivePage("photos");
+    } else if (location.pathname.includes("/friends")) {
+      setActivePage("friends");
+    } else {
+      setActivePage("home");
+    }
+  }, [location.pathname]);
+
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const isProfileOwner = profile?.username === user?.username ? true : false;
@@ -16,6 +36,10 @@ function ProfileHeader() {
   function handleShowCover() {
     setShowAddCover((show) => !show);
   }
+
+  const userSystemMode = window.matchMedia(
+    "(prefers-color-scheme: dark)",
+  ).matches;
 
   return (
     <div className="text-secondary flex w-full flex-col shadow-md">
@@ -25,7 +49,13 @@ function ProfileHeader() {
             {profile?.cover ? (
               <img src={profile.cover} />
             ) : (
-              <div className="bg-secondary flex h-full w-full justify-end shadow-3xl lg:mx-auto lg:w-4/6 lg:rounded-b-lg">
+              <div
+                className={`flex h-full w-full justify-end bg-gradient-to-t shadow-3xl lg:mx-auto lg:w-4/6 lg:rounded-b-lg ${
+                  darkMode === "on" || (darkMode === "auto" && userSystemMode)
+                    ? "from-black via-neutral-950 to-neutral-900"
+                    : "from-gray-400 via-gray-100 to-white"
+                }`}
+              >
                 {isProfileOwner && (
                   <div className="relative self-end px-4 py-2">
                     <button
@@ -79,15 +109,54 @@ function ProfileHeader() {
             )}
           </div>
           <div className="px-3 lg:mx-auto lg:w-4/6">
-            <div className="separator flex flex-row gap-3 border-t py-1">
-              <div className="bg-tertiary-hover text-secondary cursor-pointer rounded-md p-3 font-semibold">
-                Posts
+            <div className="separator flex flex-row gap-3 border-t pt-1">
+              <div
+                className={`flex justify-center border-b-4 ${
+                  activePage === "home"
+                    ? "border-blue-600 text-blue-600"
+                    : "text-secondary border-transparent"
+                }`}
+              >
+                <Link
+                  to={`/profile/${profile.username}`}
+                  className={`${
+                    activePage === "home" ? "" : "bg-tertiary-hover"
+                  } cursor-pointer rounded-md p-3 font-semibold`}
+                >
+                  Posts
+                </Link>
               </div>
-              <div className="bg-tertiary-hover text-secondary cursor-pointer rounded-md p-3 font-semibold">
-                Friends
+              <div
+                className={`flex justify-center border-b-4 ${
+                  activePage === "friends"
+                    ? "border-blue-600 text-blue-600"
+                    : "text-secondary border-transparent"
+                }`}
+              >
+                <Link
+                  to={`/profile/${profile.username}`}
+                  className={`${
+                    activePage === "friends" ? "" : "bg-tertiary-hover"
+                  } cursor-pointer rounded-md p-3 font-semibold`}
+                >
+                  Friends
+                </Link>
               </div>
-              <div className="bg-tertiary-hover text-secondary cursor-pointer rounded-md p-3 font-semibold">
-                Photos
+              <div
+                className={`flex justify-center border-b-4 ${
+                  activePage === "photos"
+                    ? "border-blue-600 text-blue-600"
+                    : "text-secondary border-transparent"
+                }`}
+              >
+                <Link
+                  to={`/profile/${profile.username}/photos`}
+                  className={`${
+                    activePage === "photos" ? "" : "bg-tertiary-hover"
+                  } cursor-pointer rounded-md p-3 font-semibold`}
+                >
+                  Photos
+                </Link>
               </div>
             </div>
           </div>

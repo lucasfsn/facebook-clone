@@ -1,5 +1,7 @@
 import { LuSettings2 } from "react-icons/lu";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import ImagesGridProfile from "../images/ImagesGridProfile";
 import AddPost from "../post/AddPost";
 import { getUser } from "../user/userSlice";
 import ProfilePosts from "./ProfilePosts";
@@ -14,12 +16,23 @@ function ProfileMain() {
   return (
     <div className="text-secondary flex w-full flex-row justify-between gap-4 p-4 lg:mx-auto lg:w-4/6">
       <div className="flex w-1/2 flex-col gap-4">
-        <div className="bg-primary flex flex-row items-center justify-between rounded-md px-4 py-2">
-          <p className="cursor-pointer text-xl font-bold hover:underline">
-            Photos
-          </p>
-          <div className="bg-tertiary-hover cursor-pointer rounded-md px-2 py-1">
-            <span className="text-lg text-blue-400">See all photos</span>
+        <div className="bg-primary flex flex-col gap-3 rounded-md px-4 py-2">
+          <div className="flex flex-row items-center justify-between">
+            <Link
+              to={`/profile/${profile.username}/photos`}
+              className="cursor-pointer text-xl font-bold hover:underline"
+            >
+              Photos
+            </Link>
+            <Link
+              to={`/profile/${profile.username}/photos`}
+              className="bg-tertiary-hover cursor-pointer rounded-md px-2 py-1"
+            >
+              <span className="text-lg text-blue-400">See all photos</span>
+            </Link>
+          </div>
+          <div className="h-fit">
+            <ImagesGridProfile max={9} space={1.5} />
           </div>
         </div>
         <div className="bg-primary flex flex-col rounded-md px-4 py-2">

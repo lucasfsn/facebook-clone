@@ -1,11 +1,10 @@
 import { formatDistanceToNow } from "date-fns";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaGlobeEurope } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { IoArrowRedoOutline, IoChatbubbleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import Modal from "../../ui/Modal";
 import ReactionsModal from "../../ui/ReactionsModal";
 import { ProfileRes } from "../profile/profileSlice";
 import { getUserId } from "../user/userSlice";
@@ -23,7 +22,15 @@ interface PostProps {
 
 function Post({ post, postCreator }: PostProps) {
   const [activeLike, setActiveLike] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
+
   const userId = useSelector(getUserId);
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  function handleShowMenu() {
+    setShowMenu((show) => !show);
+  }
 
   return (
     <div className="bg-primary flex flex-col gap-2 rounded-lg">
@@ -47,16 +54,23 @@ function Post({ post, postCreator }: PostProps) {
               </div>
             </div>
           </div>
-          <Modal>
-            <Modal.Open opens="post">
-              <button className="bg-tertiary-hover cursor-pointer rounded-full p-1.5 text-center">
-                <HiDotsHorizontal className="text-xl" />
-              </button>
-            </Modal.Open>
-            <Modal.Window name="post" type="center" width="310px">
-              <PostMenu userId={userId} postCreatorId={postCreator?._id} />
-            </Modal.Window>
-          </Modal>
+          <div className="relative">
+            <button
+              className="bg-tertiary-hover cursor-pointer rounded-full p-1.5 text-center"
+              onClick={handleShowMenu}
+              ref={buttonRef}
+            >
+              <HiDotsHorizontal className="text-xl" />
+            </button>
+            {showMenu && (
+              <PostMenu
+                userId={userId}
+                postCreatorId={postCreator?._id}
+                button={buttonRef}
+                close={() => setShowMenu(false)}
+              />
+            )}
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-3">

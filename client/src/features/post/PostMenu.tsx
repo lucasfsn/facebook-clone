@@ -1,16 +1,23 @@
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import { HiOutlineBookmark, HiOutlineTrash, HiPencil } from "react-icons/hi2";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 interface PostMenuProps {
   userId: string | undefined;
   postCreatorId: string | undefined;
+  button: RefObject<HTMLButtonElement>;
+  close: () => void;
 }
 
-function PostMenu({ userId, postCreatorId }: PostMenuProps) {
+function PostMenu({ userId, postCreatorId, button, close }: PostMenuProps) {
   const [isCreator] = useState<boolean>(userId === postCreatorId);
+  const { ref } = useOutsideClick(close, true, button);
 
   return (
-    <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md p-3">
+    <div
+      className="bg-primary text-secondary absolute right-0 z-50 flex w-[325px] flex-col gap-3 rounded-md p-1.5 shadow-3xl"
+      ref={ref}
+    >
       <div className="separator bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-1 py-1">
         <HiOutlineBookmark className="text-2xl" />
         <div className="flex flex-col">
