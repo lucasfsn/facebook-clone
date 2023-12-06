@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { RootState } from "../../store";
 
-interface User {
+export interface User {
   id: string;
   username: string;
   picture: string;
@@ -82,5 +82,7 @@ export const {
 export default userSlice.reducer;
 
 export const getUser = (state: RootState) => state.user?.user;
+
+export const getUserId = (state: RootState) => state.user?.user.id;
 
 export const getLoading = (state: RootState) => state.user?.isLoading;

@@ -3,7 +3,7 @@ import { HiOutlineBookmark, HiOutlineTrash, HiPencil } from "react-icons/hi2";
 
 interface PostMenuProps {
   userId: string | undefined;
-  postCreatorId: string;
+  postCreatorId: string | undefined;
 }
 
 function PostMenu({ userId, postCreatorId }: PostMenuProps) {

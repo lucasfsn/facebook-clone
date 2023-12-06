@@ -1,12 +1,20 @@
-import { useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 
-export function useOutsideClick(handler: () => void, listenCapturing = true) {
+export function useOutsideClick(
+  handler: () => void,
+  listenCapturing = true,
+  button?: RefObject<HTMLButtonElement>,
+) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(
     function () {
       function handleClick(e: MouseEvent) {
-        if (ref.current && !ref.current.contains(e.target as Node)) {
+        if (
+          ref.current &&
+          !ref.current.contains(e.target as Node) &&
+          (!button?.current || !button.current.contains(e.target as Node))
+        ) {
           handler();
         }
       }
@@ -15,7 +23,7 @@ export function useOutsideClick(handler: () => void, listenCapturing = true) {
       return () =>
         document.removeEventListener("click", handleClick, listenCapturing);
     },
-    [handler, listenCapturing],
+    [handler, listenCapturing, button],
   );
 
   return { ref };

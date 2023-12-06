@@ -1,5 +1,7 @@
+import UserProfile from "../features/profile/UserProfile";
+
 function Profile() {
-  return <div className="bg-secondary">Profile</div>;
+  return <UserProfile />;
 }
 
 export default Profile;

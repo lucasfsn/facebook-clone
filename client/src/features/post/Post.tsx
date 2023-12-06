@@ -7,19 +7,23 @@ import { IoArrowRedoOutline, IoChatbubbleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import Modal from "../../ui/Modal";
 import ReactionsModal from "../../ui/ReactionsModal";
-import { getUser } from "../user/userSlice";
+import { ProfileRes } from "../profile/profileSlice";
+import { getUserId } from "../user/userSlice";
 import AddComment from "./AddComment";
 import PostImages from "./PostImages";
 import PostMenu from "./PostMenu";
 import { PostRes } from "./postSlice";
 
+type PostCreator = Partial<ProfileRes> | undefined;
+
 interface PostProps {
   post: PostRes;
+  postCreator: PostCreator;
 }
 
-function Post({ post }: PostProps) {
-  const user = useSelector(getUser);
+function Post({ post, postCreator }: PostProps) {
   const [activeLike, setActiveLike] = useState<boolean>(false);
+  const userId = useSelector(getUserId);
 
   return (
     <div className="bg-primary flex flex-col gap-2 rounded-lg">
@@ -27,13 +31,13 @@ function Post({ post }: PostProps) {
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center gap-2">
             <img
-              src={post.user.picture}
-              alt={post.user.username}
+              src={postCreator?.picture}
+              alt={postCreator?.username}
               className="h-[40px] w-auto rounded-full"
             />
             <div className="flex flex-col">
               <span className="text-lg font-semibold">
-                {post.user.firstName} {post.user.lastName}
+                {postCreator?.firstName} {postCreator?.lastName}
               </span>
               <div className="text-tertiary flex flex-row items-center gap-1.5 text-xs">
                 <span>{formatDistanceToNow(new Date(post.createdAt))}</span>
@@ -50,7 +54,7 @@ function Post({ post }: PostProps) {
               </button>
             </Modal.Open>
             <Modal.Window name="post" type="center" width="310px">
-              <PostMenu userId={user?.id} postCreatorId={post.user._id} />
+              <PostMenu userId={userId} postCreatorId={postCreator?._id} />
             </Modal.Window>
           </Modal>
         </div>

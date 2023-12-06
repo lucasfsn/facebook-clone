@@ -1,10 +1,15 @@
+import { ReactNode } from "react";
 import { IoHappyOutline, IoImages, IoVideocam } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
 import AddPostForm from "./AddPostForm";
 
-function AddPost() {
+interface AddPostProps {
+  children: ReactNode;
+}
+
+function AddPost({ children }: AddPostProps) {
   const user = useSelector(getUser);
 
   return (
@@ -18,7 +23,7 @@ function AddPost() {
           />
           <Modal.Open opens="post">
             <button className="bg-tertiary bg-tertiary-hover w-full rounded-full px-3 text-left">
-              What's on your mind, {user?.firstName}?
+              {children}
             </button>
           </Modal.Open>
           <Modal.Window name="post" type="center">

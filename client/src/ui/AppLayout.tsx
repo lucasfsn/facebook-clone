@@ -5,7 +5,7 @@ function AppLayout() {
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
-      <main className="bg-secondary mt-[55px] flex flex-grow px-2 py-4">
+      <main className="bg-secondary mt-[55px] flex flex-grow">
         <Outlet />
       </main>
     </div>

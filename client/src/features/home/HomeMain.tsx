@@ -163,7 +163,7 @@ function HomeMain() {
           <HomeStory key={story.profileName} story={story} />
         ))}
       </div>
-      <AddPost />
+      <AddPost>What's on your mind, {user?.firstName}?</AddPost>
       <Posts />
     </div>
   );
