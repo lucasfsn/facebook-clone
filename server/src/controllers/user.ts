@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
+import mongoose from 'mongoose';
 import UserModel, { User } from '../models/user';
 import { generateUsername } from '../utils/generateUsername';
 import { validateEmail, validateName } from '../utils/validateUserData';
@@ -272,6 +273,48 @@ export const deleteUser: RequestHandler<
     res.send({
       message: 'Your account has been deleted successfully',
     });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+interface GetUserProfileParams {
+  username: string;
+}
+
+export const getUserProfile: RequestHandler<
+  GetUserProfileParams,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  try {
+    const { username } = req.params;
+
+    const user = await UserModel.findOne({ username: username });
+
+    if (!user) throw createHttpError(404, 'User not found');
+
+    const userWithPosts = await UserModel.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(user._id) },
+      },
+      {
+        $lookup: {
+          from: 'posts',
+          localField: '_id',
+          foreignField: 'user',
+          as: 'userPosts',
+        },
+      },
+      {
+        $project: {
+          password: 0,
+        },
+      },
+    ]);
+
+    res.json(...userWithPosts);
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }

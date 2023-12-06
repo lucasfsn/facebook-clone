@@ -68,3 +68,34 @@ async function cloudinaryUpload(
     );
   });
 }
+
+interface GetImagesReq {
+  body: {
+    path: string;
+    sort: 'asc' | 'desc';
+    max: number;
+  };
+}
+
+export const getImages: RequestHandler = async (
+  req: GetImagesReq,
+  res: Response
+) => {
+  try {
+    const { path, sort, max } = req.body;
+
+    cloudinary.search
+      .expression(path)
+      .sort_by('public_id', sort)
+      .max_results(max)
+      .execute()
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  } catch (err) {
+    res.status(err.status).json({ message: err.message });
+  }
+};

@@ -28,7 +28,6 @@ const userSchema = new Schema(
     birthDay: { type: Number, required: true, trim: true },
     birthMonth: { type: Number, required: true, trim: true },
     birthYear: { type: Number, required: true, trim: true },
-    verified: { type: Boolean, default: false },
     friends: {
       type: Array,
       default: [],
