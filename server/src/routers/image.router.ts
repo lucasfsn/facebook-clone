@@ -5,4 +5,4 @@ import { uploadImage } from '../middlewares/image';
 
 export const imageRouter = Router()
   .post('/upload', uploadImage, ImageController.uploadImage)
-  .get('/getAll', ImageController.getImages);
+  .post('/getAll', ImageController.getImages);

@@ -307,11 +307,6 @@ export const getUserProfile: RequestHandler<
           as: 'userPosts',
         },
       },
-      {
-        $project: {
-          password: 0,
-        },
-      },
     ]);
 
     res.json(...userWithPosts);

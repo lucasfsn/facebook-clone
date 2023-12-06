@@ -82,12 +82,11 @@ export const getImages: RequestHandler = async (
   res: Response
 ) => {
   try {
-    const { path, sort, max } = req.body;
+    const { path, sort } = req.body;
 
     cloudinary.search
       .expression(path)
       .sort_by('public_id', sort)
-      .max_results(max)
       .execute()
       .then(data => {
         res.json(data);
