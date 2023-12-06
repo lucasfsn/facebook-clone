@@ -1,16 +1,11 @@
-import { Form, Formik } from "formik";
+import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 import { getLoading, getUser } from "../user/userSlice";
 import { changePasswordValidation } from "../user/validation";
-import ChangeUserDataInput from "./ChangeUserDataInput";
+import FormInput, { ChangePasswordData } from "./FormInput";
 import { useChangePassword } from "./useChangePassword";
-
-interface ChangePasswordData {
-  password: string;
-  confirmPassword: string;
-}
 
 const initialState: ChangePasswordData = {
   password: "",
@@ -22,6 +17,12 @@ function ChangePasswordForm() {
   const isLoading = useSelector(getLoading);
   const { changePassword } = useChangePassword();
 
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: changePasswordValidation,
+    onSubmit: handleSubmit,
+  });
+
   if (isLoading) return <Spinner />;
 
   async function handleSubmit(values: ChangePasswordData) {
@@ -29,37 +30,35 @@ function ChangePasswordForm() {
   }
 
   return (
-    <div className="bg-primary flex flex-col items-center gap-4 rounded-md p-4 shadow-lg">
-      <div className="text-secondary text-lg font-semibold">
+    <div className="bg-primary flex flex-col gap-4 rounded-md p-4 shadow-lg">
+      <div className="text-secondary separator border-b pb-2 text-lg font-semibold">
         Change Password
       </div>
-      <Formik
-        enableReinitialize
-        initialValues={initialState}
-        validationSchema={changePasswordValidation}
-        onSubmit={handleSubmit}
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex w-full flex-col gap-4"
       >
-        <Form className="flex w-full flex-col gap-4">
-          <div className="flex flex-col gap-3">
-            <ChangeUserDataInput
-              placeholder="New password"
-              type="password"
-              name="password"
-            />
-            <ChangeUserDataInput
-              placeholder="Confirm password"
-              type="password"
-              name="confirmPassword"
-            />
-          </div>
-          <Button
-            className="bg-post-disabled h-fit bg-blue-500 hover:bg-blue-600 disabled:cursor-not-allowed"
-            disabled={isLoading}
-          >
-            Change
-          </Button>
-        </Form>
-      </Formik>
+        <div className="flex flex-col gap-3">
+          <FormInput<ChangePasswordData>
+            placeholder="New password"
+            type="password"
+            name="password"
+            formik={formik}
+          />
+          <FormInput
+            placeholder="Confirm password"
+            type="password"
+            name="confirmPassword"
+            formik={formik}
+          />
+        </div>
+        <Button
+          className="bg-post-disabled h-fit bg-blue-500 text-sm hover:bg-blue-600 disabled:cursor-not-allowed"
+          disabled={isLoading}
+        >
+          Change
+        </Button>
+      </form>
     </div>
   );
 }

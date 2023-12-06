@@ -1,17 +1,14 @@
-import { Form, Formik } from "formik";
+import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 import { getLoading, getUser } from "../user/userSlice";
 import { changeNameValidation } from "../user/validation";
-import ChangeUserDataInput from "./ChangeUserDataInput";
+import FormInput, { ChangeNameData } from "./FormInput";
 import { useChangeSettings } from "./useChangeSettings";
 
 interface ChangeNameProps {
   field: "firstName" | "lastName";
-}
-interface ChangeNameData {
-  name: string;
 }
 
 const initialState: ChangeNameData = {
@@ -23,6 +20,12 @@ function ChangeNameForm({ field }: ChangeNameProps) {
   const isLoading = useSelector(getLoading);
   const { changeSettings } = useChangeSettings();
 
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: changeNameValidation,
+    onSubmit: handleSubmit,
+  });
+
   if (isLoading) return <Spinner />;
 
   async function handleSubmit(values: ChangeNameData) {
@@ -32,27 +35,28 @@ function ChangeNameForm({ field }: ChangeNameProps) {
   const content = field === "firstName" ? "First name" : "Last name";
 
   return (
-    <div className="bg-primary flex flex-col items-center gap-4 rounded-md p-4 shadow-lg">
-      <div className="text-secondary text-lg font-semibold">
+    <div className="bg-primary flex flex-col gap-4 rounded-md p-4 shadow-lg">
+      <div className="text-secondary separator border-b pb-2 text-lg font-semibold">
         Change {content}
       </div>
-      <Formik
-        enableReinitialize
-        initialValues={initialState}
-        validationSchema={changeNameValidation}
-        onSubmit={handleSubmit}
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex w-full flex-row justify-between gap-2"
       >
-        <Form className="flex w-full flex-row justify-between gap-2">
-          <ChangeUserDataInput placeholder={content} type="text" name="name" />
+        <FormInput<ChangeNameData>
+          placeholder={content}
+          type="text"
+          name="name"
+          formik={formik}
+        />
 
-          <Button
-            className="bg-post-disabled h-fit bg-blue-500 hover:bg-blue-600 disabled:cursor-not-allowed"
-            disabled={isLoading}
-          >
-            Change
-          </Button>
-        </Form>
-      </Formik>
+        <Button
+          className="bg-post-disabled h-fit bg-blue-500 text-sm hover:bg-blue-600 disabled:cursor-not-allowed"
+          disabled={isLoading}
+        >
+          Change
+        </Button>
+      </form>
     </div>
   );
 }

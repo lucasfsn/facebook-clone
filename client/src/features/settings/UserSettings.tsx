@@ -1,4 +1,4 @@
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useMoveBack } from "../../hooks/useMoveBack";
 import Modal from "../../ui/Modal";
@@ -68,16 +68,16 @@ function UserSettings() {
               <ChangePasswordForm />
             </Modal.Window>
           </div>
-          <div className="fixed bottom-5 left-5 flex flex-row items-center justify-between gap-2 text-rose-900">
-            <span>Delete account</span>
+          <div className="flex flex-row items-center gap-2 self-end text-rose-900">
             <Modal.Open opens="deleteAccount">
               <button className="bg-primary bg-tertiary-hover shake flex rounded-full p-2 text-lg">
-                <IoIosArrowForward />
+                <IoIosArrowBack />
               </button>
             </Modal.Open>
             <Modal.Window name="deleteAccount" type="center">
               <DeleteAccountForm />
             </Modal.Window>
+            <span>Delete account</span>
           </div>
         </Modal>
       </div>

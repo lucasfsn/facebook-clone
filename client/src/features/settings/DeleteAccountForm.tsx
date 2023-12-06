@@ -42,9 +42,6 @@ function DeleteAccountForm() {
         >
           Delete my account
         </Button>
-        <div className="bg-tertiary bg-tertiary-hover flex cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 text-sm font-semibold">
-          Cancel
-        </div>
       </div>
     </div>
   );

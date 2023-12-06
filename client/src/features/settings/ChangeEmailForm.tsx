@@ -1,15 +1,11 @@
-import { Form, Formik } from "formik";
+import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 import { getLoading, getUser } from "../user/userSlice";
 import { changeEmailValidation } from "../user/validation";
-import ChangeUserDataInput from "./ChangeUserDataInput";
+import FormInput, { ChangeEmailData } from "./FormInput";
 import { useChangeSettings } from "./useChangeSettings";
-
-interface ChangeEmailData {
-  email: string;
-}
 
 const initialState: ChangeEmailData = {
   email: "",
@@ -20,6 +16,12 @@ function ChangeEmailForm() {
   const isLoading = useSelector(getLoading);
   const { changeSettings } = useChangeSettings();
 
+  const formik = useFormik({
+    initialValues: initialState,
+    validationSchema: changeEmailValidation,
+    onSubmit: handleSubmit,
+  });
+
   if (isLoading) return <Spinner />;
 
   async function handleSubmit(values: ChangeEmailData) {
@@ -27,29 +29,28 @@ function ChangeEmailForm() {
   }
 
   return (
-    <div className="bg-primary flex flex-col items-center gap-4 rounded-md p-4 shadow-lg">
-      <div className="text-secondary text-lg font-semibold">Change Email</div>
-      <Formik
-        enableReinitialize
-        initialValues={initialState}
-        validationSchema={changeEmailValidation}
-        onSubmit={handleSubmit}
+    <div className="bg-primary flex flex-col gap-4 rounded-md p-4 shadow-lg">
+      <div className="text-secondary separator border-b pb-2 text-lg font-semibold">
+        Change Email
+      </div>
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex w-full flex-row justify-between gap-2"
       >
-        <Form className="flex w-full flex-row justify-between gap-2">
-          <ChangeUserDataInput
-            placeholder="New email"
-            type="text"
-            name="email"
-          />
+        <FormInput<ChangeEmailData>
+          placeholder="New email"
+          type="text"
+          name="email"
+          formik={formik}
+        />
 
-          <Button
-            className="bg-post-disabled h-fit bg-blue-500 hover:bg-blue-600 disabled:cursor-not-allowed"
-            disabled={isLoading}
-          >
-            Change
-          </Button>
-        </Form>
-      </Formik>
+        <Button
+          className="bg-post-disabled h-fit bg-blue-500 text-sm hover:bg-blue-600 disabled:cursor-not-allowed"
+          disabled={isLoading}
+        >
+          Change
+        </Button>
+      </form>
     </div>
   );
 }
