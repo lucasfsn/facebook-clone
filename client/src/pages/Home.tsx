@@ -4,7 +4,7 @@ import HomeMenu from "../features/home/HomeMenu";
 
 function Home() {
   return (
-    <div className="flex w-full flex-row justify-between gap-3 overflow-scroll py-4">
+    <div className="flex w-full flex-row justify-between gap-3">
       <HomeMenu />
       <HomeMain />
       <HomeContacts />
