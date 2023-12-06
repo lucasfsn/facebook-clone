@@ -171,6 +171,10 @@ select {
   text-shadow: 1px 0px 2px #000;
 }
 
+.slider-img {
+  transition: translate 300ms ease-in-out;
+}
+
 .spinner {
   width: 50px;
   padding: 8px;
@@ -184,6 +188,7 @@ select {
   mask-composite: subtract;
   animation: spinner 1s infinite linear;
 }
+
 @keyframes spinner {
   to {
     transform: rotate(1turn);
@@ -269,6 +274,16 @@ select {
   }
   100% {
     transform: translate(0.25px, -0.5px) rotate(-0.25deg);
+  }
+}
+
+.squish:hover > * {
+  animation: squish 200ms ease-in-out;
+}
+
+@keyframes squish {
+  50% {
+    scale: 1.4 0.6;
   }
 }
 
