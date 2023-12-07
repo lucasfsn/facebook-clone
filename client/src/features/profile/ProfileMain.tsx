@@ -1,7 +1,7 @@
 import { LuSettings2 } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import ImagesGridProfile from "../images/ImagesGridProfile";
+import ImagesGridProfile from "../image/ImagesGridProfile";
 import AddPost from "../post/AddPost";
 import { getUser } from "../user/userSlice";
 import ProfilePosts from "./ProfilePosts";
@@ -14,8 +14,8 @@ function ProfileMain() {
   const isProfileOwner = profile?.username === user?.username ? true : false;
 
   return (
-    <div className="text-secondary flex w-full flex-row justify-between gap-4 p-4 lg:mx-auto lg:w-4/6">
-      <div className="flex w-1/2 flex-col gap-4">
+    <div className="text-secondary flex w-full flex-col justify-between gap-4 p-4 md:flex-row lg:mx-auto xl:w-4/6">
+      <div className="flex flex-col gap-4 md:w-1/2">
         <div className="bg-primary flex flex-col gap-3 rounded-md px-4 py-2">
           <div className="flex flex-row items-center justify-between">
             <Link
@@ -32,7 +32,7 @@ function ProfileMain() {
             </Link>
           </div>
           <div className="h-fit">
-            <ImagesGridProfile max={9} space={1.5} />
+            <ImagesGridProfile type="profile" space={1.5} />
           </div>
         </div>
         <div className="bg-primary flex flex-col rounded-md px-4 py-2">
@@ -50,7 +50,7 @@ function ProfileMain() {
           </span>
         </div>
       </div>
-      <div className="flex w-1/2 flex-col gap-4">
+      <div className="flex flex-col gap-4 overflow-x-hidden md:w-1/2">
         <AddPost>
           {isProfileOwner
             ? "What's on your mind?"

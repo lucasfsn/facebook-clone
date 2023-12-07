@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { HiXMark } from "react-icons/hi2";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { MAX_FILE_SIZE, VALID_MIMETYPES } from "../../utils/constants";
-import ImagesGridPost from "../images/ImagesGridPost";
+import ImagesGridPost from "../image/ImagesGridPost";
 
 interface AddPostFormImageProps {
   images: string[];

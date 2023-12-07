@@ -30,24 +30,24 @@ function AddPost({ children }: AddPostProps) {
             <AddPostForm />
           </Modal.Window>
         </div>
-        <div className="flex flex-row justify-around gap-2">
+        <div className="flex flex-row justify-around gap-0.5">
           <Modal.Open opens="post">
-            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">
-              <IoVideocam className="text-2xl text-red-500" />
+            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
+              <IoVideocam className="text-xl text-red-500 lg:text-2xl" />
               <span className="whitespace-nowrap font-semibold">
                 Live video
               </span>
             </div>
           </Modal.Open>
           <Modal.Open opens="post">
-            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">
-              <IoImages className="text-2xl text-green-500" />
+            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
+              <IoImages className="text-xl text-green-500 lg:text-2xl" />
               <span className="font-semibold">Photo/video</span>
             </div>
           </Modal.Open>
           <Modal.Open opens="post">
-            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm md:text-base lg:px-8">
-              <IoHappyOutline className="text-2xl text-yellow-500" />
+            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
+              <IoHappyOutline className="text-xl text-yellow-500 lg:text-2xl" />
               <span className="font-semibold">Feeling/activity</span>
             </div>
           </Modal.Open>

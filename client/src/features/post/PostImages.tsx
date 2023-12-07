@@ -1,4 +1,4 @@
-import ImagesGridPost from "../images/ImagesGridPost";
+import ImagesGridPost from "../image/ImagesGridPost";
 
 interface PostImagesProps {
   images: string[];

@@ -5,6 +5,7 @@ import { FaGlobeEurope } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { IoArrowRedoOutline, IoChatbubbleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { CSSTransition } from "react-transition-group";
 import ReactionsModal from "../../ui/ReactionsModal";
 import { ProfileRes } from "../profile/profileSlice";
 import { getUserId } from "../user/userSlice";
@@ -27,6 +28,7 @@ function Post({ post, postCreator }: PostProps) {
   const userId = useSelector(getUserId);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const nodeRef = useRef(null);
 
   function handleShowMenu() {
     setShowMenu((show) => !show);
@@ -86,18 +88,26 @@ function Post({ post, postCreator }: PostProps) {
           </div>
         </div>
         <div className="separator text-secondary relative grid grid-cols-3 border-b pb-1">
-          {activeLike && <ReactionsModal setActiveLike={setActiveLike} />}
+          <CSSTransition
+            nodeRef={nodeRef}
+            in={activeLike}
+            timeout={400}
+            classNames="slide-up"
+            unmountOnExit
+          >
+            <ReactionsModal ref={nodeRef} setActiveLike={setActiveLike} />
+          </CSSTransition>
           <button
             className="bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 rounded-md p-0.5 text-xl font-semibold"
             onMouseEnter={() => {
               setTimeout(() => {
                 setActiveLike(true);
-              }, 200);
+              }, 400);
             }}
             onMouseLeave={() => {
               setTimeout(() => {
                 setActiveLike(false);
-              }, 200);
+              }, 400);
             }}
           >
             <AiOutlineLike />

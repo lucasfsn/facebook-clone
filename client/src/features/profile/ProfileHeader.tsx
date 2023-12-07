@@ -50,7 +50,7 @@ function ProfileHeader() {
               <img src={profile.cover} />
             ) : (
               <div
-                className={`flex h-full w-full justify-end bg-gradient-to-t shadow-3xl lg:mx-auto lg:w-4/6 lg:rounded-b-lg ${
+                className={`flex h-full w-full justify-end bg-gradient-to-t shadow-3xl xl:mx-auto xl:w-4/6 xl:rounded-b-lg ${
                   darkMode === "on" || (darkMode === "auto" && userSystemMode)
                     ? "from-black via-neutral-950 to-neutral-900"
                     : "from-gray-400 via-gray-100 to-white"
@@ -77,7 +77,7 @@ function ProfileHeader() {
               </div>
             )}
           </div>
-          <div className="flex flex-row items-center px-3 lg:mx-auto lg:w-4/6">
+          <div className="flex flex-row items-center px-3 xl:mx-auto xl:w-4/6">
             <div className="relative h-[110px]">
               <div className="bg-primary -translate-y-1/2 cursor-pointer rounded-full p-1">
                 <img
@@ -91,7 +91,7 @@ function ProfileHeader() {
               </div>
             </div>
             <div className="flex flex-col">
-              <h1 className="text-3xl font-bold">
+              <h1 className="whitespace-nowrap text-xl font-bold md:text-3xl">
                 {profile.firstName} {profile.lastName}
               </h1>
               <p className="text-tertiary text-sm font-semibold">
@@ -101,14 +101,14 @@ function ProfileHeader() {
             </div>
             {isProfileOwner && (
               <div className="ml-auto p-2">
-                <button className="bg-tertiary text-secondary bg-tertiary-hover flex flex-row items-center justify-center gap-2 rounded-lg px-3 py-1.5 font-semibold">
+                <button className="bg-tertiary text-secondary bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold md:px-3 md:py-1.5 md:text-base">
                   <FaPencilAlt />
                   <span>Edit Profile</span>
                 </button>
               </div>
             )}
           </div>
-          <div className="px-3 lg:mx-auto lg:w-4/6">
+          <div className="px-3 xl:mx-auto xl:w-4/6">
             <div className="separator flex flex-row gap-3 border-t pt-1">
               <div
                 className={`flex justify-center border-b-4 ${

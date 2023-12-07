@@ -7,6 +7,7 @@ interface ImagesGridPostProps {
 
 function ImagesGridPost({ images }: ImagesGridPostProps) {
   const [showSlider, setShowSlider] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<number>(0);
 
   function handleCloseSlider() {
     setShowSlider(false);
@@ -14,7 +15,13 @@ function ImagesGridPost({ images }: ImagesGridPostProps) {
 
   return (
     <>
-      {showSlider && <ImageSlider images={images} close={handleCloseSlider} />}
+      {showSlider && (
+        <ImageSlider
+          images={images}
+          close={handleCloseSlider}
+          start={selectedImage}
+        />
+      )}
       <div className="grid grid-cols-6 gap-0.5 overflow-x-hidden">
         {images.slice(0, 5).map((img, index) => (
           <div
@@ -29,11 +36,21 @@ function ImagesGridPost({ images }: ImagesGridPostProps) {
                 : "col-span-3"
             }`}
           >
-            <img src={img} className="h-full w-full object-cover" />
+            <img
+              src={img}
+              className="h-full w-full object-cover"
+              onClick={() => {
+                setShowSlider(true);
+                setSelectedImage(index);
+              }}
+            />
             {index === 4 && images.length > 5 && (
               <div
                 className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black bg-opacity-50 text-3xl font-semibold text-white hover:bg-opacity-[0.45]"
-                onClick={() => setShowSlider(true)}
+                onClick={() => {
+                  setShowSlider(true);
+                  setSelectedImage(index);
+                }}
               >
                 +{images.length - 4}
               </div>

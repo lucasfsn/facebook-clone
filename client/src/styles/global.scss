@@ -180,6 +180,28 @@ select {
   transition: translate 300ms ease-in-out;
 }
 
+.slide-up-enter {
+  transform: translateY(100%);
+}
+
+.slide-up-enter-active {
+  transform: translateY(0);
+  transition: transform 400ms;
+}
+
+.slide-up-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.slide-up-exit-active {
+  transform: translateY(0);
+  opacity: 0;
+  transition:
+    opacity 200ms,
+    transform 400ms;
+}
+
 .spinner {
   width: 50px;
   padding: 8px;

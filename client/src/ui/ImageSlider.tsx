@@ -5,10 +5,11 @@ import { useOutsideClick } from "../hooks/useOutsideClick";
 interface ImageSliderProps {
   images: string[];
   close: () => void;
+  start?: number;
 }
 
-function ImageSlider({ images, close }: ImageSliderProps) {
-  const [imageIndex, setImageIndex] = useState(0);
+function ImageSlider({ images, close, start = 0 }: ImageSliderProps) {
+  const [imageIndex, setImageIndex] = useState(start);
 
   const { ref } = useOutsideClick(close);
 
@@ -25,14 +26,15 @@ function ImageSlider({ images, close }: ImageSliderProps) {
       return i + 1;
     });
   }
+  console.log(images.length);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 top-0 z-50 backdrop-blur-sm">
       <div
-        className="absolute left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 overflow-hidden shadow-2xl"
+        className="absolute left-1/2 top-1/2 z-50 h-full w-2/3 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-black shadow-2xl"
         ref={ref}
       >
-        <div className="flex flex-row overflow-hidden">
+        <div className="flex h-full flex-row overflow-hidden ">
           {images.map((image) => (
             <div
               className="h-full w-full flex-shrink-0 flex-grow-0"
@@ -41,28 +43,32 @@ function ImageSlider({ images, close }: ImageSliderProps) {
               <img
                 key={image}
                 src={image}
-                className="slider-img aspect-square h-full w-full object-cover"
+                className="slider-img aspect-square h-full w-full object-contain"
                 style={{ translate: `${-100 * imageIndex}%` }}
               />
             </div>
           ))}
         </div>
-        <button
-          onClick={handleShowPrev}
-          className="absolute bottom-0 left-0 top-0 w-[50px] bg-black bg-opacity-10 p-1 text-gray-700 transition-transform hover:-translate-x-[0.1rem] hover:text-gray-600"
-        >
-          <div className="mx-auto flex h-[35px] w-[35px] items-center justify-center rounded-full bg-white bg-opacity-30 p-1.5 shadow-md">
-            <MdKeyboardArrowLeft className="text-2xl" />
-          </div>
-        </button>
-        <button
-          onClick={handleShowNext}
-          className="absolute bottom-0 right-0 top-0 w-[50px] bg-black bg-opacity-10 p-1 text-gray-700 transition-transform hover:translate-x-[0.1rem] hover:text-gray-600"
-        >
-          <div className="mx-auto flex h-[35px] w-[35px] items-center justify-center rounded-full bg-white bg-opacity-30 p-1.5 shadow-md">
-            <MdKeyboardArrowRight className="text-2xl" />
-          </div>
-        </button>
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={handleShowPrev}
+              className="absolute bottom-0 left-0 top-0 w-[50px] bg-black bg-opacity-10 p-1 text-gray-700 transition-transform hover:-translate-x-[0.1rem] hover:text-gray-600"
+            >
+              <div className="mx-auto flex h-[35px] w-[35px] items-center justify-center rounded-full bg-white bg-opacity-30 p-1.5 shadow-md">
+                <MdKeyboardArrowLeft className="text-2xl" />
+              </div>
+            </button>
+            <button
+              onClick={handleShowNext}
+              className="absolute bottom-0 right-0 top-0 w-[50px] bg-black bg-opacity-10 p-1 text-gray-700 transition-transform hover:translate-x-[0.1rem] hover:text-gray-600"
+            >
+              <div className="mx-auto flex h-[35px] w-[35px] items-center justify-center rounded-full bg-white bg-opacity-30 p-1.5 shadow-md">
+                <MdKeyboardArrowRight className="text-2xl" />
+              </div>
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,14 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import {
   fetchImages,
   getLoading as getLoadingImages,
-} from "../features/images/imagesSlice";
+} from "../features/image/imagesSlice";
 import ProfileHeader from "../features/profile/ProfileHeader";
 import {
-  error,
-  getError,
   getLoading as getLoadingProfile,
   getProfile,
   getUserProfile,
@@ -18,11 +16,9 @@ import { AppDispatch } from "../store";
 import Spinner from "./Spinner";
 
 function ProfileLayout() {
-  const navigate = useNavigate();
   const user = useSelector(getUser);
   const isLoadingProfile = useSelector(getLoadingProfile);
   const isLoadingImages = useSelector(getLoadingImages);
-  const isError = useSelector(getError);
   const profile = useSelector(getUserProfile);
 
   const dispatch: AppDispatch = useDispatch();
@@ -33,13 +29,6 @@ function ProfileLayout() {
   useEffect(() => {
     dispatch(getProfile(userProfileName as string));
   }, [dispatch, userProfileName]);
-
-  useEffect(() => {
-    if (isError) {
-      dispatch(error(false));
-      navigate("/");
-    }
-  }, [navigate, dispatch, isError]);
 
   useEffect(() => {
     dispatch(

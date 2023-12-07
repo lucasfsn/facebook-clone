@@ -1,4 +1,4 @@
-import Images from "../features/images/Images";
+import Images from "../features/image/Images";
 
 function Photos() {
   return <Images />;
