@@ -74,30 +74,22 @@ const profileSlice = createSlice({
   initialState,
   reducers: {
     error(state, action: PayloadAction<boolean>) {
-      if (state) {
-        state.error = action.payload;
-      }
+      state.error = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getProfile.pending, (state) => {
-      if (state) {
-        state.isLoading = true;
-        state.error = false;
-      }
+      state.isLoading = true;
+      state.error = false;
     });
     builder.addCase(getProfile.fulfilled, (state, action) => {
-      if (state) {
-        state.profile = action.payload;
-        state.isLoading = false;
-        state.error = false;
-      }
+      state.profile = action.payload;
+      state.isLoading = false;
+      state.error = false;
     });
     builder.addCase(getProfile.rejected, (state) => {
-      if (state) {
-        state.isLoading = false;
-        state.error = true;
-      }
+      state.isLoading = false;
+      state.error = true;
     });
   },
 });

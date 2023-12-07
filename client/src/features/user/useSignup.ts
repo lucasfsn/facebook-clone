@@ -15,13 +15,13 @@ export function useSignup() {
     try {
       const { message, signUpData } = await signupApi(user);
 
-      dispatch(login(signUpData));
-
       Cookies.set("user", JSON.stringify(signUpData), {
         expires: 1 / 24,
         sameSite: "None",
         secure: true,
       });
+
+      dispatch(login(signUpData));
 
       toast.success(message);
 

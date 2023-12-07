@@ -3,7 +3,11 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getLoading, getUser } from "../features/user/userSlice";
 
-function ProtectedRoute({ children }: { children: ReactNode }) {
+interface ProtectedRouteProps {
+  children: ReactNode;
+}
+
+function ProtectedRoute({ children }: ProtectedRouteProps) {
   const navigate = useNavigate();
   const user = useSelector(getUser);
   const isLoading = useSelector(getLoading);

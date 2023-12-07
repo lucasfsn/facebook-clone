@@ -11,60 +11,50 @@ export interface User {
   email: string;
 }
 
-interface ExistingUserState {
-  user: User;
+interface UserState {
+  user: User | null;
   isLoading: boolean;
   error: boolean;
 }
-
-type UserState = ExistingUserState | null;
 
 interface SettingsChangePayload {
   field: keyof User;
   value: string;
 }
 
-const initialState: UserState = Cookies.get("user")
-  ? {
-      user: JSON.parse(Cookies.get("user") as string),
-      isLoading: false,
-      error: false,
-    }
-  : null;
+const initialState: UserState = {
+  user: Cookies.get("user") ? JSON.parse(Cookies.get("user") as string) : null,
+  isLoading: false,
+  error: false,
+};
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     login(state, action: PayloadAction<User>) {
-      if (state) {
-        state.user = action.payload;
-        state.isLoading = false;
-      }
+      state.user = action.payload;
+      state.isLoading = false;
     },
     logout() {
       return initialState;
     },
-    deleteUser() {
-      return initialState;
-    },
+    deleteUser() {},
     loading(state) {
-      if (state) state.isLoading = true;
+      state.isLoading = true;
     },
     changedPassword(state) {
-      if (state) state.isLoading = false;
+      state.isLoading = false;
     },
     changedSetting(state, action: PayloadAction<SettingsChangePayload>) {
-      if (state) {
+      if (state.user) {
         state.user[action.payload.field] = action.payload.value;
         state.isLoading = false;
       }
     },
     error(state) {
-      if (state) {
-        state.error = true;
-        state.isLoading = false;
-      }
+      state.error = true;
+      state.isLoading = false;
     },
   },
 });
@@ -83,6 +73,6 @@ export default userSlice.reducer;
 
 export const getUser = (state: RootState) => state.user?.user;
 
-export const getUserId = (state: RootState) => state.user?.user.id;
+export const getUserId = (state: RootState) => state.user?.user?.id;
 
 export const getLoading = (state: RootState) => state.user?.isLoading;

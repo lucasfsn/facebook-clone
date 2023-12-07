@@ -52,40 +52,30 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     addPost(state) {
-      if (state) {
-        state.isLoading = false;
-        state.error = false;
-      }
+      state.isLoading = false;
+      state.error = false;
     },
     loading(state) {
-      if (state) state.isLoading = true;
+      state.isLoading = true;
     },
     error(state) {
-      if (state) {
-        state.error = true;
-        state.isLoading = false;
-      }
+      state.error = true;
+      state.isLoading = false;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getPosts.pending, (state) => {
-      if (state) {
-        state.isLoading = true;
-        state.error = false;
-      }
+      state.isLoading = true;
+      state.error = false;
     });
     builder.addCase(getPosts.fulfilled, (state, action) => {
-      if (state) {
-        state.posts = action.payload;
-        state.isLoading = false;
-        state.error = false;
-      }
+      state.posts = action.payload;
+      state.isLoading = false;
+      state.error = false;
     });
     builder.addCase(getPosts.rejected, (state) => {
-      if (state) {
-        state.isLoading = false;
-        state.error = true;
-      }
+      state.isLoading = false;
+      state.error = true;
     });
   },
 });

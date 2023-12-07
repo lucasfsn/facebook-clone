@@ -34,23 +34,17 @@ const imagesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchImages.pending, (state) => {
-      if (state) {
-        state.isLoading = true;
-        state.error = false;
-      }
+      state.isLoading = true;
+      state.error = false;
     });
     builder.addCase(fetchImages.fulfilled, (state, action) => {
-      if (state) {
-        state.images = action.payload;
-        state.isLoading = false;
-        state.error = false;
-      }
+      state.images = action.payload;
+      state.isLoading = false;
+      state.error = false;
     });
     builder.addCase(fetchImages.rejected, (state) => {
-      if (state) {
-        state.isLoading = false;
-        state.error = true;
-      }
+      state.isLoading = false;
+      state.error = true;
     });
   },
 });
