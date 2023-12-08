@@ -71,7 +71,7 @@ async function cloudinaryUpload(
 
 interface GetImagesReq {
   body: {
-    path: string;
+    paths: string[];
     sort: 'asc' | 'desc';
     max: number;
   };
@@ -82,10 +82,12 @@ export const getImages: RequestHandler = async (
   res: Response
 ) => {
   try {
-    const { path, sort } = req.body;
+    const { paths, sort } = req.body;
+
+    const expression = paths.join(' OR ');
 
     cloudinary.search
-      .expression(path)
+      .expression(expression)
       .sort_by('public_id', sort)
       .execute()
       .then(data => {

@@ -32,6 +32,11 @@ interface ChangeUserInfoBody {
   value: string;
 }
 
+interface ChangeProfilePictureBody {
+  userId: string;
+  image: string;
+}
+
 export const signUp: RequestHandler<
   unknown,
   unknown,
@@ -310,6 +315,25 @@ export const getUserProfile: RequestHandler<
     ]);
 
     res.json(...userWithPosts);
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const updateProfileImage: RequestHandler<
+  unknown,
+  unknown,
+  ChangeProfilePictureBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { userId, image } = req.body;
+
+    const user = await UserModel.findByIdAndUpdate(userId, {
+      picture: image,
+    });
+
+    res.json(user);
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }

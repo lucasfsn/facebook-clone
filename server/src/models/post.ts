@@ -2,7 +2,7 @@ import { InferSchemaType, model, Schema } from 'mongoose';
 
 const postSchema = new Schema(
   {
-    type: { type: String, enum: ['profile', 'cover', null], default: null },
+    type: { type: String, enum: ['profile', 'cover', 'post'], default: 'post' },
     images: { type: Array },
     content: { type: String },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },

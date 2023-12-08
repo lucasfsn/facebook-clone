@@ -4,7 +4,7 @@ import PostModel from '../models/post';
 interface PostBody {
   content: string;
   images?: string[];
-  user: string;
+  userId: string;
 }
 
 export const createPost: RequestHandler<
@@ -14,6 +14,7 @@ export const createPost: RequestHandler<
   unknown
 > = async (req, res) => {
   try {
+    console.log(req.body);
     const newPost = await PostModel.create(req.body);
 
     res.json({
