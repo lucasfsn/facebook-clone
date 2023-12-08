@@ -8,4 +8,5 @@ export const userRouter = Router()
   .post('/login', UserController.login)
   .patch('/change-password', UserController.changePassword)
   .put('/change/:data', UserController.changeUserInfo)
-  .delete('/delete/:id', UserController.deleteUser);
+  .delete('/delete/:id', UserController.deleteUser)
+  .patch('/profile/updatePicture', UserController.updateProfileImage);
