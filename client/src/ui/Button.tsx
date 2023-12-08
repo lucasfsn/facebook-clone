@@ -14,7 +14,7 @@ function Button({
   return (
     <button
       type="submit"
-      className={`${className} rounded-lg px-4 py-1.5 text-lg font-bold text-white`}
+      className={`${className} rounded-md px-4 py-1.5 text-lg font-bold text-white`}
       disabled={disabled}
       onClick={onClick}
     >

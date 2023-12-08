@@ -61,6 +61,19 @@ $--bg-post-dark: #5a5c5c;
   .bg-post-disabled:disabled {
     background-color: $--bg-post-light;
   }
+  .profile-post {
+    background: linear-gradient(
+      0deg,
+      $--bg-color-light-primary 50%,
+      $--bg-tertiary-light 50%
+    );
+    padding: 0.5rem;
+
+    img {
+      border: 4px solid $--bg-color-light-primary;
+    }
+  }
+
   *::-webkit-scrollbar-thumb {
     background-color: rgba($color: #c3c3c3, $alpha: 1);
     border-radius: 10px;
@@ -103,6 +116,19 @@ $--bg-post-dark: #5a5c5c;
   .bg-post-disabled:disabled {
     background-color: $--bg-post-dark;
   }
+  .profile-post {
+    background: linear-gradient(
+      0deg,
+      $--bg-color-dark-primary 50%,
+      $--bg-tertiary-dark 50%
+    );
+    padding: 0.5rem;
+
+    img {
+      border: 4px solid $--bg-color-dark-primary;
+    }
+  }
+
   *::-webkit-scrollbar-thumb {
     background-color: rgba($color: #c3c3c3, $alpha: 0.3);
     border-radius: 10px;

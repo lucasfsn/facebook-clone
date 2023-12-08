@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction, useRef } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useRef } from "react";
 import toast from "react-hot-toast";
 import { HiXMark } from "react-icons/hi2";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { MAX_FILE_SIZE, VALID_MIMETYPES } from "../../utils/constants";
-import ImagesGridPost from "../image/ImagesGridPost";
+import ImagesPost from "../image/ImagesPost";
 
 interface AddPostFormImageProps {
   images: string[];
@@ -18,7 +18,7 @@ function AddPostFormImage({
 }: AddPostFormImageProps) {
   const imageRef = useRef<HTMLInputElement>(null);
 
-  function handleAddImage(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
     Array.from(e.target.files).forEach((file) => {
@@ -83,7 +83,7 @@ function AddPostFormImage({
           onChange={handleAddImage}
           accept="image/jpeg,image/png,image/gif"
         />
-        <ImagesGridPost images={images} />
+        <ImagesPost images={images} type="post" />
         {images.length === 0 && (
           <div
             className="flex h-[150px] flex-col items-center justify-center"

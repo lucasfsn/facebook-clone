@@ -3,7 +3,7 @@ import EmojiPicker, {
   EmojiStyle,
   Theme,
 } from "emoji-picker-react";
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegSmile } from "react-icons/fa";
 import { HiXMark } from "react-icons/hi2";
@@ -48,7 +48,7 @@ function AddComment() {
     }
   }
 
-  function handleAddImage(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
     const image = e.target.files[0];

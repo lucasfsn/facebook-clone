@@ -39,7 +39,9 @@ const userSlice = createSlice({
     logout() {
       return initialState;
     },
-    deleteUser() {},
+    deleteUser(state) {
+      state.user = null;
+    },
     loading(state) {
       state.isLoading = true;
     },
@@ -51,6 +53,9 @@ const userSlice = createSlice({
         state.user[action.payload.field] = action.payload.value;
         state.isLoading = false;
       }
+    },
+    changedProfilePicture(state, action: PayloadAction<string>) {
+      if (state.user) state.user.picture = action.payload;
     },
     error(state) {
       state.error = true;
@@ -66,6 +71,7 @@ export const {
   loading,
   changedPassword,
   changedSetting,
+  changedProfilePicture,
   error,
 } = userSlice.actions;
 

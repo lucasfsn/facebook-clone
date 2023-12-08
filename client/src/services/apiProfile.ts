@@ -7,3 +7,12 @@ export async function getProfile(username: string) {
 
   return data;
 }
+
+export async function updateProfilePicture(userId: string, image: string) {
+  const { data } = await axios.patch(`${apiUrl}/profile/updatePicture`, {
+    userId,
+    image,
+  });
+
+  return { data };
+}

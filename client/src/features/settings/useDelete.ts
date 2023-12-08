@@ -1,9 +1,9 @@
-import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteAccount as deleteAccountApi } from "../../services/apiSettings";
+import { ResponseError, handleError } from "../../utils/helpers";
 import { deleteUser, error, loading } from "../user/userSlice";
 
 export function useDelete() {
@@ -24,9 +24,7 @@ export function useDelete() {
 
       navigate("/login");
     } catch (err) {
-      axios.isAxiosError(err) && err.code !== "ERR_NETWORK"
-        ? toast.error(err.response?.data.message)
-        : toast.error("An unexpected error occurred.");
+      handleError(err as ResponseError);
 
       dispatch(error());
     }

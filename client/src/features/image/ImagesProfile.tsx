@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import ImageSlider from "../../ui/ImageSlider";
 import { getImages } from "./imagesSlice";
 
-interface ImagesGridProfileProps {
+interface ImagesProfileProps {
   space: number;
   type: "profile" | "photos";
 }
 
-function ImagesGridProfile({ space, type }: ImagesGridProfileProps) {
+function ImagesProfile({ space, type }: ImagesProfileProps) {
   const images = useSelector(getImages);
   const [showSlider, setShowSlider] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<number>(0);
@@ -51,4 +51,4 @@ function ImagesGridProfile({ space, type }: ImagesGridProfileProps) {
   );
 }
 
-export default ImagesGridProfile;
+export default ImagesProfile;

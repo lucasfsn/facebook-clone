@@ -5,8 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 import { useDarkMode } from "../../context/DarkModeContext";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
-import AddCoverModal from "./AddCoverModal";
-import AddProfilePicture from "./AddProfilePicture";
+import AddCoverPhotoModal from "./AddCoverPhotoModal";
+import ChooseProfilePicture from "./ChooseProfilePicture";
 import ProfilePictureModal from "./ProfilePictureModal";
 import { getUserProfile } from "./profileSlice";
 
@@ -73,7 +73,7 @@ function ProfileHeader() {
                       <span>Add cover photo</span>
                     </button>
                     {showAddCover && (
-                      <AddCoverModal
+                      <AddCoverPhotoModal
                         button={coverBtnRef}
                         close={() => setShowAddCover(false)}
                       />
@@ -106,7 +106,7 @@ function ProfileHeader() {
                     </div>
                   </Modal.Open>
                   <Modal.Window name="picture" type="center">
-                    <AddProfilePicture />
+                    <ChooseProfilePicture />
                   </Modal.Window>
                 </Modal>
               </div>

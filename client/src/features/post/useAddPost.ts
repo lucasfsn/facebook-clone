@@ -1,20 +1,14 @@
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import {
-  PostData,
-  addImage,
-  addPost as addPostApi,
-} from "../../services/apiPost";
-import { imageToBlob } from "../../utils/helpers";
+import { addImage } from "../../services/apiImages";
+import { PostData, addPost as addPostApi } from "../../services/apiPost";
+import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { addPost, error, loading } from "./postSlice";
 
 export function useAddPost() {
   const dispatch = useDispatch();
 
   async function createPostWithImages(post: PostData, username: string) {
-    if (!post.images) return;
-
     dispatch(loading());
 
     try {
@@ -34,11 +28,7 @@ export function useAddPost() {
 
       await createPost({ ...post, images: data.images });
     } catch (err) {
-      axios.isAxiosError(err) &&
-      err.code !== "ERR_NETWORK" &&
-      err.code !== "ERR_BAD_REQUEST"
-        ? toast.error(err.response?.data.message)
-        : toast.error("An unexpected error occurred");
+      handleError(err as ResponseError);
 
       dispatch(error());
     }
@@ -54,11 +44,7 @@ export function useAddPost() {
 
       toast.success(message);
     } catch (err) {
-      axios.isAxiosError(err) &&
-      err.code !== "ERR_NETWORK" &&
-      err.code !== "ERR_BAD_REQUEST"
-        ? toast.error(err.response?.data.message)
-        : toast.error("An unexpected error occurred");
+      handleError(err as ResponseError);
 
       dispatch(error());
     }

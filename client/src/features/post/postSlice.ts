@@ -18,7 +18,7 @@ interface User {
 
 export interface PostRes {
   _id: string;
-  type: "profile" | "cover" | null;
+  type: "profile" | "cover" | "post";
   images: string[];
   content: string;
   user: User;

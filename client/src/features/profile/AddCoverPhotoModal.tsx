@@ -3,12 +3,12 @@ import { HiOutlineUpload } from "react-icons/hi";
 import { IoIosImages } from "react-icons/io";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 
-interface AddCoverModalProps {
+interface AddCoverPhotoProps {
   button: RefObject<HTMLButtonElement>;
   close: () => void;
 }
 
-function AddCoverModal({ button, close }: AddCoverModalProps) {
+function AddCoverPhoto({ button, close }: AddCoverPhotoProps) {
   const { ref } = useOutsideClick(close, true, button);
 
   return (
@@ -28,4 +28,4 @@ function AddCoverModal({ button, close }: AddCoverModalProps) {
   );
 }
 
-export default AddCoverModal;
+export default AddCoverPhoto;

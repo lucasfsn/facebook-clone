@@ -1,7 +1,7 @@
 import { LuSettings2 } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import ImagesGridProfile from "../image/ImagesGridProfile";
+import ImagesProfile from "../image/ImagesProfile";
 import AddPost from "../post/AddPost";
 import { getUser } from "../user/userSlice";
 import ProfilePosts from "./ProfilePosts";
@@ -32,7 +32,7 @@ function ProfileMain() {
             </Link>
           </div>
           <div className="h-fit">
-            <ImagesGridProfile type="profile" space={1.5} />
+            <ImagesProfile type="profile" space={1.5} />
           </div>
         </div>
         <div className="bg-primary flex flex-col rounded-md px-4 py-2">

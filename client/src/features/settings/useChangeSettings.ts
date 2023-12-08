@@ -1,7 +1,7 @@
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { changeSettings as changeSettingsApi } from "../../services/apiSettings";
+import { ResponseError, handleError } from "../../utils/helpers";
 import { changedSetting, error, loading } from "../user/userSlice";
 
 export function useChangeSettings() {
@@ -26,9 +26,7 @@ export function useChangeSettings() {
 
       toast.success(message);
     } catch (err) {
-      axios.isAxiosError(err) && err.code !== "ERR_NETWORK"
-        ? toast.error(err.response?.data.message)
-        : toast.error("An unexpected error occurred.");
+      handleError(err as ResponseError);
 
       dispatch(error());
     }

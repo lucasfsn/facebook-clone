@@ -1,11 +1,12 @@
 import { useState } from "react";
 import ImageSlider from "../../ui/ImageSlider";
 
-interface ImagesGridPostProps {
+interface ImagesPostProps {
   images: string[];
+  type: "profile" | "cover" | "post";
 }
 
-function ImagesGridPost({ images }: ImagesGridPostProps) {
+function ImagesPost({ images, type }: ImagesPostProps) {
   const [showSlider, setShowSlider] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number>(0);
 
@@ -34,11 +35,15 @@ function ImagesGridPost({ images }: ImagesGridPostProps) {
                 : images.length % 2 !== 0 && index === 0
                 ? "col-span-6"
                 : "col-span-3"
-            }`}
+            } ${type === "profile" ? "profile-post" : ""}`}
           >
             <img
               src={img}
-              className="aspect-square h-full w-full cursor-pointer object-cover"
+              className={`aspect-square cursor-pointer object-cover ${
+                type === "profile"
+                  ? "mx-auto w-2/3 rounded-full"
+                  : "h-full w-full"
+              }`}
               onClick={() => {
                 setShowSlider(true);
                 setSelectedImage(index);
@@ -62,4 +67,4 @@ function ImagesGridPost({ images }: ImagesGridPostProps) {
   );
 }
 
-export default ImagesGridPost;
+export default ImagesPost;

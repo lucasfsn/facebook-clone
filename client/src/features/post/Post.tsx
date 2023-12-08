@@ -7,10 +7,10 @@ import { IoArrowRedoOutline, IoChatbubbleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import ReactionsModal from "../../ui/ReactionsModal";
+import ImagesPost from "../image/ImagesPost";
 import { ProfileRes } from "../profile/profileSlice";
 import { getUserId } from "../user/userSlice";
 import AddComment from "./AddComment";
-import PostImages from "./PostImages";
 import PostMenu from "./PostMenu";
 import { PostRes } from "./postSlice";
 
@@ -45,9 +45,20 @@ function Post({ post, postCreator }: PostProps) {
               className="h-[40px] w-auto rounded-full"
             />
             <div className="flex flex-col">
-              <span className="text-lg font-semibold">
-                {postCreator?.firstName} {postCreator?.lastName}
-              </span>
+              {post.type === "profile" ? (
+                <div className="flex flex-row items-center gap-1.5">
+                  <span className="font-semibold">
+                    {postCreator?.firstName} {postCreator?.lastName}
+                  </span>
+                  <span className="text-tertiary">
+                    updated his profile picture
+                  </span>
+                </div>
+              ) : (
+                <span className="text-lg font-semibold">
+                  {postCreator?.firstName} {postCreator?.lastName}
+                </span>
+              )}
               <div className="text-tertiary flex flex-row items-center gap-1.5 text-xs">
                 <span>{formatDistanceToNow(new Date(post.createdAt))}</span>
                 <span>
@@ -77,7 +88,9 @@ function Post({ post, postCreator }: PostProps) {
       </div>
       <div className="flex flex-col gap-3">
         <span className="px-3">{post.content}</span>
-        {post.images?.length !== 0 && <PostImages images={post.images} />}
+        {post.images?.length !== 0 && (
+          <ImagesPost images={post.images} type={post.type} />
+        )}
       </div>
       <div className="text-tertiary flex flex-col gap-1 px-3">
         <div className="separator flex flex-row justify-between border-b pb-1">

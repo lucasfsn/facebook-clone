@@ -27,13 +27,19 @@ function AddPostForm() {
     images.length !== 0
       ? await createPostWithImages(
           {
+            type: "post",
             content: post,
             images,
-            user: user.id,
+            userId: user.id,
           },
           user.username,
         )
-      : await createPost({ content: post, user: user.id });
+      : await createPost({
+          type: "post",
+          content: post,
+          userId: user.id,
+          images: [],
+        });
 
     if (error) return;
 

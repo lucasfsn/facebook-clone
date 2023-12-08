@@ -1,3 +1,6 @@
+import axios from "axios";
+import toast from "react-hot-toast";
+
 export const getMonths = () => {
   const months = {
     0: "Jan",
@@ -38,4 +41,23 @@ export const imageToBlob = (dataURI: string): Blob => {
   );
 
   return new Blob([ia], { type: mimeString });
+};
+
+export type ResponseError = {
+  code: string;
+  response?: { data: { message: string } };
+};
+
+export const handleError = (err: ResponseError) => {
+  if (axios.isAxiosError(err)) {
+    switch (err.code) {
+      case "ERR_NETWORK":
+        toast.error("An unexpected error occurred");
+        break;
+      default:
+        toast.error(err.response?.data.message);
+    }
+  } else {
+    toast.error("An unexpected error occurred");
+  }
 };

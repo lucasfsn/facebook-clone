@@ -73,8 +73,16 @@ const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
-    error(state, action: PayloadAction<boolean>) {
-      state.error = action.payload;
+    updatePicture(state, action: PayloadAction<string>) {
+      state.profile.picture = action.payload;
+      state.isLoading = false;
+      state.error = false;
+    },
+    loading(state) {
+      state.isLoading = true;
+    },
+    error(state) {
+      state.error = true;
     },
   },
   extraReducers: (builder) => {
@@ -94,7 +102,7 @@ const profileSlice = createSlice({
   },
 });
 
-export const { error } = profileSlice.actions;
+export const { updatePicture, error, loading } = profileSlice.actions;
 
 export default profileSlice.reducer;
 

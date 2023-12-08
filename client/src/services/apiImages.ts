@@ -3,7 +3,7 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
 export interface ImagesData {
-  path: string;
+  paths: string[];
   sort: "asc" | "desc";
 }
 
@@ -11,4 +11,14 @@ export async function getImages(body: ImagesData) {
   const { data } = await axios.post(`${apiUrl}/image/getAll`, body);
 
   return data.resources;
+}
+
+export async function addImage(formData: FormData) {
+  const { data } = await axios.post(`${apiUrl}/image/upload`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return { data };
 }
