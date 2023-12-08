@@ -3,7 +3,7 @@ import { RefObject, useEffect, useRef } from "react";
 export function useOutsideClick(
   handler: () => void,
   listenCapturing = true,
-  button?: RefObject<HTMLButtonElement>,
+  button?: RefObject<HTMLElement>,
 ) {
   const ref = useRef<HTMLDivElement>(null);
 

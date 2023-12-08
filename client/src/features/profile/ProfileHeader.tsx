@@ -3,12 +3,15 @@ import { FaCamera, FaPencilAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { useDarkMode } from "../../context/DarkModeContext";
+import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
 import AddCoverModal from "./AddCoverModal";
+import AddProfilePicture from "./AddProfilePicture";
+import ProfilePictureModal from "./ProfilePictureModal";
 import { getUserProfile } from "./profileSlice";
 
 function ProfileHeader() {
-  const { darkMode } = useDarkMode();
+  const { isDarkMode } = useDarkMode();
   const location = useLocation();
 
   const profile = useSelector(getUserProfile);
@@ -18,6 +21,8 @@ function ProfileHeader() {
     "home",
   );
   const [showAddCover, setShowAddCover] = useState<boolean>(false);
+  const [showProfilePictureModal, setShowProfilePictureModal] =
+    useState<boolean>(false);
 
   useEffect(() => {
     if (location.pathname.includes("/photos")) {
@@ -29,7 +34,8 @@ function ProfileHeader() {
     }
   }, [location.pathname]);
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const coverBtnRef = useRef<HTMLButtonElement>(null);
+  const profilePictureRef = useRef<HTMLImageElement>(null);
 
   const isProfileOwner = profile?.username === user?.username ? true : false;
 
@@ -37,9 +43,9 @@ function ProfileHeader() {
     setShowAddCover((show) => !show);
   }
 
-  const userSystemMode = window.matchMedia(
-    "(prefers-color-scheme: dark)",
-  ).matches;
+  function handleShowProfilePictureModal() {
+    setShowProfilePictureModal((show) => !show);
+  }
 
   return (
     <div className="text-secondary flex w-full flex-col shadow-md">
@@ -51,7 +57,7 @@ function ProfileHeader() {
             ) : (
               <div
                 className={`flex h-full w-full justify-end bg-gradient-to-t shadow-3xl xl:mx-auto xl:w-4/6 xl:rounded-b-lg ${
-                  darkMode === "on" || (darkMode === "auto" && userSystemMode)
+                  isDarkMode
                     ? "from-black via-neutral-950 to-neutral-900"
                     : "from-gray-400 via-gray-100 to-white"
                 }`}
@@ -61,14 +67,14 @@ function ProfileHeader() {
                     <button
                       onClick={handleShowCover}
                       className="flex flex-row items-center gap-1.5 self-end rounded-md bg-black bg-opacity-60 px-3 py-1.5 text-white hover:bg-opacity-70 active:text-[0.95rem]"
-                      ref={buttonRef}
+                      ref={coverBtnRef}
                     >
                       <FaCamera />
                       <span>Add cover photo</span>
                     </button>
                     {showAddCover && (
                       <AddCoverModal
-                        button={buttonRef}
+                        button={coverBtnRef}
                         close={() => setShowAddCover(false)}
                       />
                     )}
@@ -79,15 +85,30 @@ function ProfileHeader() {
           </div>
           <div className="flex flex-row items-center px-3 xl:mx-auto xl:w-4/6">
             <div className="relative h-[110px]">
-              <div className="bg-primary -translate-y-1/2 cursor-pointer rounded-full p-1">
+              <div className="bg-primary relative -translate-y-1/2 cursor-pointer rounded-full p-1">
+                {showProfilePictureModal && (
+                  <ProfilePictureModal
+                    button={profilePictureRef}
+                    close={() => setShowProfilePictureModal(false)}
+                  />
+                )}
                 <img
-                  className="h-[160px] min-w-[160px] rounded-full"
+                  className="h-[160px] min-w-[160px] rounded-full hover:brightness-105"
                   src={profile?.picture}
                   alt="profile"
+                  ref={profilePictureRef}
+                  onClick={handleShowProfilePictureModal}
                 />
-                <div className="bg-tertiary bg-tertiary-hover absolute bottom-3 right-3 cursor-pointer rounded-full p-2 text-xl">
-                  <FaCamera />
-                </div>
+                <Modal>
+                  <Modal.Open opens="picture">
+                    <div className="bg-tertiary bg-tertiary-hover absolute bottom-3 right-3 cursor-pointer rounded-full p-2 text-xl">
+                      <FaCamera />
+                    </div>
+                  </Modal.Open>
+                  <Modal.Window name="picture" type="center">
+                    <AddProfilePicture />
+                  </Modal.Window>
+                </Modal>
               </div>
             </div>
             <div className="flex flex-col">

@@ -13,7 +13,7 @@ function AddCoverModal({ button, close }: AddCoverModalProps) {
 
   return (
     <div
-      className="bg-primary text-secondary absolute right-4 flex w-[300px] flex-col rounded-lg p-2"
+      className="bg-primary text-secondary absolute right-4 z-10 flex w-[300px] flex-col rounded-lg p-2"
       ref={ref}
     >
       <div className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1">

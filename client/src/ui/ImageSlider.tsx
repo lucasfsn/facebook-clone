@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 
@@ -26,12 +27,11 @@ function ImageSlider({ images, close, start = 0 }: ImageSliderProps) {
       return i + 1;
     });
   }
-  console.log(images.length);
 
-  return (
+  return createPortal(
     <div className="fixed bottom-0 left-0 right-0 top-0 z-50 backdrop-blur-sm">
       <div
-        className="absolute left-1/2 top-1/2 z-50 h-full w-2/3 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-black shadow-2xl"
+        className="absolute left-1/2 top-1/2 h-full w-2/3 -translate-x-1/2 -translate-y-1/2 overflow-hidden bg-black shadow-2xl"
         ref={ref}
       >
         <div className="flex h-full flex-row overflow-hidden ">
@@ -70,7 +70,8 @@ function ImageSlider({ images, close, start = 0 }: ImageSliderProps) {
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

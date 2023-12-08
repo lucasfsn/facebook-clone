@@ -38,7 +38,7 @@ function ImagesGridPost({ images }: ImagesGridPostProps) {
           >
             <img
               src={img}
-              className="h-full w-full object-cover"
+              className="aspect-square h-full w-full cursor-pointer object-cover"
               onClick={() => {
                 setShowSlider(true);
                 setSelectedImage(index);

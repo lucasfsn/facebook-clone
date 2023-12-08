@@ -100,6 +100,9 @@ export default profileSlice.reducer;
 
 export const getUserProfile = (state: RootState) => state.profile?.profile;
 
+export const getProfilePicture = (state: RootState) =>
+  state.profile?.profile?.picture;
+
 export const getLoading = (state: RootState) => state.profile?.isLoading;
 
 export const getError = (state: RootState) => state.profile?.error;

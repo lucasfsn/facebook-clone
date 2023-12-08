@@ -6,6 +6,7 @@ export type DarkModeOptions = "off" | "on" | "auto";
 interface DarkModeContextProps {
   darkMode: DarkModeOptions;
   toggleDarkMode: (value: DarkModeOptions) => void;
+  isDarkMode: boolean;
 }
 
 const DarkModeContext = createContext<DarkModeContextProps | undefined>(
@@ -21,6 +22,9 @@ function DarkModeProvider({ children }: { children: ReactNode }) {
   const userSystemDarkMode = window.matchMedia(
     "(prefers-color-scheme: dark)",
   ).matches;
+
+  const isDarkMode =
+    darkMode === "on" || (darkMode === "auto" && userSystemDarkMode);
 
   useEffect(
     function () {
@@ -40,7 +44,7 @@ function DarkModeProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <DarkModeContext.Provider value={{ darkMode, toggleDarkMode }}>
+    <DarkModeContext.Provider value={{ darkMode, isDarkMode, toggleDarkMode }}>
       {children}
     </DarkModeContext.Provider>
   );
