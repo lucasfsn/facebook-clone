@@ -21,10 +21,15 @@ const userSchema = new Schema(
     picture: {
       type: String,
       default:
-        'https://res.cloudinary.com/dmhcnhtng/image/upload/v1643044376/avatars/default_pic_jeaybr.png',
+        'https://res.cloudinary.com/dhpga2rn0/image/upload/v1702139212/fvvdti7ojiigh9ekivvk.png',
     },
     cover: { type: String, trim: true },
-    gender: { type: String, required: true, trim: true },
+    gender: {
+      type: String,
+      enum: ['male', 'female', 'other'],
+      required: true,
+      trim: true,
+    },
     birthDay: { type: Number, required: true, trim: true },
     birthMonth: { type: Number, required: true, trim: true },
     birthYear: { type: Number, required: true, trim: true },
@@ -56,12 +61,6 @@ const userSchema = new Schema(
       bio: {
         type: String,
       },
-      secondName: {
-        type: String,
-      },
-      job: {
-        type: String,
-      },
       workplace: {
         type: String,
       },
@@ -79,10 +78,15 @@ const userSchema = new Schema(
       },
       relationship: {
         type: String,
-        enum: ['Single', 'Married', 'Divorced', 'In a relationship'],
-      },
-      instagram: {
-        type: String,
+        enum: [
+          'Single',
+          'Married',
+          'Divorced',
+          'In a relationship',
+          'Engaged',
+          'Separated',
+          'Widowed',
+        ],
       },
     },
     savedPosts: [

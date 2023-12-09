@@ -11,4 +11,6 @@ export const userRouter = Router()
   .delete('/delete/:id', UserController.deleteUser)
   .patch('/profile/updatePicture', UserController.updateProfileImage)
   .patch('/profile/updateCover', UserController.updateCoverImage)
-  .delete('/profile/:id/removeCover', UserController.removeCoverPhoto);
+  .delete('/profile/:id/removeCover', UserController.removeCoverPhoto)
+  .delete('/profile/:id/removePicture', UserController.removeProfilePicture)
+  .patch('/profile/updateDetails', UserController.updateDetails);

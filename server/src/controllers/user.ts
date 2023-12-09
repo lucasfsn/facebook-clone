@@ -51,6 +51,19 @@ interface DeleteByIdParams {
   id: string;
 }
 
+interface UpdateUserDetailsBody {
+  details: {
+    bio?: string;
+    workplace?: string;
+    highschool?: string;
+    college?: string;
+    currentCity?: string;
+    homeTown?: string;
+    relationship?: string;
+  };
+  userId: string;
+}
+
 export const signUp: RequestHandler<
   unknown,
   unknown,
@@ -399,6 +412,52 @@ export const removeCoverPhoto: RequestHandler<
     });
 
     res.json({ message: 'Cover photo removed successfully' });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const removeProfilePicture: RequestHandler<
+  DeleteByIdParams,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        picture: UserModel.schema.path('picture').options.default,
+      },
+      { new: true }
+    );
+
+    res.json({ user, message: 'Profile picture removed successfully' });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const updateDetails: RequestHandler<
+  unknown,
+  unknown,
+  UpdateUserDetailsBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { details, userId } = req.body;
+
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        details,
+      },
+      { new: true }
+    );
+
+    res.json({ user, message: 'Profile details updated successfully' });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
