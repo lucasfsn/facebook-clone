@@ -2,26 +2,22 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addImage } from "../../services/apiImages";
-import { updateProfilePicture as updateProfilePictureApi } from "../../services/apiProfile";
+import { updateCover as updateCoverApi } from "../../services/apiProfile";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
-import { User, changedProfilePicture } from "../user/userSlice";
+import { User } from "../user/userSlice";
 import { error, loading, updateProfile } from "./profileSlice";
 
-export function useUpdateProfilePicture() {
+export function useUpdateCover() {
   const { createPost } = useAddPost();
   const dispatch = useDispatch();
 
-  async function updateProfilePicture(
-    image: string,
-    user: User,
-    description: string,
-  ) {
+  async function updateCover(image: string, user: User) {
     dispatch(loading());
 
     try {
       const blobImage = imageToBlob(image);
-      const imagePath = `${user.username}/profile/profilePicture`;
+      const imagePath = `${user.username}/profile/profileCover`;
 
       const formData = new FormData();
 
@@ -30,11 +26,11 @@ export function useUpdateProfilePicture() {
 
       const { data } = await addImage(formData);
 
-      const { res } = await updateProfilePictureApi(user.id, data.images[0]);
+      const { res } = await updateCoverApi(user.id, data.images[0]);
 
       await createPost({
-        type: "profile",
-        content: description,
+        type: "cover",
+        content: "",
         images: data.images,
         userId: user.id,
       });
@@ -47,10 +43,9 @@ export function useUpdateProfilePicture() {
         }),
       );
 
-      dispatch(updateProfile({ picture: res.picture }));
-      dispatch(changedProfilePicture(res.picture));
+      dispatch(updateProfile({ cover: res.cover }));
 
-      toast.success("Profile picture updated successfully");
+      toast.success("Your cover has been updated successfully");
     } catch (err) {
       handleError(err as ResponseError);
 
@@ -58,5 +53,5 @@ export function useUpdateProfilePicture() {
     }
   }
 
-  return { updateProfilePicture };
+  return { updateCover };
 }

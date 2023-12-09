@@ -45,19 +45,20 @@ function Post({ post, postCreator }: PostProps) {
               className="h-[40px] w-auto rounded-full"
             />
             <div className="flex flex-col">
-              {post.type === "profile" ? (
+              {post.type === "post" ? (
+                <span className="text-lg font-semibold">
+                  {postCreator?.firstName} {postCreator?.lastName}
+                </span>
+              ) : (
                 <div className="flex flex-row items-center gap-1.5">
                   <span className="font-semibold">
                     {postCreator?.firstName} {postCreator?.lastName}
                   </span>
                   <span className="text-tertiary">
-                    updated his profile picture
+                    updated his{" "}
+                    {post.type === "cover" ? "cover photo" : "profile picture"}.
                   </span>
                 </div>
-              ) : (
-                <span className="text-lg font-semibold">
-                  {postCreator?.firstName} {postCreator?.lastName}
-                </span>
               )}
               <div className="text-tertiary flex flex-row items-center gap-1.5 text-xs">
                 <span>{formatDistanceToNow(new Date(post.createdAt))}</span>

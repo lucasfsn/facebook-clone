@@ -2,16 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { FaCamera, FaPencilAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { useDarkMode } from "../../context/DarkModeContext";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
-import AddCoverPhotoModal from "./AddCoverPhotoModal";
 import ChooseProfilePicture from "./ChooseProfilePicture";
+import ProfileCover from "./ProfileCover";
 import ProfilePictureModal from "./ProfilePictureModal";
 import { getUserProfile } from "./profileSlice";
 
 function ProfileHeader() {
-  const { isDarkMode } = useDarkMode();
   const location = useLocation();
 
   const profile = useSelector(getUserProfile);
@@ -20,7 +18,6 @@ function ProfileHeader() {
   const [activePage, setActivePage] = useState<"home" | "friends" | "photos">(
     "home",
   );
-  const [showAddCover, setShowAddCover] = useState<boolean>(false);
   const [showProfilePictureModal, setShowProfilePictureModal] =
     useState<boolean>(false);
 
@@ -34,14 +31,9 @@ function ProfileHeader() {
     }
   }, [location.pathname]);
 
-  const coverBtnRef = useRef<HTMLButtonElement>(null);
   const profilePictureRef = useRef<HTMLImageElement>(null);
 
   const isProfileOwner = profile?.username === user?.username ? true : false;
-
-  function handleShowCover() {
-    setShowAddCover((show) => !show);
-  }
 
   function handleShowProfilePictureModal() {
     setShowProfilePictureModal((show) => !show);
@@ -51,38 +43,7 @@ function ProfileHeader() {
     <div className="text-secondary flex w-full flex-col shadow-md">
       <div className="flex flex-row">
         <div className="bg-primary flex w-full flex-col gap-2">
-          <div className="h-[300px]">
-            {profile?.cover ? (
-              <img src={profile.cover} />
-            ) : (
-              <div
-                className={`flex h-full w-full justify-end bg-gradient-to-t shadow-3xl xl:mx-auto xl:w-4/6 xl:rounded-b-lg ${
-                  isDarkMode
-                    ? "from-black via-neutral-950 to-neutral-900"
-                    : "from-gray-400 via-gray-100 to-white"
-                }`}
-              >
-                {isProfileOwner && (
-                  <div className="relative self-end px-4 py-2">
-                    <button
-                      onClick={handleShowCover}
-                      className="flex flex-row items-center gap-1.5 self-end rounded-md bg-black bg-opacity-60 px-3 py-1.5 text-white hover:bg-opacity-70 active:text-[0.95rem]"
-                      ref={coverBtnRef}
-                    >
-                      <FaCamera />
-                      <span>Add cover photo</span>
-                    </button>
-                    {showAddCover && (
-                      <AddCoverPhotoModal
-                        button={coverBtnRef}
-                        close={() => setShowAddCover(false)}
-                      />
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          <ProfileCover isProfileOwner={isProfileOwner} />
           <div className="flex flex-row items-center px-3 xl:mx-auto xl:w-4/6">
             <div className="relative h-[110px]">
               <div className="bg-primary relative -translate-y-1/2 cursor-pointer rounded-full p-1">

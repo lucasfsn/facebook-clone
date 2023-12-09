@@ -39,10 +39,12 @@ function ImagesPost({ images, type }: ImagesPostProps) {
           >
             <img
               src={img}
-              className={`aspect-square cursor-pointer object-cover ${
-                type === "profile"
-                  ? "mx-auto w-2/3 rounded-full"
-                  : "h-full w-full"
+              className={`cursor-pointer object-cover ${
+                type === "cover"
+                  ? "aspect-video h-full w-full"
+                  : type === "profile"
+                  ? "mx-auto aspect-square w-2/3 rounded-full"
+                  : "aspect-square h-full w-full"
               }`}
               onClick={() => {
                 setShowSlider(true);

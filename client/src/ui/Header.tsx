@@ -32,7 +32,7 @@ function Header() {
     location.pathname === "/" ? "home" : location.pathname.split("/")[1];
 
   return (
-    <header className="bg-primary fixed left-0 top-0 z-10 grid h-[55px] w-full grid-cols-3 px-3 py-[4px] shadow-md">
+    <header className="bg-primary fixed left-0 top-0 z-30 grid h-[55px] w-full grid-cols-3 px-3 py-[4px] shadow-md">
       <div className="flex flex-row items-center gap-5">
         <Link to="/">
           <Logo style="icon" />

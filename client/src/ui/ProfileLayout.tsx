@@ -41,6 +41,7 @@ function ProfileLayout() {
         paths: [
           `${user?.username}/posts/images`,
           `${user?.username}/profile/profilePicture`,
+          `${user?.username}/profile/profileCover`,
         ],
         sort: "desc",
       }),

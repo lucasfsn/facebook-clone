@@ -1,15 +1,27 @@
 import { RefObject } from "react";
-import { HiOutlineUpload } from "react-icons/hi";
+import { HiOutlineTrash, HiOutlineUpload } from "react-icons/hi";
 import { IoIosImages } from "react-icons/io";
+import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { getUserId } from "../user/userSlice";
+import { useRemoveCover } from "./useRemoveCover";
 
-interface AddCoverPhotoProps {
+interface AddCoverPhotoModalProps {
   button: RefObject<HTMLButtonElement>;
   close: () => void;
+  uploadCoverRef: RefObject<HTMLInputElement>;
+  showRemove: boolean;
 }
 
-function AddCoverPhoto({ button, close }: AddCoverPhotoProps) {
+function AddCoverPhotoModal({
+  button,
+  close,
+  uploadCoverRef,
+  showRemove,
+}: AddCoverPhotoModalProps) {
   const { ref } = useOutsideClick(close, true, button);
+  const userId = useSelector(getUserId);
+  const { removeCover } = useRemoveCover();
 
   return (
     <div
@@ -20,12 +32,28 @@ function AddCoverPhoto({ button, close }: AddCoverPhotoProps) {
         <IoIosImages />
         <span>Choose cover photo</span>
       </div>
-      <div className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1">
+      <div
+        className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1"
+        onClick={() => {
+          uploadCoverRef.current?.click();
+        }}
+      >
         <HiOutlineUpload />
         <span>Upload photo</span>
       </div>
+      {showRemove && (
+        <div
+          className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1"
+          onClick={() => {
+            if (userId) removeCover(userId);
+          }}
+        >
+          <HiOutlineTrash />
+          <span>Remove</span>
+        </div>
+      )}
     </div>
   );
 }
 
-export default AddCoverPhoto;
+export default AddCoverPhotoModal;
