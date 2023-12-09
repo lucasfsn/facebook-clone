@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Details } from "../features/profile/profileSlice";
 
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -32,4 +33,21 @@ export async function removeCoverPhoto(userId: string) {
   );
 
   return { message: data.message };
+}
+
+export async function removeProfilePicture(userId: string) {
+  const { data } = await axios.delete(
+    `${apiUrl}/profile/${userId}/removePicture`,
+  );
+
+  return { updatedUser: data.user, message: data.message };
+}
+
+export async function updateUserDetails(details: Details, userId: string) {
+  const { data } = await axios.patch(`${apiUrl}/profile/updateDetails`, {
+    details,
+    userId,
+  });
+
+  return { updatedUser: data.user, message: data.message };
 }

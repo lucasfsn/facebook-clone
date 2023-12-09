@@ -1,12 +1,15 @@
 import { RefObject, useState } from "react";
 import { BsPersonSquare } from "react-icons/bs";
+import { HiOutlineTrash } from "react-icons/hi";
 import { IoIosImages } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import ImageSlider from "../../ui/ImageSlider";
 import Modal from "../../ui/Modal";
+import { getUser } from "../user/userSlice";
 import ChooseProfilePicture from "./ChooseProfilePicture";
 import { getProfilePicture } from "./profileSlice";
+import { useProfilePicture } from "./useProfilePicture";
 
 interface ProfilePictureModalProps {
   button: RefObject<HTMLImageElement>;
@@ -18,6 +21,9 @@ function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const profilePicture = useSelector(getProfilePicture);
+  const user = useSelector(getUser);
+  const { removeProfilePicture } = useProfilePicture();
+
   const { ref } = useOutsideClick(
     () => {
       if (!isModalOpen) {
@@ -67,6 +73,15 @@ function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
             <ChooseProfilePicture />
           </Modal.Window>
         </Modal>
+        <div
+          className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1"
+          onClick={() => {
+            if (user) removeProfilePicture(user);
+          }}
+        >
+          <HiOutlineTrash />
+          <span>Remove picture</span>
+        </div>
       </div>
     </>
   );

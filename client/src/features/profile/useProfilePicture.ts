@@ -2,13 +2,16 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addImage } from "../../services/apiImages";
-import { updateProfilePicture as updateProfilePictureApi } from "../../services/apiProfile";
+import {
+  removeProfilePicture as removeProfilePictureApi,
+  updateProfilePicture as updateProfilePictureApi,
+} from "../../services/apiProfile";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
 import { User, changedProfilePicture } from "../user/userSlice";
 import { error, loading, updateProfile } from "./profileSlice";
 
-export function useUpdateProfilePicture() {
+export function useProfilePicture() {
   const { createPost } = useAddPost();
   const dispatch = useDispatch();
 
@@ -58,5 +61,30 @@ export function useUpdateProfilePicture() {
     }
   }
 
-  return { updateProfilePicture };
+  async function removeProfilePicture(user: User) {
+    dispatch(loading());
+
+    try {
+      const { updatedUser, message } = await removeProfilePictureApi(user.id);
+
+      Cookies.set(
+        "user",
+        JSON.stringify({
+          ...user,
+          picture: updatedUser.picture,
+        }),
+      );
+
+      dispatch(updateProfile({ picture: updatedUser.picture }));
+      dispatch(changedProfilePicture(updatedUser.picture));
+
+      toast.success(message);
+    } catch (err) {
+      handleError(err as ResponseError);
+
+      dispatch(error());
+    }
+  }
+
+  return { updateProfilePicture, removeProfilePicture };
 }

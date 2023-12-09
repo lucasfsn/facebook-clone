@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ImagesProfile from "../image/ImagesProfile";
 import AddPost from "../post/AddPost";
 import { getUser } from "../user/userSlice";
+import ProfileIntro from "./ProfileIntro";
 import ProfilePosts from "./ProfilePosts";
 import { getUserProfile } from "./profileSlice";
 
@@ -16,6 +17,7 @@ function ProfileMain() {
   return (
     <div className="text-secondary flex w-full flex-col justify-between gap-4 p-4 md:flex-row lg:mx-auto xl:w-4/6">
       <div className="flex flex-col gap-4 md:w-1/2">
+        <ProfileIntro isProfileOwner={isProfileOwner} />
         <div className="bg-primary flex flex-col gap-3 rounded-md px-4 py-2">
           <div className="flex flex-row items-center justify-between">
             <Link

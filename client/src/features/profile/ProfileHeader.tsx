@@ -47,7 +47,7 @@ function ProfileHeader() {
           <div className="flex flex-row items-center px-3 xl:mx-auto xl:w-4/6">
             <div className="relative h-[110px]">
               <div className="bg-primary relative -translate-y-1/2 cursor-pointer rounded-full p-1">
-                {showProfilePictureModal && (
+                {showProfilePictureModal && isProfileOwner && (
                   <ProfilePictureModal
                     button={profilePictureRef}
                     close={() => setShowProfilePictureModal(false)}
@@ -60,16 +60,18 @@ function ProfileHeader() {
                   ref={profilePictureRef}
                   onClick={handleShowProfilePictureModal}
                 />
-                <Modal>
-                  <Modal.Open opens="picture">
-                    <div className="bg-tertiary bg-tertiary-hover absolute bottom-3 right-3 cursor-pointer rounded-full p-2 text-xl">
-                      <FaCamera />
-                    </div>
-                  </Modal.Open>
-                  <Modal.Window name="picture" type="center">
-                    <ChooseProfilePicture />
-                  </Modal.Window>
-                </Modal>
+                {isProfileOwner && (
+                  <Modal>
+                    <Modal.Open opens="picture">
+                      <div className="bg-tertiary bg-tertiary-hover absolute bottom-3 right-3 cursor-pointer rounded-full p-2 text-xl">
+                        <FaCamera />
+                      </div>
+                    </Modal.Open>
+                    <Modal.Window name="picture" type="center">
+                      <ChooseProfilePicture />
+                    </Modal.Window>
+                  </Modal>
+                )}
               </div>
             </div>
             <div className="flex flex-col">

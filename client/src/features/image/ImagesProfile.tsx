@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import ImageSlider from "../../ui/ImageSlider";
+import { getUserProfile } from "../profile/profileSlice";
 import { getImages } from "./imagesSlice";
 
 interface ImagesProfileProps {
@@ -10,12 +11,17 @@ interface ImagesProfileProps {
 
 function ImagesProfile({ space, location }: ImagesProfileProps) {
   const images = useSelector(getImages);
+  const currentProfile = useSelector(getUserProfile);
   const [showSlider, setShowSlider] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<number>(0);
 
   function handleCloseSlider() {
     setShowSlider(false);
   }
+
+  const profileImages = images.filter(
+    (image) => image.owner === currentProfile.username,
+  );
 
   return (
     <div
@@ -27,12 +33,12 @@ function ImagesProfile({ space, location }: ImagesProfileProps) {
     >
       {showSlider && (
         <ImageSlider
-          images={images.map((image) => image.url)}
+          images={profileImages.map((image) => image.url)}
           close={handleCloseSlider}
           start={selectedImage}
         />
       )}
-      {(location === "profile" ? images.slice(0, 9) : images).map(
+      {(location === "profile" ? profileImages.slice(0, 9) : profileImages).map(
         (image, index) => (
           <img
             src={image.url}

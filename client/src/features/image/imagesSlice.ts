@@ -8,6 +8,7 @@ import { RootState } from "../../store";
 interface Image {
   url: string;
   type: "profile" | "cover" | "post";
+  owner: string;
 }
 
 interface ImagesState {
@@ -29,7 +30,8 @@ export const fetchImages = createAsyncThunk<Image[], ImagesData>(
 
     const images = data.map((image: { url: string; folder: string }) => {
       const type = image.folder.includes("profilePicture") ? "profile" : "post";
-      return { url: image.url, type };
+      const owner = image.folder.split("/")[0];
+      return { url: image.url, type, owner };
     });
 
     return images;

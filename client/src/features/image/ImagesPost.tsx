@@ -3,7 +3,7 @@ import ImageSlider from "../../ui/ImageSlider";
 
 interface ImagesPostProps {
   images: string[];
-  type: "profile" | "cover" | "post";
+  type: "profile" | "cover" | "post" | "details";
 }
 
 function ImagesPost({ images, type }: ImagesPostProps) {

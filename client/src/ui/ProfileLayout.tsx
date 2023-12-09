@@ -10,6 +10,7 @@ import {
   getError,
   getLoading as getLoadingProfile,
   getProfile,
+  getUserProfile,
 } from "../features/profile/profileSlice";
 import { getUser } from "../features/user/userSlice";
 import { AppDispatch } from "../store";
@@ -20,6 +21,7 @@ function ProfileLayout() {
   const navigate = useNavigate();
   const { username: paramsUsername } = useParams();
 
+  const profile = useSelector(getUserProfile);
   const user = useSelector(getUser);
 
   const isLoadingImages = useSelector(getLoadingImages);
@@ -39,14 +41,14 @@ function ProfileLayout() {
     dispatch(
       fetchImages({
         paths: [
-          `${user?.username}/posts/images`,
-          `${user?.username}/profile/profilePicture`,
-          `${user?.username}/profile/profileCover`,
+          `${profile?.username}/posts/images`,
+          `${profile?.username}/profile/profilePicture`,
+          `${profile?.username}/profile/profileCover`,
         ],
         sort: "desc",
       }),
     );
-  }, [dispatch, user?.username]);
+  }, [dispatch, profile]);
 
   if (isLoadingProfile || isLoadingImages) return <Spinner />;
 

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getPosts as getPostsApi } from "../../services/apiPost";
 import { RootState } from "../../store";
 
@@ -18,13 +18,14 @@ interface User {
 
 export interface PostRes {
   _id: string;
-  type: "profile" | "cover" | "post";
+  type: "profile" | "cover" | "post" | "details";
   images: string[];
   content: string;
   user: User;
   comments: Comment[];
   createdAt: string;
   updatedAt: Date;
+  key?: string;
 }
 
 interface PostsState {
@@ -51,7 +52,8 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    addPost(state) {
+    addPost(state, action: PayloadAction<{ post: PostRes }>) {
+      state.posts = [action.payload.post, ...state.posts];
       state.isLoading = false;
       state.error = false;
     },

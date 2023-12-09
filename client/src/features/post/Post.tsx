@@ -4,24 +4,22 @@ import { AiOutlineLike } from "react-icons/ai";
 import { FaGlobeEurope } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { IoArrowRedoOutline, IoChatbubbleOutline } from "react-icons/io5";
+import { TbListDetails } from "react-icons/tb";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import ReactionsModal from "../../ui/ReactionsModal";
 import ImagesPost from "../image/ImagesPost";
-import { ProfileRes } from "../profile/profileSlice";
 import { getUserId } from "../user/userSlice";
 import AddComment from "./AddComment";
 import PostMenu from "./PostMenu";
 import { PostRes } from "./postSlice";
 
-type PostCreator = Partial<ProfileRes> | undefined;
-
 interface PostProps {
   post: PostRes;
-  postCreator: PostCreator;
 }
 
-function Post({ post, postCreator }: PostProps) {
+function Post({ post }: PostProps) {
   const [activeLike, setActiveLike] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
@@ -39,27 +37,53 @@ function Post({ post, postCreator }: PostProps) {
       <div className="px-3 pt-3">
         <div className="flex flex-row items-center justify-between">
           <div className="flex flex-row items-center gap-2">
-            <img
-              src={postCreator?.picture}
-              alt={postCreator?.username}
-              className="h-[40px] w-auto rounded-full"
-            />
+            <Link to={`/profile/${post.user.username}`}>
+              <img
+                src={post.user.picture}
+                alt={post.user.username}
+                className="h-[40px] w-auto rounded-full"
+              />
+            </Link>
             <div className="flex flex-col">
-              {post.type === "post" ? (
-                <span className="text-lg font-semibold">
-                  {postCreator?.firstName} {postCreator?.lastName}
-                </span>
-              ) : (
-                <div className="flex flex-row items-center gap-1.5">
-                  <span className="font-semibold">
-                    {postCreator?.firstName} {postCreator?.lastName}
-                  </span>
-                  <span className="text-tertiary">
-                    updated his{" "}
-                    {post.type === "cover" ? "cover photo" : "profile picture"}.
-                  </span>
-                </div>
-              )}
+              {(() => {
+                switch (post.type) {
+                  case "post":
+                    return (
+                      <span className="text-lg font-semibold">
+                        {post.user.firstName} {post.user.lastName}
+                      </span>
+                    );
+                  case "cover":
+                  case "profile":
+                    return (
+                      <div className="flex flex-row items-center gap-1.5">
+                        <span className="font-semibold">
+                          {post.user.firstName} {post.user.lastName}
+                        </span>
+                        <span className="text-tertiary">
+                          updated{" "}
+                          {post.type === "cover"
+                            ? "cover photo"
+                            : "profile picture"}
+                          .
+                        </span>
+                      </div>
+                    );
+                  case "details":
+                    return (
+                      <div className="flex flex-row items-center gap-1.5">
+                        <span className="font-semibold">
+                          {post.user.firstName} {post.user.lastName}
+                        </span>
+                        <span className="text-tertiary">
+                          updated {post.key}
+                        </span>
+                      </div>
+                    );
+                  default:
+                    return null;
+                }
+              })()}
               <div className="text-tertiary flex flex-row items-center gap-1.5 text-xs">
                 <span>{formatDistanceToNow(new Date(post.createdAt))}</span>
                 <span>
@@ -79,7 +103,7 @@ function Post({ post, postCreator }: PostProps) {
             {showMenu && (
               <PostMenu
                 userId={userId}
-                postCreatorId={postCreator?._id}
+                postCreatorId={post.user._id}
                 button={buttonRef}
                 close={() => setShowMenu(false)}
               />
@@ -88,7 +112,16 @@ function Post({ post, postCreator }: PostProps) {
         </div>
       </div>
       <div className="flex flex-col gap-3">
-        <span className="px-3">{post.content}</span>
+        {post.type === "details" ? (
+          <div className="text-secondary flex h-20 flex-col items-center justify-center gap-2">
+            <div className="bg-tertiary rounded-full p-2">
+              <TbListDetails className="text-2xl" />
+            </div>
+            <span className="text-xl">{post.content}</span>
+          </div>
+        ) : (
+          <span className="px-3">{post.content}</span>
+        )}
         {post.images?.length !== 0 && (
           <ImagesPost images={post.images} type={post.type} />
         )}

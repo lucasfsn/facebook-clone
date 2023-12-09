@@ -12,7 +12,7 @@ interface ImageSliderProps {
 function ImageSlider({ images, close, start = 0 }: ImageSliderProps) {
   const [imageIndex, setImageIndex] = useState(start);
 
-  const { ref } = useOutsideClick(close);
+  const { ref } = useOutsideClick(close, true);
 
   function handleShowPrev() {
     setImageIndex((i) => {

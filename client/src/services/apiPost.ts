@@ -3,10 +3,11 @@ import axios from "axios";
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
 export interface PostData {
-  type: "profile" | "cover" | "post";
+  type: "profile" | "cover" | "post" | "details";
   content: string;
   userId: string;
   images: string[];
+  key?: string;
 }
 
 export async function addPost(post: PostData) {

@@ -3,6 +3,24 @@ import { getProfile as getProfileApi } from "../../services/apiProfile";
 import { RootState } from "../../store";
 import { PostRes } from "../post/postSlice";
 
+type Relationship =
+  | "Single"
+  | "Married"
+  | "Divorced"
+  | "In a relationship"
+  | "Engaged"
+  | "Separated"
+  | "Widowed";
+
+export interface Details {
+  bio?: string;
+  workplace?: string;
+  highschool?: string;
+  college?: string;
+  currentCity?: string;
+  hometown?: string;
+  relationship?: Relationship;
+}
 export interface ProfileRes {
   _id: string;
   firstName: string;
@@ -20,6 +38,7 @@ export interface ProfileRes {
   followers: string[];
   friendRequests: string[];
   search: string[];
+  details: Details;
   savedPosts: string[];
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -50,6 +69,15 @@ const initialState: ProfileState = {
     followers: [],
     friendRequests: [],
     search: [],
+    details: {
+      bio: "",
+      workplace: "",
+      highschool: "",
+      college: "",
+      currentCity: "",
+      hometown: "",
+      relationship: undefined,
+    },
     savedPosts: [],
     createdAt: "",
     updatedAt: "",
@@ -95,7 +123,7 @@ const profileSlice = createSlice({
       state.error = false;
     });
     builder.addCase(getProfile.fulfilled, (state, action) => {
-      state.profile = action.payload;
+      state.profile = { ...state.profile, ...action.payload };
       state.isLoading = false;
       state.error = false;
     });
@@ -111,10 +139,13 @@ export const { updateProfile, error, loading, deleteCover } =
 
 export default profileSlice.reducer;
 
-export const getUserProfile = (state: RootState) => state.profile?.profile;
+export const getUserProfile = (state: RootState) => state.profile.profile;
 
 export const getProfilePicture = (state: RootState) =>
-  state.profile?.profile?.picture;
+  state.profile.profile.picture;
+
+export const getProfileDetails = (state: RootState) =>
+  state.profile.profile.details;
 
 export const getLoading = (state: RootState) => state.profile?.isLoading;
 

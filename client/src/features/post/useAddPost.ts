@@ -50,5 +50,21 @@ export function useAddPost() {
     }
   }
 
-  return { createPostWithImages, createPost };
+  async function createDetailsPost(post: PostData) {
+    dispatch(loading());
+
+    try {
+      const { message, postData } = await addPostApi(post);
+
+      dispatch(addPost(postData));
+
+      toast.success(message);
+    } catch (err) {
+      handleError(err as ResponseError);
+
+      dispatch(error());
+    }
+  }
+
+  return { createPostWithImages, createPost, createDetailsPost };
 }

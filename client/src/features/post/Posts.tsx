@@ -19,7 +19,7 @@ function Posts() {
   return (
     <div className="flex w-full flex-col gap-4">
       {posts.map((post) => (
-        <Post key={post._id} post={post} postCreator={post.user} />
+        <Post key={post._id} post={post} />
       ))}
     </div>
   );

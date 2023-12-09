@@ -4,7 +4,7 @@ import { IoIosImages } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { getUserId } from "../user/userSlice";
-import { useRemoveCover } from "./useRemoveCover";
+import { useCover } from "./useCover";
 
 interface AddCoverPhotoModalProps {
   button: RefObject<HTMLButtonElement>;
@@ -21,7 +21,7 @@ function AddCoverPhotoModal({
 }: AddCoverPhotoModalProps) {
   const { ref } = useOutsideClick(close, true, button);
   const userId = useSelector(getUserId);
-  const { removeCover } = useRemoveCover();
+  const { removeCover } = useCover();
 
   return (
     <div

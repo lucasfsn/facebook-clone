@@ -2,15 +2,33 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addImage } from "../../services/apiImages";
-import { updateCover as updateCoverApi } from "../../services/apiProfile";
+import {
+  removeCoverPhoto as removeCoverApi,
+  updateCover as updateCoverApi,
+} from "../../services/apiProfile";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
 import { User } from "../user/userSlice";
-import { error, loading, updateProfile } from "./profileSlice";
+import { deleteCover, error, loading, updateProfile } from "./profileSlice";
 
-export function useUpdateCover() {
+export function useCover() {
   const { createPost } = useAddPost();
   const dispatch = useDispatch();
+
+  async function removeCover(userId: string) {
+    dispatch(loading());
+
+    try {
+      const { message } = await removeCoverApi(userId);
+      dispatch(deleteCover());
+
+      toast.success(message);
+    } catch (err) {
+      handleError(err as ResponseError);
+
+      dispatch(error());
+    }
+  }
 
   async function updateCover(image: string, user: User) {
     dispatch(loading());
@@ -53,5 +71,5 @@ export function useUpdateCover() {
     }
   }
 
-  return { updateCover };
+  return { removeCover, updateCover };
 }

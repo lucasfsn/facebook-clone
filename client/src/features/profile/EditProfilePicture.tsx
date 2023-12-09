@@ -7,7 +7,7 @@ import Loader from "../../ui/Loader";
 import { loadImageFromUrl } from "../../utils/helpers";
 import { getUser } from "../user/userSlice";
 import { getLoading } from "./profileSlice";
-import { useUpdateProfilePicture } from "./useUpdateProfilePicture";
+import { useProfilePicture } from "./useProfilePicture";
 
 interface EditProfilePictureProps {
   image: string;
@@ -25,7 +25,7 @@ function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
   const [position, setPosition] = useState<Position>({ x: 0.5, y: 0.5 });
 
   const isLoading = useSelector(getLoading);
-  const { updateProfilePicture } = useUpdateProfilePicture();
+  const { updateProfilePicture } = useProfilePicture();
 
   const user = useSelector(getUser);
 

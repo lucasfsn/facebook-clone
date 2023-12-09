@@ -11,6 +11,7 @@ import { FaCamera, FaGlobeEurope } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useDarkMode } from "../../context/DarkModeContext";
 import Button from "../../ui/Button";
+import ImageSlider from "../../ui/ImageSlider";
 import {
   MAX_FILE_SIZE,
   MIN_COVER_WIDTH,
@@ -19,7 +20,7 @@ import {
 import { getUser } from "../user/userSlice";
 import AddCoverPhotoModal from "./AddCoverPhotoModal";
 import { getUserProfile } from "./profileSlice";
-import { useUpdateCover } from "./useUpdateCover";
+import { useCover } from "./useCover";
 
 type State = {
   cover: string;
@@ -84,8 +85,9 @@ interface ProfileConverProps {
 function ProfileCover({ isProfileOwner }: ProfileConverProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [width, setWidth] = useState<number>(0);
+  const [showSlider, setShowSlider] = useState<boolean>(false);
 
-  const { updateCover } = useUpdateCover();
+  const { updateCover } = useCover();
   const profile = useSelector(getUserProfile);
   const user = useSelector(getUser);
   const { isDarkMode } = useDarkMode();
@@ -113,6 +115,7 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
 
   function handleShowCover() {
     dispatch({ type: "cover/show" });
+    setShowSlider(false);
   }
 
   function handleCancelCover() {
@@ -200,9 +203,15 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
           </div>
         </div>
       )}
+      {showSlider && profile.cover && (
+        <ImageSlider
+          images={[profile.cover]}
+          close={() => setShowSlider(false)}
+        />
+      )}
       <div
         ref={containerRef}
-        className={`relative flex h-full w-full justify-end bg-gradient-to-t shadow-3xl xl:mx-auto xl:w-4/6 xl:rounded-b-lg ${
+        className={`relative flex h-full w-full cursor-pointer justify-end bg-gradient-to-t shadow-3xl xl:mx-auto xl:w-4/6 xl:rounded-b-lg ${
           isDarkMode
             ? "from-black via-neutral-950 to-neutral-900"
             : "from-gray-400 via-gray-100 to-white"
@@ -210,6 +219,11 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
         style={
           profile.cover ? { backgroundImage: `url(${profile.cover})` } : {}
         }
+        onClick={() => {
+          if (!state.showAddCover && !state.showEditor) {
+            setShowSlider(true);
+          }
+        }}
       >
         {state.showEditor && (
           <AvatarEditor
@@ -233,7 +247,10 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
         {isProfileOwner && state.showCoverButton && (
           <div className="relative self-end px-4 py-2">
             <button
-              onClick={handleShowCover}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleShowCover();
+              }}
               className="flex flex-row items-center gap-1.5 self-end rounded-md bg-black bg-opacity-60 px-3 py-1.5 text-white hover:bg-opacity-70 active:text-[0.95rem]"
               ref={coverBtnRef}
             >
