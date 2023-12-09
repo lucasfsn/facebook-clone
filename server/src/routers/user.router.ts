@@ -9,4 +9,6 @@ export const userRouter = Router()
   .patch('/change-password', UserController.changePassword)
   .put('/change/:data', UserController.changeUserInfo)
   .delete('/delete/:id', UserController.deleteUser)
-  .patch('/profile/updatePicture', UserController.updateProfileImage);
+  .patch('/profile/updatePicture', UserController.updateProfileImage)
+  .patch('/profile/updateCover', UserController.updateCoverImage)
+  .delete('/profile/:id/removeCover', UserController.removeCoverPhoto);

@@ -32,9 +32,23 @@ interface ChangeUserInfoBody {
   value: string;
 }
 
-interface ChangeProfilePictureBody {
+interface ChangeProfileImageBody {
   userId: string;
   image: string;
+}
+
+interface GetUserProfileParams {
+  username: string;
+}
+
+type ChangeUserInfoData = 'firstName' | 'lastName' | 'email';
+
+interface ChangeUserInfoParams {
+  data: ChangeUserInfoData;
+}
+
+interface DeleteByIdParams {
+  id: string;
 }
 
 export const signUp: RequestHandler<
@@ -181,12 +195,6 @@ export const changePassword: RequestHandler<
   }
 };
 
-type ChangeUserInfoData = 'firstName' | 'lastName' | 'email';
-
-interface ChangeUserInfoParams {
-  data: ChangeUserInfoData;
-}
-
 export const changeUserInfo: RequestHandler<
   ChangeUserInfoParams,
   unknown,
@@ -256,12 +264,8 @@ export const changeUserInfo: RequestHandler<
   }
 };
 
-interface DeleteUserParams {
-  id: string;
-}
-
 export const deleteUser: RequestHandler<
-  DeleteUserParams,
+  DeleteByIdParams,
   unknown,
   unknown,
   unknown
@@ -282,10 +286,6 @@ export const deleteUser: RequestHandler<
     res.status(err.status || 500).json({ message: err.message });
   }
 };
-
-interface GetUserProfileParams {
-  username: string;
-}
 
 export const getUserProfile: RequestHandler<
   GetUserProfileParams,
@@ -340,9 +340,9 @@ export const getUserProfile: RequestHandler<
 };
 
 export const updateProfileImage: RequestHandler<
+  DeleteByIdParams,
   unknown,
-  unknown,
-  ChangeProfilePictureBody,
+  ChangeProfileImageBody,
   unknown
 > = async (req, res) => {
   try {
@@ -357,6 +357,48 @@ export const updateProfileImage: RequestHandler<
     );
 
     res.json(user);
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const updateCoverImage: RequestHandler<
+  unknown,
+  unknown,
+  ChangeProfileImageBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { userId, image } = req.body;
+
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        cover: image,
+      },
+      { new: true }
+    );
+
+    res.json(user);
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const removeCoverPhoto: RequestHandler<
+  DeleteByIdParams,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await UserModel.findByIdAndUpdate(id, {
+      cover: '',
+    });
+
+    res.json({ message: 'Cover photo removed successfully' });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
