@@ -61,3 +61,27 @@ export const handleError = (err: ResponseError) => {
     toast.error("An unexpected error occurred");
   }
 };
+
+export async function loadImageFromUrl(imageUrl: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = imageUrl;
+    img.onload = function () {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        const base64Url = canvas.toDataURL();
+        resolve(base64Url);
+      } else {
+        reject(new Error("Failed to get canvas context"));
+      }
+    };
+    img.onerror = function () {
+      reject(new Error("Failed to load image"));
+    };
+  });
+}

@@ -14,5 +14,5 @@ export async function updateProfilePicture(userId: string, image: string) {
     image,
   });
 
-  return { data };
+  return { res: data };
 }

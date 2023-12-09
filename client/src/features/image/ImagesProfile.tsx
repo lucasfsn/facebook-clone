@@ -5,10 +5,10 @@ import { getImages } from "./imagesSlice";
 
 interface ImagesProfileProps {
   space: number;
-  type: "profile" | "photos";
+  location: "profile" | "photos";
 }
 
-function ImagesProfile({ space, type }: ImagesProfileProps) {
+function ImagesProfile({ space, location }: ImagesProfileProps) {
   const images = useSelector(getImages);
   const [showSlider, setShowSlider] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<number>(0);
@@ -20,25 +20,25 @@ function ImagesProfile({ space, type }: ImagesProfileProps) {
   return (
     <div
       className={`grid gap-${space} ${
-        type === "profile"
+        location === "profile"
           ? "grid-cols-3 overflow-x-hidden rounded-md"
           : "grid-cols-5"
       }`}
     >
       {showSlider && (
         <ImageSlider
-          images={images}
+          images={images.map((image) => image.url)}
           close={handleCloseSlider}
           start={selectedImage}
         />
       )}
-      {(type === "profile" ? images.slice(0, 9) : images).map(
+      {(location === "profile" ? images.slice(0, 9) : images).map(
         (image, index) => (
           <img
-            src={image}
-            key={image}
+            src={image.url}
+            key={image.url}
             className={`aspect-square h-full w-full cursor-pointer object-cover ${
-              type === "photos" ? "rounded-md" : ""
+              location === "photos" ? "rounded-md" : ""
             }`}
             onClick={() => {
               setShowSlider(true);

@@ -32,7 +32,7 @@ function ProfileMain() {
             </Link>
           </div>
           <div className="h-fit">
-            <ImagesProfile type="profile" space={1.5} />
+            <ImagesProfile location="profile" space={1.5} />
           </div>
         </div>
         <div className="bg-primary flex flex-col rounded-md px-4 py-2">

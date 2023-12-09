@@ -44,7 +44,10 @@ function Open({ children, opens: opensWindowName }: OpenProps) {
   const { open } = useContext(ModalContext) as ModalContextProps;
 
   return cloneElement(children, {
-    onClick: () => open(opensWindowName),
+    onClick: (e: React.MouseEvent) => {
+      if (children.props.onClick) children.props.onClick(e);
+      open(opensWindowName);
+    },
   });
 }
 
@@ -55,14 +58,31 @@ interface WindowProps {
   name: string;
   type: WindowType;
   width?: string;
+  onClose?: () => void;
 }
 
-function Window({ children, name, type, width = "475px" }: WindowProps) {
+function Window({
+  children,
+  name,
+  type,
+  width = "475px",
+  onClose,
+}: WindowProps) {
   const { openName, close } = useContext(ModalContext) as ModalContextProps;
 
-  const { ref } = useOutsideClick(close);
+  const { ref } = useOutsideClick(() => {
+    close();
+    onClose?.();
+  });
 
   if (name !== openName) return null;
+
+  const handleClose = () => {
+    close();
+    if (onClose) {
+      onClose();
+    }
+  };
 
   if (type === "center") {
     return createPortal(
@@ -72,7 +92,7 @@ function Window({ children, name, type, width = "475px" }: WindowProps) {
           style={{ width }}
           className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl`}
         >
-          <button onClick={close}>
+          <button onClick={handleClose}>
             <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />
           </button>
           {children}

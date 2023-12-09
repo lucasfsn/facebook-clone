@@ -5,8 +5,13 @@ import {
 } from "../../services/apiImages";
 import { RootState } from "../../store";
 
+interface Image {
+  url: string;
+  type: "profile" | "cover" | "post";
+}
+
 interface ImagesState {
-  images: string[];
+  images: Image[];
   isLoading: boolean;
   error: boolean;
 }
@@ -17,12 +22,15 @@ const initialState: ImagesState = {
   error: false,
 };
 
-export const fetchImages = createAsyncThunk<string[], ImagesData>(
+export const fetchImages = createAsyncThunk<Image[], ImagesData>(
   "images/fetchImages",
   async (body: ImagesData) => {
     const data = await getImagesApi(body);
 
-    const images = data.map((image: { url: string }) => image.url);
+    const images = data.map((image: { url: string; folder: string }) => {
+      const type = image.folder.includes("profilePicture") ? "profile" : "post";
+      return { url: image.url, type };
+    });
 
     return images;
   },

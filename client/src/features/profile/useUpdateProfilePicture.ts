@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addImage } from "../../services/apiImages";
@@ -5,7 +6,7 @@ import { updateProfilePicture as updateProfilePictureApi } from "../../services/
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
 import { User, changedProfilePicture } from "../user/userSlice";
-import { error, loading, updatePicture } from "./profileSlice";
+import { error, loading, updatedProfilePicture } from "./profileSlice";
 
 export function useUpdateProfilePicture() {
   const { createPost } = useAddPost();
@@ -29,10 +30,7 @@ export function useUpdateProfilePicture() {
 
       const { data } = await addImage(formData);
 
-      const { data: res } = await updateProfilePictureApi(
-        user.id,
-        data.images[0],
-      );
+      const { res } = await updateProfilePictureApi(user.id, data.images[0]);
 
       await createPost({
         type: "profile",
@@ -41,10 +39,16 @@ export function useUpdateProfilePicture() {
         userId: user.id,
       });
 
-      const updatedProfilePicture = res.image;
+      Cookies.set(
+        "user",
+        JSON.stringify({
+          ...user,
+          picture: res.picture,
+        }),
+      );
 
-      dispatch(updatePicture(updatedProfilePicture));
-      dispatch(changedProfilePicture(updatedProfilePicture));
+      dispatch(updatedProfilePicture(res.picture));
+      dispatch(changedProfilePicture(res.picture));
 
       toast.success("Profile picture updated successfully");
     } catch (err) {

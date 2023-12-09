@@ -73,7 +73,7 @@ const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
-    updatePicture(state, action: PayloadAction<string>) {
+    updatedProfilePicture(state, action: PayloadAction<string>) {
       state.profile.picture = action.payload;
       state.isLoading = false;
       state.error = false;
@@ -102,7 +102,7 @@ const profileSlice = createSlice({
   },
 });
 
-export const { updatePicture, error, loading } = profileSlice.actions;
+export const { updatedProfilePicture, error, loading } = profileSlice.actions;
 
 export default profileSlice.reducer;
 

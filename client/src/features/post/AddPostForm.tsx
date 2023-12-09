@@ -106,7 +106,7 @@ function AddPostForm() {
           </div>
         </div>
         <Button
-          className={`bg-post-disabled bg-blue-600 text-sm disabled:cursor-not-allowed disabled:text-neutral-500 ${
+          className={`bg-post-disabled bg-blue-600 text-sm disabled:text-neutral-500 ${
             isLoading ? "h-[2rem]" : ""
           }`}
           disabled={(!post && images.length === 0) || isLoading}

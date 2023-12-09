@@ -3,7 +3,10 @@ import AvatarEditor from "react-avatar-editor";
 import { FaGlobeEurope, FaMinus, FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Button from "../../ui/Button";
+import Loader from "../../ui/Loader";
+import { loadImageFromUrl } from "../../utils/helpers";
 import { getUser } from "../user/userSlice";
+import { getLoading } from "./profileSlice";
 import { useUpdateProfilePicture } from "./useUpdateProfilePicture";
 
 interface EditProfilePictureProps {
@@ -21,6 +24,7 @@ function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
   const [scale, setScale] = useState<number>(1);
   const [position, setPosition] = useState<Position>({ x: 0.5, y: 0.5 });
 
+  const isLoading = useSelector(getLoading);
   const { updateProfilePicture } = useUpdateProfilePicture();
 
   const user = useSelector(getUser);
@@ -37,13 +41,25 @@ function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
 
   async function handleSaveImage() {
     if (!user) return;
-
     if (ref.current) {
-      const canvas = ref.current.getImageScaledToCanvas();
-      const imageUrl = canvas.toDataURL();
-      setImage(imageUrl);
+      const image = ref.current.props.image;
+      let imageUrl;
 
-      await updateProfilePicture(imageUrl, user, description);
+      if (typeof image === "string" && image.startsWith("http")) {
+        try {
+          imageUrl = await loadImageFromUrl(image as string);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        imageUrl = ref.current.getImageScaledToCanvas().toDataURL();
+      }
+
+      if (imageUrl) {
+        setImage(imageUrl);
+        await updateProfilePicture(imageUrl, user, description);
+        setImage("");
+      }
     }
   }
 
@@ -107,12 +123,19 @@ function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
           </div>
         </div>
         <div className="flex gap-2 self-end px-3">
-          <button className="bg-tertiary-hover rounded-md px-2.5 py-1.5 text-sm font-semibold text-blue-300">
-            Cancel
+          <button
+            className={`bg-tertiary-hover rounded-md text-sm font-semibold text-blue-300 disabled:cursor-not-allowed ${
+              isLoading ? "min-w-[60px]" : "px-2.5 py-1.5"
+            }`}
+            onClick={() => setImage("")}
+            disabled={isLoading}
+          >
+            {isLoading ? <Loader /> : "Cancel"}
           </button>
           <Button
             className="bg-blue-600 px-6 text-sm font-semibold hover:bg-blue-500"
             onClick={handleSaveImage}
+            disabled={isLoading}
           >
             Save
           </Button>

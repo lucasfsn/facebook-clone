@@ -13,11 +13,9 @@ function ProfilePosts() {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      {posts
-        .map((post) => (
-          <Post key={post._id} post={post} postCreator={profile} />
-        ))
-        .reverse()}
+      {posts.map((post) => (
+        <Post key={post._id} post={post} postCreator={profile} />
+      ))}
     </div>
   );
 }

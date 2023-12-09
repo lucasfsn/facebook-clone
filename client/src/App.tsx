@@ -1,12 +1,12 @@
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DarkModeProvider } from "./context/DarkModeContext";
+import Images from "./features/image/Images";
 import Friends from "./pages/Friends";
 import Groups from "./pages/Groups";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Marketplace from "./pages/Marketplace";
-import Photos from "./pages/Photos";
 import Profile from "./pages/Profile";
 import ChangePassword from "./pages/Settings";
 import Watch from "./pages/Watch";
@@ -35,7 +35,7 @@ function App() {
             <Route path="/groups" element={<Groups />} />
             <Route path="/profile/:username?" element={<ProfileLayout />}>
               <Route index element={<Profile />} />
-              <Route path="photos" element={<Photos />} />
+              <Route path="photos" element={<Images />} />
             </Route>
             <Route path="/settings" element={<ChangePassword />} />
             <Route path="*" element={<PageNotFound />} />

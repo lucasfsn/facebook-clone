@@ -14,9 +14,20 @@ interface ProfilePictureModalProps {
 }
 
 function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
-  const profilePicture = useSelector(getProfilePicture);
-  const { ref } = useOutsideClick(close, true, button);
   const [showSlider, setShowSlider] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const profilePicture = useSelector(getProfilePicture);
+  const { ref } = useOutsideClick(
+    () => {
+      if (!isModalOpen) {
+        close();
+        setIsModalOpen(false);
+      }
+    },
+    true,
+    button,
+  );
 
   function handleCloseSlider() {
     setShowSlider(false);
@@ -40,12 +51,19 @@ function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
         </div>
         <Modal>
           <Modal.Open opens="picture">
-            <div className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1">
+            <div
+              className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1"
+              onClick={() => setIsModalOpen(true)}
+            >
               <IoIosImages />
               <span>Choose profile picture</span>
             </div>
           </Modal.Open>
-          <Modal.Window name="picture" type="center">
+          <Modal.Window
+            name="picture"
+            type="center"
+            onClose={() => setIsModalOpen(false)}
+          >
             <ChooseProfilePicture />
           </Modal.Window>
         </Modal>

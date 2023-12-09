@@ -1,12 +1,16 @@
 import { ChangeEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { BsPlus } from "react-icons/bs";
+import { useSelector } from "react-redux";
 import { MAX_FILE_SIZE, VALID_MIMETYPES } from "../../utils/constants";
+import { getImages } from "../image/imagesSlice";
 import EditProfilePicture from "./EditProfilePicture";
 
 function ChooseProfilePicture() {
   const [image, setImage] = useState<string>("");
   const ref = useRef<HTMLInputElement>(null);
+
+  const images = useSelector(getImages);
 
   function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
@@ -42,7 +46,7 @@ function ChooseProfilePicture() {
       {image ? (
         <EditProfilePicture image={image} setImage={setImage} />
       ) : (
-        <div className="px-3">
+        <div className="flex flex-col gap-3 px-3">
           <button
             className="flex w-full flex-row items-center justify-center gap-1 rounded-md bg-blue-500 bg-opacity-10 py-2 font-semibold text-blue-500 hover:bg-opacity-20"
             onClick={() => {
@@ -59,6 +63,24 @@ function ChooseProfilePicture() {
             <BsPlus className="text-xl" />
             <span>Upload photo</span>
           </button>
+          <div className="flex flex-col gap-3">
+            <p className="text-secondary text-lg font-semibold">
+              Profile pictures
+            </p>
+            <div className="grid grid-cols-4 gap-2 overflow-hidden rounded-md">
+              {images.map((image) => {
+                if (image.type === "profile")
+                  return (
+                    <img
+                      key={image.url}
+                      src={image.url}
+                      className="aspect-square h-full w-full cursor-pointer object-cover hover:brightness-110"
+                      onClick={() => setImage(image.url)}
+                    />
+                  );
+              })}
+            </div>
+          </div>
         </div>
       )}
     </div>
