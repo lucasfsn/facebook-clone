@@ -312,6 +312,25 @@ export const getUserProfile: RequestHandler<
           as: 'userPosts',
         },
       },
+      {
+        $lookup: {
+          from: 'posts',
+          let: { userId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ['$user', '$$userId'],
+                },
+              },
+            },
+            {
+              $sort: { createdAt: -1 },
+            },
+          ],
+          as: 'userPosts',
+        },
+      },
     ]);
 
     res.json(...userWithPosts);
@@ -329,9 +348,13 @@ export const updateProfileImage: RequestHandler<
   try {
     const { userId, image } = req.body;
 
-    const user = await UserModel.findByIdAndUpdate(userId, {
-      picture: image,
-    });
+    const user = await UserModel.findByIdAndUpdate(
+      userId,
+      {
+        picture: image,
+      },
+      { new: true }
+    );
 
     res.json(user);
   } catch (err) {
