@@ -126,6 +126,10 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
     dispatch({ type: "cover/position", payload: position });
   }
 
+  function handleChooseImage(imageUrl: string) {
+    dispatch({ type: "cover/set", payload: imageUrl });
+  }
+
   function handleAddCover(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
@@ -217,7 +221,12 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
             : "from-gray-400 via-gray-100 to-white"
         }`}
         style={
-          profile.cover ? { backgroundImage: `url(${profile.cover})` } : {}
+          profile.cover
+            ? {
+                backgroundImage: `url(${profile.cover})`,
+                backgroundSize: "cover",
+              }
+            : {}
         }
         onClick={() => {
           if (!state.showAddCover && !state.showEditor) {
@@ -236,6 +245,7 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
               cursor: "move",
             }}
             image={state.cover}
+            crossOrigin="anonymous"
             width={width}
             height={350}
             border={0}
@@ -265,6 +275,7 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
                 close={() => dispatch({ type: "cover/show" })}
                 uploadCoverRef={uploadCoverRef}
                 showRemove={!!profile?.cover}
+                handleChooseImage={handleChooseImage}
               />
             )}
           </div>

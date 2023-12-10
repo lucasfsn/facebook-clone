@@ -29,7 +29,14 @@ export const fetchImages = createAsyncThunk<Image[], ImagesData>(
     const data = await getImagesApi(body);
 
     const images = data.map((image: { url: string; folder: string }) => {
-      const type = image.folder.includes("profilePicture") ? "profile" : "post";
+      let type = "post";
+
+      if (image.folder.includes("profilePicture")) {
+        type = "profile";
+      } else if (image.folder.includes("profileCover")) {
+        type = "cover";
+      }
+
       const owner = image.folder.split("/")[0];
       return { url: image.url, type, owner };
     });

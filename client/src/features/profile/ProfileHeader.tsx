@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
-import ChooseProfilePicture from "./ChooseProfilePicture";
+import ChoosePicture from "./ChoosePicture";
 import ProfileCover from "./ProfileCover";
 import ProfilePictureModal from "./ProfilePictureModal";
 import { getUserProfile } from "./profileSlice";
@@ -68,7 +68,7 @@ function ProfileHeader() {
                       </div>
                     </Modal.Open>
                     <Modal.Window name="picture" type="center">
-                      <ChooseProfilePicture />
+                      <ChoosePicture filter="profile" />
                     </Modal.Window>
                   </Modal>
                 )}

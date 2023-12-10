@@ -51,7 +51,7 @@ function Open({ children, opens: opensWindowName }: OpenProps) {
   });
 }
 
-type WindowType = "center" | "custom";
+type WindowType = "center" | "custom" | "signup";
 
 interface WindowProps {
   children: ReactNode;
@@ -84,7 +84,7 @@ function Window({
     }
   };
 
-  if (type === "center") {
+  if (type !== "custom") {
     return createPortal(
       <div className="fixed bottom-0 left-0 right-0 top-0 z-50 backdrop-blur-sm">
         <div
@@ -92,8 +92,15 @@ function Window({
           style={{ width }}
           className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl`}
         >
-          <button onClick={handleClose}>
-            <HiXMark className="absolute right-1 top-1 cursor-pointer text-2xl text-gray-500" />
+          <button
+            onClick={handleClose}
+            className={`absolute right-2 top-2 cursor-pointer rounded-full p-1.5 ${
+              type === "signup"
+                ? "text-gray-500"
+                : "bg-tertiary bg-tertiary-hover text-secondary"
+            }`}
+          >
+            <HiXMark className="text-2xl" />
           </button>
           {children}
         </div>

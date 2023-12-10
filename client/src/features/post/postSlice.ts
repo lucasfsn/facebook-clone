@@ -44,6 +44,7 @@ export const getPosts = createAsyncThunk<PostRes[]>(
   "post/getPosts",
   async () => {
     const { data } = await getPostsApi();
+
     return data.posts;
   },
 );

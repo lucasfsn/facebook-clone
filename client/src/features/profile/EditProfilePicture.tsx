@@ -4,7 +4,6 @@ import { FaGlobeEurope, FaMinus, FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Button from "../../ui/Button";
 import Loader from "../../ui/Loader";
-import { loadImageFromUrl } from "../../utils/helpers";
 import { getUser } from "../user/userSlice";
 import { getLoading } from "./profileSlice";
 import { useProfilePicture } from "./useProfilePicture";
@@ -41,19 +40,9 @@ function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
 
   async function handleSaveImage() {
     if (!user) return;
-    if (ref.current) {
-      const image = ref.current.props.image;
-      let imageUrl;
 
-      if (typeof image === "string" && image.startsWith("http")) {
-        try {
-          imageUrl = await loadImageFromUrl(image as string);
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        imageUrl = ref.current.getImageScaledToCanvas().toDataURL();
-      }
+    if (ref.current) {
+      const imageUrl = ref.current.getImageScaledToCanvas().toDataURL();
 
       if (imageUrl) {
         setImage(imageUrl);
@@ -77,6 +66,7 @@ function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
         <AvatarEditor
           ref={ref}
           image={image}
+          crossOrigin="anonymous"
           width={300}
           height={300}
           border={0}

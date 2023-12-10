@@ -5,7 +5,9 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { HiHeart, HiHome } from "react-icons/hi2";
 import { IoSchool } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import Modal from "../../ui/Modal";
 import { getUserId } from "../user/userSlice";
+import EditDetails from "./EditDetails";
 import { Details, getProfileDetails } from "./profileSlice";
 import { useDetails } from "./useDetails";
 
@@ -19,13 +21,14 @@ function ProfileIntro({ isProfileOwner }: ProfileIntroProps) {
 
   const [details, setDetails] = useState<Details>(profileDetails);
   const [showBio, setShowBio] = useState<boolean>(false);
+  const [showEditDetails, setShowEditDetails] = useState<boolean>(true);
 
   const { updateDetails } = useDetails();
 
-  async function handleSaveBio() {
+  async function handleSave() {
     if (!userId) return;
 
-    const updatedDetail = Object.entries(details).reduce(
+    const updatedDetails = Object.entries(details).reduce(
       (acc, [key, value]) => {
         if (value !== profileDetails[key as keyof Details]) {
           acc.push(key);
@@ -33,9 +36,14 @@ function ProfileIntro({ isProfileOwner }: ProfileIntroProps) {
         return acc;
       },
       [] as string[],
-    )[0] as keyof Details;
+    ) as (keyof Details)[];
 
-    await updateDetails(updatedDetail, details, userId);
+    await updateDetails(updatedDetails, details, userId);
+  }
+
+  function handleCloseEditDetails() {
+    setShowEditDetails(false);
+    setDetails(profileDetails);
   }
 
   return (
@@ -62,13 +70,16 @@ function ProfileIntro({ isProfileOwner }: ProfileIntroProps) {
               <div className="flex gap-1">
                 <button
                   className="bg-tertiary bg-tertiary-hover rounded-md px-2.5 py-1.5 font-semibold"
-                  onClick={() => setShowBio(false)}
+                  onClick={() => {
+                    setDetails({ ...details, bio: profileDetails.bio });
+                    setShowBio(false);
+                  }}
                 >
                   Cancel
                 </button>
                 <button
-                  className="rounded-md bg-blue-600 px-2.5 py-1.5 font-semibold hover:bg-blue-500"
-                  onClick={handleSaveBio}
+                  className="rounded-md bg-blue-500 px-2.5 py-1.5 font-semibold text-white hover:bg-blue-400"
+                  onClick={handleSave}
                 >
                   Save
                 </button>
@@ -122,9 +133,26 @@ function ProfileIntro({ isProfileOwner }: ProfileIntroProps) {
           </div>
         )}
         {isProfileOwner && (
-          <button className="bg-tertiary bg-tertiary-hover w-full rounded-md p-1.5">
-            Edit details
-          </button>
+          <Modal>
+            <Modal.Open opens="details">
+              <button
+                className="bg-tertiary bg-tertiary-hover w-full rounded-md p-1.5"
+                onClick={() => setShowEditDetails(true)}
+              >
+                Edit details
+              </button>
+            </Modal.Open>
+            {showEditDetails && (
+              <Modal.Window name="details" type="center">
+                <EditDetails
+                  details={details}
+                  setDetails={setDetails}
+                  handleSave={handleSave}
+                  close={handleCloseEditDetails}
+                />
+              </Modal.Window>
+            )}
+          </Modal>
         )}
       </div>
     </div>

@@ -7,7 +7,7 @@ import { useOutsideClick } from "../../hooks/useOutsideClick";
 import ImageSlider from "../../ui/ImageSlider";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
-import ChooseProfilePicture from "./ChooseProfilePicture";
+import ChoosePicture from "./ChoosePicture";
 import { getProfilePicture } from "./profileSlice";
 import { useProfilePicture } from "./useProfilePicture";
 
@@ -70,7 +70,7 @@ function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
             type="center"
             onClose={() => setIsModalOpen(false)}
           >
-            <ChooseProfilePicture />
+            <ChoosePicture filter="profile" />
           </Modal.Window>
         </Modal>
         <div

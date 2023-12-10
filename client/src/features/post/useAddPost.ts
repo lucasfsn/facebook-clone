@@ -34,7 +34,7 @@ export function useAddPost() {
     }
   }
 
-  async function createPost(post: PostData) {
+  async function createPost(post: PostData, addedImage: boolean = true) {
     dispatch(loading());
 
     try {
@@ -42,7 +42,7 @@ export function useAddPost() {
 
       dispatch(addPost(postData));
 
-      toast.success(message);
+      if (!addedImage) toast.success(message);
     } catch (err) {
       handleError(err as ResponseError);
 
@@ -54,11 +54,9 @@ export function useAddPost() {
     dispatch(loading());
 
     try {
-      const { message, postData } = await addPostApi(post);
+      const { postData } = await addPostApi(post);
 
       dispatch(addPost(postData));
-
-      toast.success(message);
     } catch (err) {
       handleError(err as ResponseError);
 

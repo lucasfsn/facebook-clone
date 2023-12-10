@@ -35,12 +35,15 @@ export function useProfilePicture() {
 
       const { res } = await updateProfilePictureApi(user.id, data.images[0]);
 
-      await createPost({
-        type: "profile",
-        content: description,
-        images: data.images,
-        userId: user.id,
-      });
+      await createPost(
+        {
+          type: "profile",
+          content: description,
+          images: data.images,
+          userId: user.id,
+        },
+        true,
+      );
 
       Cookies.set(
         "user",

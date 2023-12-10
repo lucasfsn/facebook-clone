@@ -10,7 +10,7 @@ export function useDetails() {
   const dispatch = useDispatch();
 
   async function updateDetails(
-    updatedDetail: keyof Details,
+    updatedDetails: (keyof Details)[],
     details: Details,
     userId: string,
   ) {
@@ -24,13 +24,17 @@ export function useDetails() {
 
       dispatch(updateProfile({ details: updatedUser.details }));
 
-      await createDetailsPost({
-        type: "details",
-        content: `${details[updatedDetail]}`,
-        images: [],
-        userId: updatedUser._id,
-        key: updatedDetail,
-      });
+      const promises = updatedDetails.map((updatedDetail) =>
+        createDetailsPost({
+          type: "details",
+          content: `${details[updatedDetail]}`,
+          images: [],
+          userId: updatedUser._id,
+          key: updatedDetail === "currentCity" ? "current city" : updatedDetail,
+        }),
+      );
+
+      await Promise.all(promises);
 
       toast.success(message);
     } catch (err) {

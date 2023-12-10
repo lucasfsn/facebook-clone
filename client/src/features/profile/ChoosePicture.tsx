@@ -6,7 +6,11 @@ import { MAX_FILE_SIZE, VALID_MIMETYPES } from "../../utils/constants";
 import { getImages } from "../image/imagesSlice";
 import EditProfilePicture from "./EditProfilePicture";
 
-function ChooseProfilePicture() {
+interface ChoosePictureProps {
+  filter: "profile" | "cover";
+}
+
+function ChoosePicture({ filter }: ChoosePictureProps) {
   const [image, setImage] = useState<string>("");
   const ref = useRef<HTMLInputElement>(null);
 
@@ -41,7 +45,7 @@ function ChooseProfilePicture() {
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md py-4">
       <div className="separator border-b pb-4 text-center text-xl font-bold">
-        Choose profile picture
+        Choose {filter} picture
       </div>
       {image ? (
         <EditProfilePicture image={image} setImage={setImage} />
@@ -65,11 +69,11 @@ function ChooseProfilePicture() {
           </button>
           <div className="flex flex-col gap-3">
             <p className="text-secondary text-lg font-semibold">
-              Profile pictures
+              {filter.charAt(0).toUpperCase() + filter.slice(1)} pictures
             </p>
             <div className="grid grid-cols-4 gap-2 overflow-hidden rounded-md">
               {images.map((image) => {
-                if (image.type === "profile")
+                if (image.type === filter)
                   return (
                     <img
                       key={image.url}
@@ -87,4 +91,4 @@ function ChooseProfilePicture() {
   );
 }
 
-export default ChooseProfilePicture;
+export default ChoosePicture;

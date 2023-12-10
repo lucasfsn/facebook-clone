@@ -46,12 +46,15 @@ export function useCover() {
 
       const { res } = await updateCoverApi(user.id, data.images[0]);
 
-      await createPost({
-        type: "cover",
-        content: "",
-        images: data.images,
-        userId: user.id,
-      });
+      await createPost(
+        {
+          type: "cover",
+          content: "",
+          images: data.images,
+          userId: user.id,
+        },
+        true,
+      );
 
       Cookies.set(
         "user",
