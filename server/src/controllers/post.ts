@@ -1,10 +1,15 @@
 import { RequestHandler } from 'express';
+import createHttpError from 'http-errors';
 import PostModel from '../models/post';
 
 interface PostBody {
   content: string;
   images?: string[];
   userId: string;
+}
+
+interface DeleteByIdParams {
+  id: string;
 }
 
 export const createPost: RequestHandler<
@@ -45,5 +50,31 @@ export const allPosts: RequestHandler<
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+export const deletePost: RequestHandler<
+  DeleteByIdParams,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const post = await PostModel.findById(id);
+
+    if (!post) throw createHttpError(404, 'Post not found');
+
+    await PostModel.deleteOne({ _id: id });
+
+    const remainingPosts = await PostModel.find();
+
+    res.json({
+      posts: remainingPosts,
+      message: 'Post has been successfully deleted',
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
   }
 };

@@ -2,6 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { Request, RequestHandler, Response } from 'express';
 import { UploadedFile } from 'express-fileupload';
 import fs from 'fs';
+import createHttpError from 'http-errors';
 import env from '../utils/validateEnv';
 
 cloudinary.config({
@@ -98,5 +99,20 @@ export const getImages: RequestHandler = async (
       });
   } catch (err) {
     res.status(err.status).json({ message: err.message });
+  }
+};
+
+export const deleteImage: RequestHandler<{ id: string }> = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await cloudinary.uploader.destroy(id);
+
+    if (result.result !== 'ok')
+      throw createHttpError(500, 'Failed to delete image');
+
+    res.json({ status: result.result });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
   }
 };
