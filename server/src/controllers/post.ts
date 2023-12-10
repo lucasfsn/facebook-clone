@@ -14,7 +14,11 @@ export const createPost: RequestHandler<
   unknown
 > = async (req, res) => {
   try {
-    const newPost = await PostModel.create(req.body);
+    let newPost = await PostModel.create(req.body);
+    newPost = await newPost.populate(
+      'user',
+      'firstName lastName picture username'
+    );
 
     res.json({
       message: 'Post created successfully',
