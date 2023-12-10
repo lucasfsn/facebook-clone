@@ -18,7 +18,7 @@ import {
   VALID_MIMETYPES,
 } from "../../utils/constants";
 import { getUser } from "../user/userSlice";
-import AddCoverPhotoModal from "./AddCoverPhotoModal";
+import CoverPhotoModal from "./CoverPhotoModal";
 import { getUserProfile } from "./profileSlice";
 import { useCover } from "./useCover";
 
@@ -270,7 +270,7 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
               </span>
             </button>
             {state.showAddCover && (
-              <AddCoverPhotoModal
+              <CoverPhotoModal
                 button={coverBtnRef}
                 close={() => dispatch({ type: "cover/show" })}
                 uploadCoverRef={uploadCoverRef}

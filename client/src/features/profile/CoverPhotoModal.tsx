@@ -8,7 +8,7 @@ import { getUserId } from "../user/userSlice";
 import ChooseCover from "./ChooseCover";
 import { useCover } from "./useCover";
 
-interface AddCoverPhotoModalProps {
+interface CoverPhotoModalProps {
   button: RefObject<HTMLButtonElement>;
   close: () => void;
   uploadCoverRef: RefObject<HTMLInputElement>;
@@ -16,13 +16,13 @@ interface AddCoverPhotoModalProps {
   handleChooseImage: (imageUrl: string) => void;
 }
 
-function AddCoverPhotoModal({
+function CoverPhotoModal({
   button,
   close,
   uploadCoverRef,
   showRemove,
   handleChooseImage,
-}: AddCoverPhotoModalProps) {
+}: CoverPhotoModalProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const userId = useSelector(getUserId);
   const { removeCover } = useCover();
@@ -88,4 +88,4 @@ function AddCoverPhotoModal({
   );
 }
 
-export default AddCoverPhotoModal;
+export default CoverPhotoModal;

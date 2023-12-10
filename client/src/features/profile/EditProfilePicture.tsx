@@ -68,6 +68,9 @@ function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
           image={image}
           crossOrigin="anonymous"
           width={300}
+          style={{
+            cursor: "move",
+          }}
           height={300}
           border={0}
           borderRadius={150}

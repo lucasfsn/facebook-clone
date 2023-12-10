@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import ImageSlider from "../../ui/ImageSlider";
+import { getUserProfile } from "../profile/profileSlice";
 
 interface ImagesPostProps {
   images: string[];
@@ -9,6 +11,8 @@ interface ImagesPostProps {
 function ImagesPost({ images, type }: ImagesPostProps) {
   const [showSlider, setShowSlider] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number>(0);
+
+  const profile = useSelector(getUserProfile);
 
   function handleCloseSlider() {
     setShowSlider(false);
@@ -36,6 +40,11 @@ function ImagesPost({ images, type }: ImagesPostProps) {
                 ? "col-span-6"
                 : "col-span-3"
             } ${type === "profile" ? "profile-post" : ""}`}
+            style={
+              profile.cover && type === "profile"
+                ? { backgroundImage: `url(${profile.cover})`, height: "50%" }
+                : {}
+            }
           >
             <img
               src={img}

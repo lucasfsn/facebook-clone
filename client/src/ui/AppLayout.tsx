@@ -14,12 +14,11 @@ function AppLayout() {
     dispatch(getPosts());
   }, [dispatch]);
 
-  if (isLoading) return <Spinner blur={false} />;
-
   return (
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="bg-secondary mt-[55px] flex flex-grow">
+        {isLoading && <Spinner />}
         <Outlet />
       </main>
     </div>

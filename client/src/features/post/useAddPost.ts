@@ -34,7 +34,7 @@ export function useAddPost() {
     }
   }
 
-  async function createPost(post: PostData, addedImage: boolean = true) {
+  async function createPost(post: PostData, addedImage: boolean = false) {
     dispatch(loading());
 
     try {
