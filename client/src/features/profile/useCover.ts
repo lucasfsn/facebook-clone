@@ -53,6 +53,7 @@ export function useCover() {
           images: data.images,
           userId: user.id,
         },
+        user.username,
         true,
       );
 

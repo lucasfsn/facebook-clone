@@ -87,7 +87,7 @@ function ProfileIntro({ isProfileOwner }: ProfileIntroProps) {
             </div>
           </div>
         )}
-        {!showBio && <p className="text-center">{details.bio}</p>}
+        {!showBio && <p className="text-center">{profileDetails.bio}</p>}
         {!showBio && isProfileOwner && (
           <button
             className="bg-tertiary bg-tertiary-hover w-full rounded-md p-1.5"
@@ -96,40 +96,40 @@ function ProfileIntro({ isProfileOwner }: ProfileIntroProps) {
             {details.bio ? "Edit bio" : "Add bio"}
           </button>
         )}
-        {details.currentCity && (
+        {profileDetails.currentCity && (
           <div className="flex flex-row items-center gap-2.5">
             <FaCity className="text-tertiary md:text-2xl" />
-            <span>Lives in {details.currentCity}</span>
+            <span>Lives in {profileDetails.currentCity}</span>
           </div>
         )}
-        {details.hometown && (
+        {profileDetails.hometown && (
           <div className="flex flex-row items-center gap-2.5">
             <HiHome className="text-tertiary md:text-2xl" />
-            <span>From {details.hometown}</span>
+            <span>From {profileDetails.hometown}</span>
           </div>
         )}
-        {details.highschool && (
+        {profileDetails.highschool && (
           <div className="flex flex-row items-center gap-2.5">
             <BiSolidBusSchool className="text-tertiary md:text-2xl" />
-            <span>Studied at {details.highschool}</span>
+            <span>Studied at {profileDetails.highschool}</span>
           </div>
         )}
-        {details.college && (
+        {profileDetails.college && (
           <div className="flex flex-row items-center gap-2.5">
             <IoSchool className="text-tertiary md:text-2xl" />
-            <span>Studied at {details.college}</span>
+            <span>Studied at {profileDetails.college}</span>
           </div>
         )}
-        {details.relationship && (
+        {profileDetails.relationship && (
           <div className="flex flex-row items-center gap-2.5">
             <HiHeart className="text-tertiary md:text-2xl" />
-            <span>{details.relationship}</span>
+            <span>{profileDetails.relationship}</span>
           </div>
         )}
-        {details.workplace && (
+        {profileDetails.workplace && (
           <div className="flex flex-row items-center gap-2.5">
             <GiTakeMyMoney className="text-tertiary md:text-2xl" />
-            <span>Works at {details.workplace}</span>
+            <span>Works at {profileDetails.workplace}</span>
           </div>
         )}
         {isProfileOwner && (

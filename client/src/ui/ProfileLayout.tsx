@@ -34,18 +34,16 @@ function ProfileLayout() {
   }, [dispatch, userProfileName, error, navigate]);
 
   useEffect(() => {
-    if (profile) {
-      dispatch(
-        fetchImages({
-          paths: [
-            `${profile.username}/posts/images`,
-            `${profile.username}/profile/profilePicture`,
-            `${profile.username}/profile/profileCover`,
-          ],
-          sort: "desc",
-        }),
-      );
-    }
+    dispatch(
+      fetchImages({
+        paths: [
+          `${profile.username}/posts/images`,
+          `${profile.username}/profile/profilePicture`,
+          `${profile.username}/profile/profileCover`,
+        ],
+        sort: "desc",
+      }),
+    );
   }, [dispatch, profile]);
 
   if (isLoadingProfile) return <Spinner />;

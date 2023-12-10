@@ -5,12 +5,10 @@ import { FaGlobeEurope } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { IoArrowRedoOutline, IoChatbubbleOutline } from "react-icons/io5";
 import { TbListDetails } from "react-icons/tb";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import ReactionsModal from "../../ui/ReactionsModal";
 import ImagesPost from "../image/ImagesPost";
-import { getUserId } from "../user/userSlice";
 import AddComment from "./AddComment";
 import PostMenu from "./PostMenu";
 import { PostRes } from "./postSlice";
@@ -22,8 +20,6 @@ interface PostProps {
 function Post({ post }: PostProps) {
   const [activeLike, setActiveLike] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
-
-  const userId = useSelector(getUserId);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const nodeRef = useRef(null);
@@ -102,7 +98,6 @@ function Post({ post }: PostProps) {
             </button>
             {showMenu && (
               <PostMenu
-                userId={userId}
                 postCreatorId={post.user._id}
                 button={buttonRef}
                 close={() => setShowMenu(false)}
