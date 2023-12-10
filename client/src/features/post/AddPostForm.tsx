@@ -34,12 +34,15 @@ function AddPostForm() {
           },
           user.username,
         )
-      : await createPost({
-          type: "post",
-          content: post,
-          userId: user.id,
-          images: [],
-        });
+      : await createPost(
+          {
+            type: "post",
+            content: post,
+            userId: user.id,
+            images: [],
+          },
+          user.username,
+        );
 
     if (error) return;
 
