@@ -1,21 +1,17 @@
 import { useSelector } from "react-redux";
-import Spinner from "../../ui/Spinner";
 import Post from "../post/Post";
-import { getLoading, getUserProfile } from "./profileSlice";
+import { getAllPosts } from "../post/postSlice";
+import { getUserProfile } from "./profileSlice";
 
 function ProfilePosts() {
-  const isLoading = useSelector(getLoading);
   const profile = useSelector(getUserProfile);
+  const posts = useSelector(getAllPosts);
 
-  const posts = profile.userPosts.map((post) =>
-    (post.user as unknown) === profile._id ? { ...post, user: profile } : post,
-  );
-
-  if (isLoading) return <Spinner />;
+  const profilePosts = posts.filter((post) => post.user._id === profile._id);
 
   return (
     <div className="flex w-full flex-col gap-4">
-      {posts.map((post) => (
+      {profilePosts.map((post) => (
         <Post key={post._id} post={post} />
       ))}
     </div>

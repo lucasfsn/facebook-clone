@@ -8,7 +8,7 @@ import ProfileIntro from "./ProfileIntro";
 import ProfilePosts from "./ProfilePosts";
 import { getUserProfile } from "./profileSlice";
 
-function ProfileMain() {
+function Profile() {
   const user = useSelector(getUser);
   const profile = useSelector(getUserProfile);
 
@@ -71,4 +71,4 @@ function ProfileMain() {
   );
 }
 
-export default ProfileMain;
+export default Profile;

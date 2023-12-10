@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import { getLoading, getPosts } from "../features/post/postSlice";
+import { getAllPosts, getLoading, getPosts } from "../features/post/postSlice";
 import { AppDispatch } from "../store";
 import Header from "./Header";
 import Spinner from "./Spinner";
@@ -9,10 +9,11 @@ import Spinner from "./Spinner";
 function AppLayout() {
   const dispatch: AppDispatch = useDispatch();
   const isLoading = useSelector(getLoading);
+  const postsLength = useSelector(getAllPosts).length;
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [dispatch]);
+  }, [dispatch, postsLength]);
 
   return (
     <div className="flex min-h-screen flex-col">

@@ -61,3 +61,13 @@ export const handleError = (err: ResponseError) => {
     toast.error("An unexpected error occurred");
   }
 };
+
+export function getPublicIdFromUrl(url: string) {
+  const urlParts = url.split("/");
+  const postsIndex = urlParts.indexOf("posts");
+
+  const username = urlParts[postsIndex - 1];
+  const id = urlParts[urlParts.length - 1].split(".")[0];
+
+  return `${username}/posts/images/${id}`.replace(/\//g, "%2F");
+}

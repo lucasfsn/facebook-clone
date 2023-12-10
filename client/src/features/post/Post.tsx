@@ -106,6 +106,7 @@ function Post({ post }: PostProps) {
                 postCreatorId={post.user._id}
                 button={buttonRef}
                 close={() => setShowMenu(false)}
+                post={post}
               />
             )}
           </div>

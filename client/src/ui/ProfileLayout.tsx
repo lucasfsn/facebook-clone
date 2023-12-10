@@ -20,7 +20,6 @@ function ProfileLayout() {
 
   const profile = useSelector(getUserProfile);
   const user = useSelector(getUser);
-
   const isLoadingProfile = useSelector(getLoadingProfile);
   const error = useSelector(getError);
 

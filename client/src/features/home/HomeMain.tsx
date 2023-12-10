@@ -4,7 +4,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { stories } from "../../../data/stories";
 import AddPost from "../post/AddPost";
-import Posts from "../post/Posts";
+import AllPosts from "../post/AllPosts";
 import { getUser } from "../user/userSlice";
 import HomeStory from "./HomeStory";
 
@@ -164,7 +164,7 @@ function HomeMain() {
         ))}
       </div>
       <AddPost>What's on your mind, {user?.firstName}?</AddPost>
-      <Posts />
+      <AllPosts />
     </div>
   );
 }

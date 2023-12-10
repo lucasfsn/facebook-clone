@@ -26,3 +26,11 @@ export async function getPosts() {
 
   return { data };
 }
+
+export async function deletePost(id: string) {
+  const { data } = await axios.delete(`${apiUrl}/post/delete/${id}`);
+
+  const { posts, message } = data;
+
+  return { posts, message };
+}
