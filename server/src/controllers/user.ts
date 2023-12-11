@@ -64,6 +64,18 @@ interface UpdateUserDetailsBody {
   userId: string;
 }
 
+interface FriendRequestParams {
+  id: string;
+}
+
+interface FriendRequestBody {
+  userId: string;
+}
+
+interface DeleteQueryParams {
+  userId: string;
+}
+
 export const signUp: RequestHandler<
   unknown,
   unknown,
@@ -458,6 +470,189 @@ export const updateDetails: RequestHandler<
     );
 
     res.json({ user, message: 'Profile details updated successfully' });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const addFriend: RequestHandler<
+  FriendRequestParams,
+  unknown,
+  FriendRequestBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    console.log(id, userId);
+    if (id === userId)
+      throw createHttpError(400, 'You cannot add yourself as a friend');
+
+    const receiver = await UserModel.findById(id);
+    const user = await UserModel.findById(userId);
+
+    if (user.friends.includes(id))
+      throw createHttpError(400, 'This user is already your friend');
+
+    if (receiver.friendRequests.includes(userId))
+      throw createHttpError(
+        400,
+        'You have already sent a friend request to this user'
+      );
+
+    await user.updateOne({
+      $push: { sentFriendRequests: receiver._id },
+    });
+
+    await receiver.updateOne({
+      $push: { friendRequests: user._id },
+    });
+
+    res.json({ message: 'Friend request has been sent successfully' });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const cancelFriendRequest: RequestHandler<
+  FriendRequestParams,
+  unknown,
+  FriendRequestBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    if (id === userId)
+      throw createHttpError(
+        400,
+        'You cannot cancel a friend request to yourself'
+      );
+
+    const user = await UserModel.findById(userId);
+    const receiver = await UserModel.findById(id);
+
+    if (user.friends.includes(id))
+      throw createHttpError(400, 'This user is not your friend');
+
+    if (!receiver.friendRequests.includes(userId))
+      throw createHttpError(
+        400,
+        'You have not sent a friend request to this user'
+      );
+
+    await user.updateOne({
+      $pull: { sentFriendRequests: receiver._id },
+    });
+
+    await receiver.updateOne({
+      $pull: { friendRequests: user._id },
+    });
+
+    res.json({ message: 'Friend request has been cancelled successfully' });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const acceptFriendRequest: RequestHandler<
+  FriendRequestParams,
+  unknown,
+  FriendRequestBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    if (id === userId)
+      throw createHttpError(
+        400,
+        'You cannot accept a friend request from yourself'
+      );
+
+    const user = await UserModel.findById(userId);
+    const sender = await UserModel.findById(id);
+
+    if (sender.friends.includes(userId))
+      throw createHttpError(400, 'This user is already your friend');
+
+    await user.updateOne({
+      $pull: { friendRequests: sender._id },
+      $push: { friends: sender._id },
+    });
+
+    await sender.updateOne({
+      $push: { friends: user._id },
+      $pull: { sentFriendRequests: user._id },
+    });
+
+    res.json({ message: 'Friend request has been accepted successfully' });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const removeFriend: RequestHandler<
+  FriendRequestParams,
+  unknown,
+  unknown,
+  DeleteQueryParams
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.query.userId;
+
+    if (id === userId)
+      throw createHttpError(400, "You can't unfriend yourself");
+
+    const user = await UserModel.findById(userId);
+    const friend = await UserModel.findById(id);
+
+    if (!user.friends.includes(id) && !friend.friends.includes(userId))
+      throw createHttpError(400, 'This user is not in your friend list');
+
+    await friend.updateOne({ $pull: { friends: user._id } });
+    await user.updateOne({ $pull: { friends: friend._id } });
+
+    res.json({
+      message: 'User has been removed from your friend list successfully',
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const removeFriendRequest: RequestHandler<
+  FriendRequestParams,
+  unknown,
+  unknown,
+  DeleteQueryParams
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.query.userId;
+
+    if (id === userId)
+      throw createHttpError(400, "You can't delete a request from yourself");
+
+    const user = await UserModel.findById(userId);
+    const sender = await UserModel.findById(id);
+
+    if (!user.friendRequests.includes(id))
+      throw createHttpError(
+        400,
+        'You have not received a friend request from this user'
+      );
+
+    await user.updateOne({ $pull: { friendRequests: sender._id } });
+    await sender.updateOne({ $pull: { sentFriendRequests: user._id } });
+
+    res.json({
+      message: 'Friend request has been deleted successfully',
+    });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
