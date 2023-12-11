@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
 import ChoosePicture from "./ChoosePicture";
+import FriendStatus from "./FriendStatus";
 import ProfileCover from "./ProfileCover";
 import ProfilePictureModal from "./ProfilePictureModal";
 import { getUserProfile } from "./profileSlice";
@@ -83,14 +84,16 @@ function ProfileHeader() {
                 {profile.friends.length === 1 ? "friend" : "friends"}
               </p>
             </div>
-            {isProfileOwner && (
-              <div className="ml-auto p-2">
+            <div className="ml-auto p-2">
+              {isProfileOwner ? (
                 <button className="bg-tertiary text-secondary bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold md:px-3 md:py-1.5 md:text-base">
                   <FaPencilAlt />
                   <span>Edit Profile</span>
                 </button>
-              </div>
-            )}
+              ) : (
+                <FriendStatus />
+              )}
+            </div>
           </div>
           <div className="px-3 xl:mx-auto xl:w-4/6">
             <div className="separator flex flex-row gap-3 border-t pt-1">

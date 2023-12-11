@@ -21,6 +21,7 @@ export interface Details {
   hometown?: string;
   relationship?: Relationship;
 }
+
 export interface ProfileRes {
   _id: string;
   firstName: string;
@@ -34,9 +35,8 @@ export interface ProfileRes {
   birdthMonth: number;
   birdthYear: number;
   friends: string[];
-  following: string[];
-  followers: string[];
   friendRequests: string[];
+  sentFriendRequests: string[];
   search: string[];
   details: Details;
   savedPosts: string[];
@@ -65,9 +65,8 @@ const initialState: ProfileState = {
     birdthMonth: 0,
     birdthYear: 0,
     friends: [],
-    following: [],
-    followers: [],
     friendRequests: [],
+    sentFriendRequests: [],
     search: [],
     details: {
       bio: "",

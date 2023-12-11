@@ -25,13 +25,17 @@ export function useDetails() {
       dispatch(updateProfile({ details: updatedUser.details }));
 
       const promises = updatedDetails.map((updatedDetail) =>
-        createDetailsPost({
-          type: "details",
-          content: `${details[updatedDetail]}`,
-          images: [],
-          userId: updatedUser._id,
-          key: updatedDetail === "currentCity" ? "current city" : updatedDetail,
-        }),
+        createDetailsPost(
+          {
+            type: "details",
+            content: `${details[updatedDetail]}`,
+            images: [],
+            userId: updatedUser._id,
+            key:
+              updatedDetail === "currentCity" ? "current city" : updatedDetail,
+          },
+          updatedUser.username,
+        ),
       );
 
       await Promise.all(promises);

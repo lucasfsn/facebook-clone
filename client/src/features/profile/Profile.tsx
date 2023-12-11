@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ImagesProfile from "../image/ImagesProfile";
 import AddPost from "../post/AddPost";
 import { getUser } from "../user/userSlice";
+import ProfileFriends from "./ProfileFriends";
 import ProfileIntro from "./ProfileIntro";
 import ProfilePosts from "./ProfilePosts";
 import { getUserProfile } from "./profileSlice";
@@ -50,6 +51,9 @@ function Profile() {
             {profile.friends.length}{" "}
             {profile.friends.length === 1 ? "friend" : "friends"}
           </span>
+          <div className="h-fit">
+            <ProfileFriends />
+          </div>
         </div>
       </div>
       <div className="flex flex-col gap-4 overflow-x-hidden md:w-1/2">
