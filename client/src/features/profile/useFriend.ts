@@ -8,11 +8,13 @@ import {
   removeFriendRequest as removeFriendRequestApi,
 } from "../../services/apiFriend";
 import { ResponseError, handleError } from "../../utils/helpers";
+import { getUser } from "../user/userSlice";
 import { error, getUserProfile, loading, updateProfile } from "./profileSlice";
 
 export function useFriend() {
   const dispatch = useDispatch();
   const profile = useSelector(getUserProfile);
+  const user = useSelector(getUser);
 
   async function addFriend(userId: string, friendId: string) {
     dispatch(loading());
@@ -40,7 +42,7 @@ export function useFriend() {
 
       dispatch(
         updateProfile({
-          friends: profile.friends.filter((friend) => friend !== userId),
+          friends: profile.friends.filter((friend) => friend._id !== userId),
         }),
       );
 
@@ -80,7 +82,21 @@ export function useFriend() {
     try {
       const { message } = await acceptFriendRequestApi(userId, friendId);
 
-      dispatch(updateProfile({ friends: [...profile.friends, userId] }));
+      if (user)
+        dispatch(
+          updateProfile({
+            friends: [
+              ...profile.friends,
+              {
+                _id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                picture: user.picture,
+                username: user.username,
+              },
+            ],
+          }),
+        );
 
       toast.success(message);
     } catch (err) {

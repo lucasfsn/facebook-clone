@@ -36,6 +36,7 @@ function App() {
             <Route path="/profile/:username?" element={<ProfileLayout />}>
               <Route index element={<Profile />} />
               <Route path="photos" element={<Images />} />
+              <Route path="friends" element={<Friends />} />
             </Route>
             <Route path="/settings" element={<ChangePassword />} />
             <Route path="*" element={<PageNotFound />} />

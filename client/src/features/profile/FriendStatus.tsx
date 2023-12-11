@@ -10,9 +10,10 @@ import { useFriend } from "./useFriend";
 
 function FriendStatus() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const profile = useSelector(getUserProfile);
   const isLoading = useSelector(getLoading);
   const userId = useSelector(getUserId);
+  const profile = useSelector(getUserProfile);
+
   const {
     addFriend,
     cancelFriendRequest,
@@ -26,7 +27,7 @@ function FriendStatus() {
   if (isLoading || !userId) return <Spinner />;
 
   const status = {
-    friends: profile.friends.includes(userId),
+    friends: profile.friends.some((friend) => friend._id === userId),
     sender:
       profile.sentFriendRequests.includes(userId) && profile._id !== userId,
     receiver: profile.friendRequests.includes(userId) && profile._id !== userId,
@@ -78,17 +79,17 @@ function FriendStatus() {
   return (
     <div
       ref={ref}
-      className={`text-secondary relative flex cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold md:px-3 md:py-1.5 md:text-base ${
+      className={`relative flex cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold md:px-3 md:py-1.5 md:text-base ${
         status.friends
-          ? "bg-tertiary bg-tertiar-hover"
-          : "bg-blue-600 hover:bg-blue-500"
+          ? "bg-tertiary bg-tertiar-hover text-secondary"
+          : "bg-blue-600 text-white hover:bg-blue-500"
       }`}
       onClick={handleClick}
     >
       {buttonContent}
-      {status.sender && showMenu && (
+      {!status.friends && status.sender && showMenu && (
         <div
-          className="bg-primary absolute right-0 top-full flex w-[250px] flex-col rounded-md p-1.5 text-start shadow-3xl"
+          className="bg-primary text-secondary absolute right-0 top-full flex w-[250px] flex-col rounded-md p-1.5 text-start shadow-3xl"
           onClick={(e) => e.stopPropagation()}
         >
           <div

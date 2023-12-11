@@ -121,7 +121,7 @@ function ProfileHeader() {
                 }`}
               >
                 <Link
-                  to={`/profile/${profile.username}`}
+                  to={`/profile/${profile.username}/friends`}
                   className={`${
                     activePage === "friends" ? "" : "bg-tertiary-hover"
                   } cursor-pointer rounded-md p-3 font-semibold`}

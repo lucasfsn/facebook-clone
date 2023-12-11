@@ -22,6 +22,14 @@ export interface Details {
   relationship?: Relationship;
 }
 
+interface Friends {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  picture: string;
+  username: string;
+}
+
 export interface ProfileRes {
   _id: string;
   firstName: string;
@@ -34,7 +42,7 @@ export interface ProfileRes {
   birdthDay: number;
   birdthMonth: number;
   birdthYear: number;
-  friends: string[];
+  friends: Friends[];
   friendRequests: string[];
   sentFriendRequests: string[];
   search: string[];
