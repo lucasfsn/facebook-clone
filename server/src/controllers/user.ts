@@ -356,6 +356,36 @@ export const getUserProfile: RequestHandler<
           as: 'userPosts',
         },
       },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'friends',
+          foreignField: '_id',
+          as: 'friends',
+        },
+      },
+      {
+        $project: {
+          password: 0,
+          'friends.gender': 0,
+          'friends.friends': 0,
+          'friends.password': 0,
+          'friends.email': 0,
+          'friends.__v': 0,
+          'friends.friendRequests': 0,
+          'friends.search': 0,
+          'friends.savedPosts': 0,
+          'friends.createdAt': 0,
+          'friends.updatedAt': 0,
+          'friends.details': 0,
+          'friends.cover': 0,
+          'friends.sentFriendRequests': 0,
+          'friends.userPosts': 0,
+          'friends.birthDay': 0,
+          'friends.birthMonth': 0,
+          'friends.birthYear': 0,
+        },
+      },
     ]);
 
     res.json(...userWithPosts);
@@ -485,17 +515,19 @@ export const addFriend: RequestHandler<
     const { id } = req.params;
     const { userId } = req.body;
 
-    console.log(id, userId);
     if (id === userId)
       throw createHttpError(400, 'You cannot add yourself as a friend');
 
     const receiver = await UserModel.findById(id);
     const user = await UserModel.findById(userId);
 
-    if (user.friends.includes(id))
+    if (user.friends.includes(receiver._id))
       throw createHttpError(400, 'This user is already your friend');
 
-    if (receiver.friendRequests.includes(userId))
+    if (user.friendRequests.includes(receiver._id))
+      throw createHttpError(400, 'This user has already sent you a request');
+
+    if (receiver.friendRequests.includes(user._id))
       throw createHttpError(
         400,
         'You have already sent a friend request to this user'
@@ -534,10 +566,10 @@ export const cancelFriendRequest: RequestHandler<
     const user = await UserModel.findById(userId);
     const receiver = await UserModel.findById(id);
 
-    if (user.friends.includes(id))
-      throw createHttpError(400, 'This user is not your friend');
+    if (user.friends.includes(receiver._id))
+      throw createHttpError(400, 'This user is already your friend');
 
-    if (!receiver.friendRequests.includes(userId))
+    if (!receiver.friendRequests.includes(user._id))
       throw createHttpError(
         400,
         'You have not sent a friend request to this user'
@@ -576,8 +608,14 @@ export const acceptFriendRequest: RequestHandler<
     const user = await UserModel.findById(userId);
     const sender = await UserModel.findById(id);
 
-    if (sender.friends.includes(userId))
+    if (sender.friends.includes(user._id))
       throw createHttpError(400, 'This user is already your friend');
+
+    if (!sender.sentFriendRequests.includes(user._id))
+      throw createHttpError(
+        400,
+        'This user has already canceled friend request'
+      );
 
     await user.updateOne({
       $pull: { friendRequests: sender._id },
@@ -611,7 +649,10 @@ export const removeFriend: RequestHandler<
     const user = await UserModel.findById(userId);
     const friend = await UserModel.findById(id);
 
-    if (!user.friends.includes(id) && !friend.friends.includes(userId))
+    if (
+      !user.friends.includes(friend._id) &&
+      !friend.friends.includes(user._id)
+    )
       throw createHttpError(400, 'This user is not in your friend list');
 
     await friend.updateOne({ $pull: { friends: user._id } });
@@ -641,10 +682,16 @@ export const removeFriendRequest: RequestHandler<
     const user = await UserModel.findById(userId);
     const sender = await UserModel.findById(id);
 
-    if (!user.friendRequests.includes(id))
+    if (!user.friendRequests.includes(sender._id))
       throw createHttpError(
         400,
-        'You have not received a friend request from this user'
+        'This user has already canceled friend request'
+      );
+
+    if (!sender.sentFriendRequests.includes(user._id))
+      throw createHttpError(
+        400,
+        'This user has already canceled friend request'
       );
 
     await user.updateOne({ $pull: { friendRequests: sender._id } });
