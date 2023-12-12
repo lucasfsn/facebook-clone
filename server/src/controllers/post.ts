@@ -12,6 +12,13 @@ interface DeleteByIdParams {
   id: string;
 }
 
+interface CommentBody {
+  comment: string;
+  image?: string;
+  postId: string;
+  userId: string;
+}
+
 export const createPost: RequestHandler<
   unknown,
   unknown,
@@ -43,6 +50,7 @@ export const allPosts: RequestHandler<
   try {
     const posts = await PostModel.find()
       .populate('user', 'firstName lastName picture username')
+      .populate('comments.author', 'firstName lastName picture username')
       .sort({ createdAt: -1 });
 
     res.json({
@@ -76,5 +84,38 @@ export const deletePost: RequestHandler<
     });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const commentPost: RequestHandler<
+  unknown,
+  unknown,
+  CommentBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { comment, image, postId, userId } = req.body;
+
+    const post = await PostModel.findByIdAndUpdate(
+      postId,
+      {
+        $push: {
+          comments: {
+            comment,
+            image,
+            author: userId,
+            commentDate: new Date(),
+          },
+        },
+      },
+      { new: true }
+    ).populate('comments.author', 'picture firstName lastName username');
+
+    res.json({
+      message: 'Comment added successfully',
+      comments: post.comments,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

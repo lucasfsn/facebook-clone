@@ -15,8 +15,8 @@ const postSchema = new Schema(
       {
         comment: { type: String },
         image: { type: String },
-        by: { type: Schema.Types.ObjectId, ref: 'User' },
-        commentDate: { type: Date, default: new Date() },
+        author: { type: Schema.Types.ObjectId, ref: 'User' },
+        commentDate: { type: Date, required: true },
       },
     ],
   },

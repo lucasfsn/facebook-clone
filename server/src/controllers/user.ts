@@ -365,6 +365,30 @@ export const getUserProfile: RequestHandler<
         },
       },
       {
+        $lookup: {
+          from: 'users',
+          localField: 'userPosts.comments.author',
+          foreignField: '_id',
+          as: 'authorDetails',
+        },
+      },
+      {
+        $unwind: {
+          path: '$authorDetails',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $addFields: {
+          'userPosts.comments.author': '$authorDetails',
+        },
+      },
+      {
+        $project: {
+          authorDetails: 0,
+        },
+      },
+      {
         $project: {
           password: 0,
           'friends.gender': 0,
