@@ -18,4 +18,5 @@ export const userRouter = Router()
   .put('/profile/:id/cancel', UserController.cancelFriendRequest)
   .put('/profile/:id/accept', UserController.acceptFriendRequest)
   .delete('/profile/:id/remove', UserController.removeFriend)
-  .delete('/profile/:id/removeRequest', UserController.removeFriendRequest);
+  .delete('/profile/:id/removeRequest', UserController.removeFriendRequest)
+  .get('/user/:id', UserController.getUserById);

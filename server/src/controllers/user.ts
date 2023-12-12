@@ -368,7 +368,6 @@ export const getUserProfile: RequestHandler<
         $project: {
           password: 0,
           'friends.gender': 0,
-          'friends.friends': 0,
           'friends.password': 0,
           'friends.email': 0,
           'friends.__v': 0,
@@ -572,7 +571,7 @@ export const cancelFriendRequest: RequestHandler<
     if (!receiver.friendRequests.includes(user._id))
       throw createHttpError(
         400,
-        'You have not sent a friend request to this user'
+        'This user has already denied your friend request'
       );
 
     await user.updateOne({
@@ -700,6 +699,25 @@ export const removeFriendRequest: RequestHandler<
     res.json({
       message: 'Friend request has been deleted successfully',
     });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const getUserById: RequestHandler<
+  FriendRequestParams,
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await UserModel.findById(id);
+
+    if (!user) throw createHttpError(404, 'User not found');
+
+    res.json(user);
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
