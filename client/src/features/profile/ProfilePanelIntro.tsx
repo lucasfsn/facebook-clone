@@ -15,7 +15,7 @@ interface ProfileIntroProps {
   isProfileOwner: boolean;
 }
 
-function ProfileIntro({ isProfileOwner }: ProfileIntroProps) {
+function ProfilePanelIntro({ isProfileOwner }: ProfileIntroProps) {
   const profileDetails = useSelector(getProfileDetails);
   const userId = useSelector(getUserId);
 
@@ -159,4 +159,4 @@ function ProfileIntro({ isProfileOwner }: ProfileIntroProps) {
   );
 }
 
-export default ProfileIntro;
+export default ProfilePanelIntro;

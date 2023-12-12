@@ -5,12 +5,11 @@ import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import Spinner from "../../ui/Spinner";
 import { getUserId } from "../user/userSlice";
-import { getLoading, getUserProfile } from "./profileSlice";
+import { getUserProfile } from "./profileSlice";
 import { useFriend } from "./useFriend";
 
-function FriendStatus() {
+function ProfileHeaderFriend() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const isLoading = useSelector(getLoading);
   const userId = useSelector(getUserId);
   const profile = useSelector(getUserProfile);
 
@@ -24,7 +23,7 @@ function FriendStatus() {
 
   const { ref } = useOutsideClick(() => setShowMenu(false));
 
-  if (isLoading || !userId) return <Spinner />;
+  if (!userId) return <Spinner />;
 
   const status = {
     friends: profile.friends.some((friend) => friend._id === userId),
@@ -130,4 +129,4 @@ function FriendStatus() {
   );
 }
 
-export default FriendStatus;
+export default ProfileHeaderFriend;

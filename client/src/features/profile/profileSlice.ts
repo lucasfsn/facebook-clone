@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getProfile as getProfileApi } from "../../services/apiProfile";
-import { RootState } from "../../store";
+import { AppDispatch, RootState } from "../../store";
+import { fetchImages } from "../image/imagesSlice";
 import { PostRes } from "../post/postSlice";
 
 type Relationship =
@@ -22,12 +23,13 @@ export interface Details {
   relationship?: Relationship;
 }
 
-interface Friends {
+export interface Friend {
   _id: string;
   firstName: string;
   lastName: string;
   picture: string;
   username: string;
+  friends?: string[];
 }
 
 export interface ProfileRes {
@@ -42,7 +44,7 @@ export interface ProfileRes {
   birdthDay: number;
   birdthMonth: number;
   birdthYear: number;
-  friends: Friends[];
+  friends: Friend[];
   friendRequests: string[];
   sentFriendRequests: string[];
   search: string[];
@@ -95,14 +97,29 @@ const initialState: ProfileState = {
   error: false,
 };
 
-export const getProfile = createAsyncThunk<ProfileRes, string>(
-  "profile/getProfile",
-  async (username: string) => {
-    const data = await getProfileApi(username);
+export const getProfile = createAsyncThunk<
+  ProfileRes,
+  string,
+  { dispatch: AppDispatch }
+>("profile/getProfile", async (username: string, { dispatch }) => {
+  const data = await getProfileApi(username);
 
-    return data;
-  },
-);
+  dispatch(
+    fetchImages({
+      paths: [
+        `${username}/posts/images`,
+        `${username}/profile/profilePicture`,
+        `${username}/profile/profileCover`,
+      ],
+      sort: "desc",
+    }),
+  );
+
+  return {
+    ...data,
+    details: { ...initialState.profile.details, ...data.details },
+  };
+});
 
 const profileSlice = createSlice({
   name: "profile",
@@ -123,6 +140,12 @@ const profileSlice = createSlice({
       state.profile.cover = "";
       state.isLoading = false;
     },
+    updated(state) {
+      state.isLoading = false;
+    },
+    fetched(state) {
+      state.isLoading = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getProfile.pending, (state) => {
@@ -141,7 +164,7 @@ const profileSlice = createSlice({
   },
 });
 
-export const { updateProfile, error, loading, deleteCover } =
+export const { fetched, updated, updateProfile, error, loading, deleteCover } =
   profileSlice.actions;
 
 export default profileSlice.reducer;

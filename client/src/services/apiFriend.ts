@@ -48,3 +48,9 @@ export async function cancelFriendRequest(userId: string, friendId: string) {
 
   return { message: data.message };
 }
+
+export async function getUserById(id: string) {
+  const { data } = await axios.get(`${apiUrl}/user/${id}`);
+
+  return data;
+}

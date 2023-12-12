@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import ImagesProfile from "../image/ImagesProfile";
 import AddPost from "../post/AddPost";
 import { getUser } from "../user/userSlice";
-import ProfileFriends from "./ProfileFriends";
-import ProfileIntro from "./ProfileIntro";
+import ProfilePanelFriends from "./ProfilePanelFriends";
+import ProfilePanelIntro from "./ProfilePanelIntro";
 import ProfilePosts from "./ProfilePosts";
 import { getUserProfile } from "./profileSlice";
 
@@ -18,7 +18,7 @@ function Profile() {
   return (
     <div className="text-secondary flex w-full flex-col justify-between gap-4 p-4 md:flex-row lg:mx-auto xl:w-4/6">
       <div className="flex flex-col gap-4 md:w-[42.5%]">
-        <ProfileIntro isProfileOwner={isProfileOwner} />
+        <ProfilePanelIntro isProfileOwner={isProfileOwner} />
         <div className="bg-primary flex flex-col gap-3 rounded-md px-4 py-2">
           <div className="flex flex-row items-center justify-between">
             <Link
@@ -59,7 +59,7 @@ function Profile() {
               {profile.friends.length === 1 ? "friend" : "friends"}
             </span>
           </div>
-          <ProfileFriends />
+          <ProfilePanelFriends />
         </div>
       </div>
       <div className="flex flex-col gap-4 overflow-x-hidden md:w-[57.5%]">

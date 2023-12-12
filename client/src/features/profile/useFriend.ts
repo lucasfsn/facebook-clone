@@ -9,9 +9,15 @@ import {
 } from "../../services/apiFriend";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { getUser } from "../user/userSlice";
-import { error, getUserProfile, loading, updateProfile } from "./profileSlice";
+import {
+  error,
+  getUserProfile,
+  loading,
+  updateProfile,
+  updated,
+} from "./profileSlice";
 
-export function useFriend() {
+export function useFriend(isProfileFriendsPage: boolean = false) {
   const dispatch = useDispatch();
   const profile = useSelector(getUserProfile);
   const user = useSelector(getUser);
@@ -22,9 +28,13 @@ export function useFriend() {
     try {
       const { message } = await addFriendApi(userId, friendId);
 
-      dispatch(
-        updateProfile({ friendRequests: [...profile.friendRequests, userId] }),
-      );
+      isProfileFriendsPage
+        ? dispatch(updated())
+        : dispatch(
+            updateProfile({
+              friendRequests: [...profile.friendRequests, userId],
+            }),
+          );
 
       toast.success(message);
     } catch (err) {
@@ -40,11 +50,15 @@ export function useFriend() {
     try {
       const { message } = await removeFriendApi(userId, friendId);
 
-      dispatch(
-        updateProfile({
-          friends: profile.friends.filter((friend) => friend._id !== userId),
-        }),
-      );
+      isProfileFriendsPage
+        ? dispatch(updated())
+        : dispatch(
+            updateProfile({
+              friends: profile.friends.filter(
+                (friend) => friend._id !== userId,
+              ),
+            }),
+          );
 
       toast.success(message);
     } catch (err) {
@@ -60,13 +74,15 @@ export function useFriend() {
     try {
       const { message } = await removeFriendRequestApi(userId, friendId);
 
-      dispatch(
-        updateProfile({
-          friendRequests: profile.friendRequests.filter(
-            (friend) => friend !== userId,
-          ),
-        }),
-      );
+      isProfileFriendsPage
+        ? dispatch(updated())
+        : dispatch(
+            updateProfile({
+              friendRequests: profile.friendRequests.filter(
+                (friend) => friend !== userId,
+              ),
+            }),
+          );
 
       toast.success(message);
     } catch (err) {
@@ -82,7 +98,7 @@ export function useFriend() {
     try {
       const { message } = await acceptFriendRequestApi(userId, friendId);
 
-      if (user)
+      if (!isProfileFriendsPage && user) {
         dispatch(
           updateProfile({
             friends: [
@@ -97,6 +113,9 @@ export function useFriend() {
             ],
           }),
         );
+      } else {
+        dispatch(updated());
+      }
 
       toast.success(message);
     } catch (err) {
@@ -112,13 +131,15 @@ export function useFriend() {
     try {
       const { message } = await cancelFriendRequestApi(userId, friendId);
 
-      dispatch(
-        updateProfile({
-          friendRequests: profile.friendRequests.filter(
-            (friend) => friend !== userId,
-          ),
-        }),
-      );
+      isProfileFriendsPage
+        ? dispatch(updated())
+        : dispatch(
+            updateProfile({
+              friendRequests: profile.friendRequests.filter(
+                (friend) => friend !== userId,
+              ),
+            }),
+          );
 
       toast.success(message);
     } catch (err) {

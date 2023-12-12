@@ -5,8 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
 import ChoosePicture from "./ChoosePicture";
-import FriendStatus from "./FriendStatus";
 import ProfileCover from "./ProfileCover";
+import ProfileHeaderFriend from "./ProfileHeaderFriend";
 import ProfilePictureModal from "./ProfilePictureModal";
 import { getUserProfile } from "./profileSlice";
 
@@ -91,7 +91,7 @@ function ProfileHeader() {
                   <span>Edit Profile</span>
                 </button>
               ) : (
-                <FriendStatus />
+                <ProfileHeaderFriend />
               )}
             </div>
           </div>

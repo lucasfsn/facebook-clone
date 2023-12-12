@@ -25,9 +25,7 @@ function EditDetailsLabel({
   const profileDetails = useSelector(getProfileDetails);
 
   const isAdded =
-    isSaved || profileDetails[detail]
-      ? children.replace("Add", "Edit")
-      : children;
+    isSaved || details[detail] ? children.replace("Add", "Edit") : children;
 
   return (
     <div className="flex flex-col gap-2">
@@ -72,7 +70,6 @@ function EditDetailsLabel({
                 onClick={() => {
                   setShowEdit(false);
                   setIsSaved(true);
-                  // setDetails({ ...details, [detail]: details[detail] });
                 }}
               >
                 Save
