@@ -13,6 +13,7 @@ $--menu-subtitle-light: #3c3a38;
 $--separator-light: #ced0d4;
 $--text-tertiary-light: #b1b1b1;
 $--bg-post-light: #d8dadf;
+$--text-comment-light: #787878;
 
 // Dark mode
 $--bg-color-dark-primary: #242526;
@@ -25,6 +26,7 @@ $--menu-subtitle-dark: #b6b6b6;
 $--separator-dark: #3e4042;
 $--text-tertiary-dark: #b0b3b8;
 $--bg-post-dark: #5a5c5c;
+$--text-comment-dark: #cacaca;
 
 .light-mode {
   .bg-primary {
@@ -56,6 +58,9 @@ $--bg-post-dark: #5a5c5c;
   }
   .text-tertiary {
     color: $--text-tertiary-light;
+  }
+  .text-comment {
+    color: $--text-comment-light;
   }
   .bg-post,
   .bg-post-disabled:disabled {
@@ -115,6 +120,9 @@ $--bg-post-dark: #5a5c5c;
   .bg-post,
   .bg-post-disabled:disabled {
     background-color: $--bg-post-dark;
+  }
+  .text-comment {
+    color: $--text-comment-dark;
   }
   .profile-post {
     background: linear-gradient(

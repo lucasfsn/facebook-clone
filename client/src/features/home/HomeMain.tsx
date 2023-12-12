@@ -49,6 +49,7 @@ function reducer(state: State, action: Action) {
 
 function HomeMain() {
   const user = useSelector(getUser);
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const storiesRef = useRef<HTMLDivElement>(null);
 

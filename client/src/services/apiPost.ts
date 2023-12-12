@@ -34,3 +34,21 @@ export async function deletePost(id: string) {
 
   return { posts, message };
 }
+
+export async function addComment(
+  postId: string,
+  comment: string,
+  image: string,
+  userId: string,
+) {
+  const { data } = await axios.post(`${apiUrl}/post/comment`, {
+    comment,
+    image,
+    postId,
+    userId,
+  });
+
+  const { message, comments } = data;
+
+  return { message, comments };
+}
