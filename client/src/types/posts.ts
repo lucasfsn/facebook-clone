@@ -35,9 +35,16 @@ export interface SinglePost {
   key?: string;
 }
 
+export interface ReactionUser {
+  _id: string;
+  firstName: string;
+  lastName: string;
+}
+
 export interface SingleReaction {
   reaction: ReactionType;
   count: number;
+  users: ReactionUser[];
 }
 
 export interface AddPostData {

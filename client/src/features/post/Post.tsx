@@ -36,6 +36,7 @@ function Post({ post }: PostProps) {
   const [reactions, setReactions] = useState<SingleReaction[]>([]);
   const [reaction, setReaction] = useState<ReactionType | "">("");
   const [reactionsCount, setReactionsCount] = useState<number>(0);
+  const [hoverReaction, setHoverReaction] = useState<string | null>(null);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const nodeRef = useRef(null);
@@ -181,11 +182,38 @@ function Post({ post }: PostProps) {
                   .map(
                     (r) =>
                       r.count > 0 && (
-                        <img
-                          key={r.reaction}
-                          src={`../../../reaction-emoji/${r.reaction}.jpg`}
-                          className="aspect-square h-[15px] rounded-full"
-                        />
+                        <div key={r.reaction} className="relative rounded-full">
+                          <img
+                            src={`../../../reaction-emoji/${r.reaction}.jpg`}
+                            className="aspect-square h-[15px] cursor-pointer rounded-full"
+                            onMouseEnter={() => setHoverReaction(r.reaction)}
+                            onMouseLeave={() => setHoverReaction(null)}
+                          />
+                          {hoverReaction === r.reaction && (
+                            <span className="absolute bottom-full left-0 flex w-fit rounded-md bg-black bg-opacity-80 text-white">
+                              <div className="flex flex-col gap-1 px-2.5 py-1.5">
+                                <span className="text-sm font-semibold">
+                                  {capitalize(r.reaction)}
+                                </span>
+                                <div className="flex flex-col text-xs shadow-3xl">
+                                  {r.users
+                                    .map((user, i) => (
+                                      <span
+                                        key={`${user._id}-${i}`}
+                                        className="whitespace-nowrap"
+                                      >
+                                        {user.firstName} {user.lastName}
+                                      </span>
+                                    ))
+                                    .slice(0, 10)}
+                                  {r.users.length > 10 && (
+                                    <span>and {r.users.length - 10} more</span>
+                                  )}
+                                </div>
+                              </div>
+                            </span>
+                          )}
+                        </div>
                       ),
                   )
                   .slice(0, 3)}
