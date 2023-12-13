@@ -71,3 +71,26 @@ export function getPublicIdFromUrl(url: string) {
 
   return `${username}/posts/images/${id}`.replace(/\//g, "%2F");
 }
+
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export function reactionColor(reaction: string | undefined) {
+  switch (reaction) {
+    case "like":
+      return "text-blue-600";
+    case "love":
+      return "text-red-400";
+    case "haha":
+      return "text-yellow-400";
+    case "care":
+    case "wow":
+    case "sad":
+      return "text-orange-300";
+    case "angry":
+      return "text-orange-700";
+    default:
+      return "text-secondary";
+  }
+}

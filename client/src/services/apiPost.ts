@@ -52,3 +52,28 @@ export async function addComment(
 
   return { message, comments };
 }
+
+export type ReactionType = "like" | "love" | "haha" | "wow" | "sad" | "angry";
+
+export async function addReaction(
+  reaction: ReactionType,
+  postId: string,
+  userId: string,
+) {
+  await axios.post(`${apiUrl}/reaction/add`, {
+    reaction,
+    postId,
+    userId,
+  });
+}
+
+export async function getReactions(postId: string, userId: string) {
+  const { data } = await axios.get(
+    `${apiUrl}/reaction/get/${postId}/${userId}`,
+  );
+  return {
+    reactions: data.reactions,
+    userReaction: data.userReaction,
+    reactionsCount: data.reactionsCount,
+  };
+}

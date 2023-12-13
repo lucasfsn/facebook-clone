@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { BsPlus } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { MAX_FILE_SIZE, VALID_MIMETYPES } from "../../utils/constants";
+import { capitalize } from "../../utils/helpers";
 import { getImages } from "../image/imagesSlice";
 import EditProfilePicture from "./EditProfilePicture";
 
@@ -69,7 +70,7 @@ function ChoosePicture({ filter }: ChoosePictureProps) {
           </button>
           <div className="flex flex-col gap-3">
             <p className="text-secondary text-lg font-semibold">
-              {filter.charAt(0).toUpperCase() + filter.slice(1)} pictures
+              {capitalize(filter)} pictures
             </p>
             <div className="grid grid-cols-4 gap-2 overflow-hidden rounded-md">
               {images.map((image) => {

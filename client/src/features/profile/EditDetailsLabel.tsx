@@ -20,12 +20,11 @@ function EditDetailsLabel({
   children,
 }: EditDetailsLabel) {
   const [showEdit, setShowEdit] = useState<boolean>(false);
-  const [isSaved, setIsSaved] = useState<boolean>(false);
 
   const profileDetails = useSelector(getProfileDetails);
 
   const isAdded =
-    isSaved || details[detail] ? children.replace("Add", "Edit") : children;
+    details[detail] !== "" ? children.replace("Add", "Edit") : children;
 
   return (
     <div className="flex flex-col gap-2">
@@ -69,7 +68,6 @@ function EditDetailsLabel({
                 className="rounded-md bg-blue-500 px-2.5 py-1.5 font-semibold text-white hover:bg-blue-400"
                 onClick={() => {
                   setShowEdit(false);
-                  setIsSaved(true);
                 }}
               >
                 Save

@@ -23,6 +23,7 @@ interface User {
   lastName: string;
   username: string;
   picture: string;
+  cover: string;
 }
 
 export interface PostRes {
@@ -85,6 +86,9 @@ const postSlice = createSlice({
       });
       state.isLoading = false;
     },
+    addedReaction(state) {
+      state.isLoading = false;
+    },
     loading(state) {
       state.isLoading = true;
     },
@@ -110,8 +114,14 @@ const postSlice = createSlice({
   },
 });
 
-export const { deletePost, addPost, loading, error, addComment } =
-  postSlice.actions;
+export const {
+  addedReaction,
+  deletePost,
+  addPost,
+  loading,
+  error,
+  addComment,
+} = postSlice.actions;
 
 export default postSlice.reducer;
 

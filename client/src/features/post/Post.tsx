@@ -5,18 +5,28 @@ import { FaGlobeEurope } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { TbListDetails } from "react-icons/tb";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import ReactionsModal from "../../ui/ReactionsModal";
+import { ReactionType } from "../../services/apiPost";
 import { MAX_COMMENTS } from "../../utils/constants";
+import { capitalize, reactionColor } from "../../utils/helpers";
 import ImagesPost from "../image/ImagesPost";
+import { getUserId } from "../user/userSlice";
 import AddComment from "./AddComment";
 import Comment from "./Comment";
 import PostMenu from "./PostMenu";
+import ReactionsModal from "./ReactionsModal";
 import { CommentRes, PostRes } from "./postSlice";
+import { useReaction } from "./useReaction";
 
 interface PostProps {
   post: PostRes;
+}
+
+interface ReactionRes {
+  reaction: ReactionType;
+  count: number;
 }
 
 function Post({ post }: PostProps) {
@@ -24,14 +34,44 @@ function Post({ post }: PostProps) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [comments, setComments] = useState<CommentRes[]>(post.comments);
   const [commentsCount, setCommentsCount] = useState<number>(MAX_COMMENTS);
+  const [reactions, setReactions] = useState<ReactionRes[]>([]);
+  const [reaction, setReaction] = useState<ReactionType | "">("");
+  const [reactionsCount, setReactionsCount] = useState<number>(0);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const nodeRef = useRef(null);
   const commentRef = useRef<HTMLInputElement>(null);
 
+  const userId = useSelector(getUserId);
+
+  const { getReactions, addReaction } = useReaction();
+
   useEffect(() => {
     setComments([...post.comments].reverse());
   }, [post.comments]);
+
+  useEffect(() => {
+    async function getAllReactions() {
+      if (!userId) return;
+      const data = await getReactions(post._id, userId);
+      setReactions(data?.reactions);
+      setReaction(data?.userReaction);
+      setReactionsCount(data?.reactionsCount);
+    }
+
+    getAllReactions();
+  }, [post, userId, reaction, getReactions]);
+
+  async function handleAddReaction() {
+    if (!userId) return;
+    if (reaction) {
+      await addReaction(reaction, post._id, userId);
+      setReaction("");
+    } else {
+      setReaction("like");
+      await addReaction("like", post._id, userId);
+    }
+  }
 
   function handleShowMenu() {
     setShowMenu((show) => !show);
@@ -136,16 +176,32 @@ function Post({ post }: PostProps) {
         ) : (
           <span className="px-3">{post.content}</span>
         )}
-        {post.images?.length !== 0 && (
-          <ImagesPost images={post.images} type={post.type} />
-        )}
+        {post.images?.length !== 0 && <ImagesPost post={post} />}
       </div>
       <div className="text-tertiary flex flex-col gap-1 px-3">
         <div className="separator flex flex-row justify-between border-b pb-1">
-          <div>1,8k</div>
+          {reactionsCount > 0 && (
+            <div className="text-tertiary flex items-center gap-1.5">
+              <div className="flex items-center gap-0.5">
+                {reactions
+                  .map(
+                    (r) =>
+                      r.count > 0 && (
+                        <img
+                          key={r.reaction}
+                          src={`../../../reaction-emoji/${r.reaction}.jpg`}
+                          className="aspect-square h-[15px] rounded-full"
+                        />
+                      ),
+                  )
+                  .slice(0, 3)}
+              </div>
+              <span>{reactionsCount}</span>
+            </div>
+          )}
           {comments.length > 0 && (
             <div
-              className="cursor-pointer self-end hover:underline"
+              className="ml-auto cursor-pointer hover:underline"
               onClick={handleCommentClick}
             >
               {comments.length} {comments.length === 1 ? "comment" : "comments"}
@@ -160,23 +216,39 @@ function Post({ post }: PostProps) {
             classNames="slide-up"
             unmountOnExit
           >
-            <ReactionsModal ref={nodeRef} setActiveLike={setActiveLike} />
+            <ReactionsModal
+              ref={nodeRef}
+              postId={post._id}
+              setActiveLike={setActiveLike}
+              currentReaction={reaction}
+              setReaction={setReaction}
+            />
           </CSSTransition>
           <button
             className="bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 rounded-md p-0.5 text-xl font-semibold"
             onMouseEnter={() => {
               setTimeout(() => {
                 setActiveLike(true);
-              }, 400);
+              }, 500);
             }}
             onMouseLeave={() => {
               setTimeout(() => {
                 setActiveLike(false);
-              }, 400);
+              }, 500);
             }}
+            onClick={handleAddReaction}
           >
-            <AiOutlineLike />
-            <span className="text-[0.95rem]">Like</span>
+            {reaction ? (
+              <img
+                src={`../../../reaction-emoji/${reaction}.jpg`}
+                className="aspect-square w-[18px] translate-y-[1px] rounded-full"
+              />
+            ) : (
+              <AiOutlineLike />
+            )}
+            <span className={`text-[0.95rem] ${reactionColor(reaction)}`}>
+              {reaction ? capitalize(reaction) : "Like"}
+            </span>
           </button>
           <button
             className="bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 rounded-md p-0.5 text-xl font-semibold"

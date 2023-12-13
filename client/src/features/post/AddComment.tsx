@@ -3,7 +3,7 @@ import EmojiPicker, {
   EmojiStyle,
   Theme,
 } from "emoji-picker-react";
-import { ChangeEvent, forwardRef, useRef, useState } from "react";
+import { ChangeEvent, forwardRef, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FaRegSmile } from "react-icons/fa";
 import { HiXMark } from "react-icons/hi2";
@@ -31,6 +31,8 @@ const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
     const { darkMode } = useDarkMode();
     const inputRef = useRef<HTMLInputElement>(null);
     const inputFileRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {}, []);
 
     function handleShowEmojiPicker() {
       setShowEmojiPicker((show) => !show);

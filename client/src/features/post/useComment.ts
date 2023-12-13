@@ -6,7 +6,12 @@ import { AppDispatch } from "../../store";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { getProfile } from "../profile/profileSlice";
 import { User } from "../user/userSlice";
-import { addComment as addPostComment, error, loading } from "./postSlice";
+import {
+  addComment as addPostComment,
+  error,
+  getPosts,
+  loading,
+} from "./postSlice";
 
 export function useComment() {
   const dispatch: AppDispatch = useDispatch();
@@ -41,6 +46,7 @@ export function useComment() {
       );
 
       dispatch(addPostComment(comments));
+      dispatch(getPosts());
       dispatch(getProfile(user.username));
 
       toast.success(message);
