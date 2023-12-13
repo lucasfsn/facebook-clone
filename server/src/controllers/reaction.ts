@@ -23,6 +23,7 @@ export const addReaction: RequestHandler<
 > = async (req, res) => {
   try {
     const { reaction, postId, userId } = req.body;
+    console.log(userId);
 
     const hasReaction = await ReactionModel.findOne({
       post: postId,
@@ -61,6 +62,17 @@ interface Reactions {
   [key: string]: Reaction[];
 }
 
+interface ReactionUser {
+  _id: mongoose.Types.ObjectId;
+  firstName: string;
+  lastName: string;
+}
+
+interface ReactionRes extends Omit<Reaction, 'by'> {
+  by: ReactionUser;
+  createdAt: Date;
+}
+
 export const getReaction: RequestHandler<
   GetReactionParams,
   unknown,
@@ -70,7 +82,10 @@ export const getReaction: RequestHandler<
   try {
     const { postId, userId } = req.params;
 
-    const reactions = await ReactionModel.find({ post: postId });
+    const reactions = await ReactionModel.find({ post: postId }).populate(
+      'by',
+      'firstName lastName createdAt'
+    );
 
     const reactionsObj = reactions.reduce((prev: Reactions, curr) => {
       if (!prev[curr.reaction]) prev[curr.reaction] = [];
@@ -91,6 +106,15 @@ export const getReaction: RequestHandler<
       .map(reaction => ({
         reaction,
         count: reactionsObj[reaction]?.length || 0,
+        users:
+          (reactionsObj[reaction] as unknown as ReactionRes[])
+            ?.map((r: ReactionRes) => ({
+              firstName: r.by.firstName,
+              lastName: r.by.lastName,
+              createdAt: r.createdAt,
+            }))
+            .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()) ||
+          [],
       }))
       .sort((a, b) => b.count - a.count);
 
