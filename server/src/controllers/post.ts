@@ -49,7 +49,7 @@ export const allPosts: RequestHandler<
 > = async (req, res) => {
   try {
     const posts = await PostModel.find()
-      .populate('user', 'firstName lastName picture username')
+      .populate('user', 'firstName lastName picture username cover')
       .populate('comments.author', 'firstName lastName picture username')
       .sort({ createdAt: -1 });
 
