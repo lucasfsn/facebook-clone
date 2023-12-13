@@ -2,17 +2,17 @@ import { RefObject, useState } from "react";
 import { HiOutlineBookmark, HiOutlineTrash, HiPencil } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { SinglePost } from "../../types/posts";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
 import EditPostForm from "./EditPostForm";
-import { PostRes } from "./postSlice";
 import { useDeletePost } from "./useDeletePost";
 
 interface PostMenuProps {
   postCreatorId: string | undefined;
   button: RefObject<HTMLButtonElement>;
   close: () => void;
-  post: PostRes;
+  post: SinglePost;
 }
 
 function PostMenu({ postCreatorId, button, close, post }: PostMenuProps) {

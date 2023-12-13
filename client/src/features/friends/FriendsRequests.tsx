@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getUserById } from "../../services/apiFriend";
+import { Friend } from "../../types/profile";
 import ProfileFriend from "../profile/ProfileFriend";
-import { Friend } from "../profile/profileSlice";
 import { getUser } from "../user/userSlice";
 
 function FriendsRequests() {

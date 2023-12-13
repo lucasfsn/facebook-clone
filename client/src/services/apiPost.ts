@@ -1,16 +1,9 @@
 import axios from "axios";
+import { AddPostData, ReactionType } from "../types/posts";
 
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
-export interface PostData {
-  type: "profile" | "cover" | "post" | "details";
-  content: string;
-  userId: string;
-  images: string[];
-  key?: string;
-}
-
-export async function addPost(post: PostData) {
+export async function addPost(post: AddPostData) {
   const { data } = await axios.post(`${apiUrl}/post/add`, {
     ...post,
     user: post.userId,
@@ -52,8 +45,6 @@ export async function addComment(
 
   return { message, comments };
 }
-
-export type ReactionType = "like" | "love" | "haha" | "wow" | "sad" | "angry";
 
 export async function addReaction(
   reaction: ReactionType,

@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { FaCamera, FaGlobeEurope } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useDarkMode } from "../../context/DarkModeContext";
+import { ImagePosition } from "../../types/images";
 import Button from "../../ui/Button";
 import ImageSlider from "../../ui/ImageSlider";
 import {
@@ -25,7 +26,7 @@ import { useCover } from "./useCover";
 type State = {
   cover: string;
   showAddCover: boolean;
-  position: Position;
+  position: ImagePosition;
   showEditor: boolean;
   showCoverButton: boolean;
 };
@@ -34,7 +35,7 @@ type Action =
   | { type: "cover/show" }
   | { type: "cover/set"; payload: string }
   | { type: "cover/uploaded" }
-  | { type: "cover/position"; payload: Position }
+  | { type: "cover/position"; payload: ImagePosition }
   | { type: "cover/cancel" };
 
 const initialState: State = {
@@ -71,11 +72,6 @@ function reducer(state: State, action: Action): State {
     default:
       return state;
   }
-}
-
-interface Position {
-  x: number;
-  y: number;
 }
 
 interface ProfileConverProps {
@@ -122,7 +118,7 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
     dispatch({ type: "cover/cancel" });
   }
 
-  function handlePositionChange(position: Position) {
+  function handlePositionChange(position: ImagePosition) {
     dispatch({ type: "cover/position", payload: position });
   }
 

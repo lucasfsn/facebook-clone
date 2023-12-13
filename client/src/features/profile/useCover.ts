@@ -6,9 +6,9 @@ import {
   removeCoverPhoto as removeCoverApi,
   updateCover as updateCoverApi,
 } from "../../services/apiProfile";
+import { SingleUser } from "../../types/user";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
-import { User } from "../user/userSlice";
 import { deleteCover, error, loading, updateProfile } from "./profileSlice";
 
 export function useCover() {
@@ -30,7 +30,7 @@ export function useCover() {
     }
   }
 
-  async function updateCover(image: string, user: User) {
+  async function updateCover(image: string, user: SingleUser) {
     dispatch(loading());
 
     try {

@@ -1,25 +1,6 @@
 import { FormikProps } from "formik";
 import { HiExclamationTriangle } from "react-icons/hi2";
-
-export interface ChangePasswordData {
-  [key: string]: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export interface ChangeNameData {
-  [key: string]: string;
-  name: string;
-}
-
-export interface ChangeEmailData {
-  [key: string]: string;
-  email: string;
-}
-
-type FormInputData = {
-  [key: string]: string;
-} & (ChangePasswordData | ChangeNameData | ChangeEmailData);
+import { FormInputData } from "../../types/settings";
 
 interface FormInputProps<T extends FormInputData> {
   placeholder: string;
@@ -27,6 +8,7 @@ interface FormInputProps<T extends FormInputData> {
   type: string;
   formik: FormikProps<T>;
 }
+
 function FormInput<T extends FormInputData>({
   placeholder,
   type,

@@ -1,9 +1,7 @@
-import { ChangeEvent, useRef, useState } from "react";
-import toast from "react-hot-toast";
+import { useRef, useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { MAX_FILE_SIZE, VALID_MIMETYPES } from "../../utils/constants";
-import { capitalize } from "../../utils/helpers";
+import { capitalize, handleAddImage } from "../../utils/helpers";
 import { getImages } from "../image/imagesSlice";
 import EditProfilePicture from "./EditProfilePicture";
 
@@ -16,32 +14,6 @@ function ChoosePicture({ filter }: ChoosePictureProps) {
   const ref = useRef<HTMLInputElement>(null);
 
   const images = useSelector(getImages);
-
-  function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
-    if (!e.target.files) return;
-
-    const image = e.target.files[0];
-
-    if (!VALID_MIMETYPES.includes(image.type)) {
-      toast.error("Selected file type is not supported");
-      return;
-    }
-
-    if (image.size > MAX_FILE_SIZE) {
-      toast.error("Selected file is too large");
-      return;
-    }
-
-    if (image) {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = (e) => {
-        if (e.target) {
-          setImage(e.target.result as string);
-        }
-      };
-    }
-  }
 
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md py-4">
@@ -62,7 +34,9 @@ function ChoosePicture({ filter }: ChoosePictureProps) {
               type="file"
               ref={ref}
               accept="image/jpeg,image/png,image/gif"
-              onChange={handleAddImage}
+              onChange={(e) => {
+                handleAddImage(e, setImage);
+              }}
               hidden
             />
             <BsPlus className="text-xl" />

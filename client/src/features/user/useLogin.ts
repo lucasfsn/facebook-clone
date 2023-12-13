@@ -2,7 +2,8 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { LoginData, login as loginApi } from "../../services/apiAuth";
+import { login as loginApi } from "../../services/apiAuth";
+import { Login } from "../../types/auth";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { error, loading, login } from "./userSlice";
 
@@ -10,7 +11,7 @@ export function useLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function loginUser(user: LoginData) {
+  async function loginUser(user: Login) {
     dispatch(loading());
 
     try {

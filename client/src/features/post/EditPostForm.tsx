@@ -1,48 +1,27 @@
-import EmojiPicker, {
-  EmojiClickData,
-  EmojiStyle,
-  Theme,
-} from "emoji-picker-react";
+import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
 import { useRef, useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
 import { useDarkMode } from "../../context/DarkModeContext";
-import { PostRes } from "./postSlice";
-
-type DarkModeOptions = "on" | "off" | "auto";
+import { useEmojiPicker } from "../../hooks/useEmojiPicker";
+import { SinglePost } from "../../types/posts";
+import { setEmojiPickerMode } from "../../utils/helpers";
 
 interface EditPostFormProps {
-  post: PostRes;
+  post: SinglePost;
   withImage?: boolean;
 }
 
 function EditPostForm({ post, withImage = false }: EditPostFormProps) {
   const [text, setText] = useState<string>(post.content);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
+  const { showEmojiPicker, handleShowEmojiPicker } = useEmojiPicker();
   const { darkMode } = useDarkMode();
   const postRef = useRef<HTMLTextAreaElement>(null);
-
-  function handleShowEmojiPicker() {
-    setShowEmojiPicker((show) => !show);
-  }
 
   function handleAddEmoji({ emoji }: EmojiClickData) {
     postRef.current?.focus();
 
     setText((prev) => prev + emoji);
-  }
-
-  function setEmojiPickerMode(darkMode: DarkModeOptions): Theme | undefined {
-    switch (darkMode) {
-      case "on":
-        return Theme.DARK;
-      case "off":
-        return Theme.LIGHT;
-      case "auto":
-        return Theme.AUTO;
-      default:
-        return undefined;
-    }
   }
 
   return (

@@ -2,6 +2,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
 import { FaGlobeEurope, FaMinus, FaPlus } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { ImagePosition } from "../../types/images";
 import Button from "../../ui/Button";
 import Loader from "../../ui/Loader";
 import { getUser } from "../user/userSlice";
@@ -13,15 +14,10 @@ interface EditProfilePictureProps {
   setImage: Dispatch<SetStateAction<string>>;
 }
 
-interface Position {
-  x: number;
-  y: number;
-}
-
 function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
   const [description, setDescription] = useState<string>("");
   const [scale, setScale] = useState<number>(1);
-  const [position, setPosition] = useState<Position>({ x: 0.5, y: 0.5 });
+  const [position, setPosition] = useState<ImagePosition>({ x: 0.5, y: 0.5 });
 
   const isLoading = useSelector(getLoading);
   const { updateProfilePicture } = useProfilePicture();
@@ -34,7 +30,7 @@ function EditProfilePicture({ image, setImage }: EditProfilePictureProps) {
     setScale(Number(e.target.value));
   }
 
-  function handlePositionChange(position: Position) {
+  function handlePositionChange(position: ImagePosition) {
     setPosition(position);
   }
 

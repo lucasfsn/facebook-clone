@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { LoginData } from "../../../services/apiAuth";
+import { Login } from "../../../types/auth";
 import Button from "../../../ui/Button";
 import Spinner from "../../../ui/Spinner";
 import SignUp from "../signup/SignUp";
@@ -11,14 +11,14 @@ import { getLoading } from "../userSlice";
 import { loginValidation } from "../validation";
 import LoginInput from "./LoginInput";
 
-const initialState: LoginData = {
+const initialState: Login = {
   email: "",
   password: "",
 };
 
 function LoginForm() {
   const { loginUser } = useLogin();
-  const [user, setUser] = useState<LoginData>(initialState);
+  const [user, setUser] = useState<Login>(initialState);
   const isLoading = useSelector(getLoading);
 
   if (isLoading) return <Spinner />;

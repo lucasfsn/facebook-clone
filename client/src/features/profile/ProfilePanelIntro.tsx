@@ -5,10 +5,11 @@ import { GiTakeMyMoney } from "react-icons/gi";
 import { HiHeart, HiHome } from "react-icons/hi2";
 import { IoSchool } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { Details } from "../../types/profile";
 import Modal from "../../ui/Modal";
 import { getUserId } from "../user/userSlice";
 import EditDetails from "./EditDetails";
-import { Details, getProfileDetails } from "./profileSlice";
+import { getProfileDetails } from "./profileSlice";
 import { useDetails } from "./useDetails";
 
 interface ProfileIntroProps {

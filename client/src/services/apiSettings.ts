@@ -1,13 +1,9 @@
 import axios from "axios";
+import { ChangePassword, ChangeUserSettings } from "../types/settings";
 
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
-export interface ChangePasswordData {
-  email: string;
-  password: string;
-}
-
-export async function changePassword(user: ChangePasswordData) {
+export async function changePassword(user: ChangePassword) {
   const { data } = await axios.patch(`${apiUrl}/change-password`, user);
 
   const { message } = data;
@@ -15,15 +11,7 @@ export async function changePassword(user: ChangePasswordData) {
   return { message };
 }
 
-type ChangeUserSettingsType = "firstName" | "lastName" | "email";
-
-export interface ChangeUserSettingsData {
-  email: string;
-  field: ChangeUserSettingsType;
-  value: string;
-}
-
-export async function changeSettings(user: ChangeUserSettingsData) {
+export async function changeSettings(user: ChangeUserSettings) {
   const { data } = await axios.put(`${apiUrl}/change/${user.field}`, user);
 
   const { message } = data;

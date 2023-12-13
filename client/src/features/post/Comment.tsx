@@ -1,8 +1,8 @@
 import { formatDistanceToNow } from "date-fns";
-import { CommentRes } from "./postSlice";
+import { SingleComment } from "../../types/posts";
 
 interface CommentProps {
-  comment: CommentRes;
+  comment: SingleComment;
 }
 
 function Comment({ comment }: CommentProps) {

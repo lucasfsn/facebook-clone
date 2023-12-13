@@ -1,10 +1,11 @@
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
+import { ChangeNameData } from "../../types/settings";
 import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 import { getLoading, getUser } from "../user/userSlice";
 import { changeNameValidation } from "../user/validation";
-import FormInput, { ChangeNameData } from "./FormInput";
+import FormInput from "./FormInput";
 import { useChangeSettings } from "./useChangeSettings";
 
 interface ChangeNameProps {

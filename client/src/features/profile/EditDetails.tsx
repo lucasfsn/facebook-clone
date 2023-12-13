@@ -1,5 +1,5 @@
+import { Details } from "../../types/profile";
 import EditDetailsLabel from "./EditDetailsLabel";
-import { Details } from "./profileSlice";
 
 interface EditDetailsProps {
   details: Details;

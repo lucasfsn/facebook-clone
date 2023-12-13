@@ -4,7 +4,7 @@ import { AppDispatch } from "../../store";
 import Post from "./Post";
 import { getAllPosts, getPosts } from "./postSlice";
 
-function AllPosts() {
+function Posts() {
   const dispatch: AppDispatch = useDispatch();
   const posts = useSelector(getAllPosts);
 
@@ -21,4 +21,4 @@ function AllPosts() {
   );
 }
 
-export default AllPosts;
+export default Posts;

@@ -5,13 +5,13 @@ import { addComment as addCommentApi } from "../../services/apiPost";
 import { AppDispatch } from "../../store";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { getProfile } from "../profile/profileSlice";
-import { User } from "../user/userSlice";
 import {
   addComment as addPostComment,
   error,
   getPosts,
   loading,
 } from "./postSlice";
+import { SingleUser } from "../../types/user";
 
 export function useComment() {
   const dispatch: AppDispatch = useDispatch();
@@ -20,7 +20,7 @@ export function useComment() {
     comment: string,
     image: string,
     postId: string,
-    user: User,
+    user: SingleUser,
   ) {
     dispatch(loading());
 

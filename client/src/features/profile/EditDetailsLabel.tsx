@@ -2,7 +2,8 @@ import { useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaGlobeEurope } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { Details, getProfileDetails } from "./profileSlice";
+import { Details } from "../../types/profile";
+import { getProfileDetails } from "./profileSlice";
 
 interface EditDetailsLabel {
   detail: keyof Details;

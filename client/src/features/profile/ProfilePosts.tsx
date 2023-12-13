@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { PostOwner } from "../../types/posts";
 import Post from "../post/Post";
 import { getUserProfile } from "./profileSlice";
 
@@ -7,7 +8,7 @@ function ProfilePosts() {
 
   const profilePosts = profile.userPosts.map((post) => ({
     ...post,
-    user: profile,
+    user: profile as PostOwner,
   }));
 
   return (

@@ -1,45 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getPosts as getPostsApi } from "../../services/apiPost";
 import { RootState } from "../../store";
-
-interface Author {
-  _id: string;
-  picture: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-}
-
-export interface CommentRes {
-  _id: string;
-  comment: string;
-  image: string;
-  author: Author;
-  commentDate: Date;
-}
-interface User {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  picture: string;
-  cover: string;
-}
-
-export interface PostRes {
-  _id: string;
-  type: "profile" | "cover" | "post" | "details";
-  images: string[];
-  content: string;
-  user: User;
-  comments: CommentRes[];
-  createdAt: string;
-  updatedAt: Date;
-  key?: string;
-}
+import { SingleComment, SinglePost } from "../../types/posts";
 
 interface PostsState {
-  posts: PostRes[];
+  posts: SinglePost[];
   isLoading: boolean;
   error: boolean;
 }
@@ -50,7 +15,7 @@ const initialState: PostsState = {
   error: false,
 };
 
-export const getPosts = createAsyncThunk<PostRes[]>(
+export const getPosts = createAsyncThunk<SinglePost[]>(
   "post/getPosts",
   async () => {
     const { data } = await getPostsApi();
@@ -63,17 +28,17 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    addPost(state, action: PayloadAction<{ post: PostRes }>) {
+    addPost(state, action: PayloadAction<{ post: SinglePost }>) {
       state.posts = [action.payload.post, ...state.posts];
       state.isLoading = false;
       state.error = false;
     },
-    deletePost(state, action: PayloadAction<PostRes[]>) {
+    deletePost(state, action: PayloadAction<SinglePost[]>) {
       state.posts = action.payload;
       state.isLoading = false;
       state.error = false;
     },
-    addComment(state, action: PayloadAction<CommentRes>) {
+    addComment(state, action: PayloadAction<SingleComment>) {
       state.posts = state.posts.map((post) => {
         if (post._id === action.payload.comment) {
           return {

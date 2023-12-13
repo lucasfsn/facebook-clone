@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getProfile } from "../../services/apiProfile";
+import { SingleProfile } from "../../types/profile";
 import Spinner from "../../ui/Spinner";
-import { ProfileRes } from "../profile/profileSlice";
 import { useFriend } from "../profile/useFriend";
 import { getUser } from "../user/userSlice";
 
 function Friends() {
-  const [currentUser, setCurrentUser] = useState<ProfileRes | null>(null);
+  const [currentUser, setCurrentUser] = useState<SingleProfile | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const user = useSelector(getUser);

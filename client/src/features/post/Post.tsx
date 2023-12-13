@@ -8,7 +8,12 @@ import { TbListDetails } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { ReactionType } from "../../services/apiPost";
+import {
+  ReactionType,
+  SingleComment,
+  SinglePost,
+  SingleReaction,
+} from "../../types/posts";
 import { MAX_COMMENTS } from "../../utils/constants";
 import { capitalize, reactionColor } from "../../utils/helpers";
 import ImagesPost from "../image/ImagesPost";
@@ -17,24 +22,18 @@ import AddComment from "./AddComment";
 import Comment from "./Comment";
 import PostMenu from "./PostMenu";
 import ReactionsModal from "./ReactionsModal";
-import { CommentRes, PostRes } from "./postSlice";
 import { useReaction } from "./useReaction";
 
-interface PostProps {
-  post: PostRes;
-}
-
-interface ReactionRes {
-  reaction: ReactionType;
-  count: number;
+export interface PostProps {
+  post: SinglePost;
 }
 
 function Post({ post }: PostProps) {
   const [activeLike, setActiveLike] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [comments, setComments] = useState<CommentRes[]>(post.comments);
+  const [comments, setComments] = useState<SingleComment[]>(post.comments);
   const [commentsCount, setCommentsCount] = useState<number>(MAX_COMMENTS);
-  const [reactions, setReactions] = useState<ReactionRes[]>([]);
+  const [reactions, setReactions] = useState<SingleReaction[]>([]);
   const [reaction, setReaction] = useState<ReactionType | "">("");
   const [reactionsCount, setReactionsCount] = useState<number>(0);
 
@@ -64,13 +63,8 @@ function Post({ post }: PostProps) {
 
   async function handleAddReaction() {
     if (!userId) return;
-    if (reaction) {
-      await addReaction(reaction, post._id, userId);
-      setReaction("");
-    } else {
-      setReaction("like");
-      await addReaction("like", post._id, userId);
-    }
+    await addReaction("like", post._id, userId);
+    reaction === "like" ? setReaction("") : setReaction("like");
   }
 
   function handleShowMenu() {

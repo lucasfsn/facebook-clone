@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Details } from "../features/profile/profileSlice";
+import { Details } from "../types/profile";
 
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 

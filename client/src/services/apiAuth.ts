@@ -1,19 +1,9 @@
 import axios from "axios";
+import { Login, SignUp } from "../types/auth";
 
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
-export interface SignUpData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  birthDay: number;
-  birthMonth: number;
-  birthYear: number;
-  gender: string;
-}
-
-export async function signup(user: SignUpData) {
+export async function signup(user: SignUp) {
   const { data } = await axios.post(`${apiUrl}/signup`, user);
 
   const { message, ...signUpData } = data;
@@ -21,12 +11,7 @@ export async function signup(user: SignUpData) {
   return { message, signUpData };
 }
 
-export interface LoginData {
-  email: string;
-  password: string;
-}
-
-export async function login(login: LoginData) {
+export async function login(login: Login) {
   const { data } = await axios.post(`${apiUrl}/login`, login);
 
   const { message, ...loginData } = data;

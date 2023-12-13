@@ -1,7 +1,7 @@
 import { forwardRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { reactions } from "../../../data/reactions";
-import { ReactionType } from "../../services/apiPost";
+import { ReactionType } from "../../types/posts";
 import { capitalize } from "../../utils/helpers";
 import { getUserId } from "../user/userSlice";
 import { useReaction } from "./useReaction";

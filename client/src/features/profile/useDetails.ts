@@ -3,7 +3,8 @@ import { useDispatch } from "react-redux";
 import { updateUserDetails as updateUserDetailsApi } from "../../services/apiProfile";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
-import { Details, error, loading, updateProfile } from "./profileSlice";
+import {  error, loading, updateProfile } from "./profileSlice";
+import { Details } from "../../types/profile";
 
 export function useDetails() {
   const { createDetailsPost } = useAddPost();

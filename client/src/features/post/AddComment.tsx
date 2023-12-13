@@ -1,16 +1,12 @@
-import EmojiPicker, {
-  EmojiClickData,
-  EmojiStyle,
-  Theme,
-} from "emoji-picker-react";
-import { ChangeEvent, forwardRef, useEffect, useRef, useState } from "react";
-import toast from "react-hot-toast";
+import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
+import { forwardRef, useRef, useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
 import { HiXMark } from "react-icons/hi2";
 import { IoCameraOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
-import { DarkModeOptions, useDarkMode } from "../../context/DarkModeContext";
-import { MAX_FILE_SIZE, VALID_MIMETYPES } from "../../utils/constants";
+import { useDarkMode } from "../../context/DarkModeContext";
+import { useEmojiPicker } from "../../hooks/useEmojiPicker";
+import { handleAddImage, setEmojiPickerMode } from "../../utils/helpers";
 import { getUser } from "../user/userSlice";
 import { useComment } from "./useComment";
 
@@ -20,68 +16,22 @@ interface AddCommentProps {
 
 const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
   ({ postId }, ref) => {
-    const { addComment } = useComment();
-
-    const user = useSelector(getUser);
-
     const [comment, setComment] = useState<string>("");
-    const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [image, setImage] = useState<string>("");
 
-    const { darkMode } = useDarkMode();
     const inputRef = useRef<HTMLInputElement>(null);
     const inputFileRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {}, []);
-
-    function handleShowEmojiPicker() {
-      setShowEmojiPicker((show) => !show);
-    }
+    const { addComment } = useComment();
+    const { darkMode } = useDarkMode();
+    const { showEmojiPicker, handleShowEmojiPicker } = useEmojiPicker();
+    const user = useSelector(getUser);
 
     function handleAddEmoji({ emoji }: EmojiClickData) {
       const ref = inputRef.current;
       ref?.focus();
 
       setComment((prev) => prev + emoji);
-    }
-
-    function setEmojiPickerMode(darkMode: DarkModeOptions): Theme | undefined {
-      switch (darkMode) {
-        case "on":
-          return Theme.DARK;
-        case "off":
-          return Theme.LIGHT;
-        case "auto":
-          return Theme.AUTO;
-        default:
-          return undefined;
-      }
-    }
-
-    function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
-      if (!e.target.files) return;
-
-      const image = e.target.files[0];
-
-      if (!VALID_MIMETYPES.includes(image.type)) {
-        toast.error("Selected file type is not supported");
-        return;
-      }
-
-      if (image.size > MAX_FILE_SIZE) {
-        toast.error("Selected file is too large");
-        return;
-      }
-
-      if (image) {
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
-        reader.onload = (e) => {
-          if (e.target) {
-            setImage(e.target.result as string);
-          }
-        };
-      }
     }
 
     async function handleAddComment(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -120,7 +70,7 @@ const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
               type="file"
               ref={inputFileRef}
               accept="image/jpeg,image/png,image/gif"
-              onChange={handleAddImage}
+              onChange={(e) => handleAddImage(e, setImage)}
               hidden
             />
             <input

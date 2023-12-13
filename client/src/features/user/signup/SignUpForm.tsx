@@ -1,7 +1,7 @@
 import { Form, Formik } from "formik";
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
-import { SignUpData } from "../../../services/apiAuth";
+import { SignUp } from "../../../types/auth";
 import Button from "../../../ui/Button";
 import Spinner from "../../../ui/Spinner";
 import { useSignup } from "../useSignup";
@@ -13,7 +13,7 @@ import SignUpGenderSelect from "./SignUpGenderSelect";
 import SignUpHeader from "./SignUpHeader";
 import SignUpInput from "./SignUpInput";
 
-const initialState: SignUpData = {
+const initialState: SignUp = {
   firstName: "",
   lastName: "",
   email: "",
@@ -31,7 +31,7 @@ const initialStateErrors = {
 
 function SignUpForm() {
   const { signUpUser } = useSignup();
-  const [user, setUser] = useState<SignUpData>(initialState);
+  const [user, setUser] = useState<SignUp>(initialState);
   const [errors, setErrors] = useState(initialStateErrors);
   const isLoading = useSelector(getLoading);
 

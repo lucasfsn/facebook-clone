@@ -1,5 +1,9 @@
 import axios from "axios";
+import { Theme } from "emoji-picker-react";
+import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
+import { DarkModeOptions } from "../context/DarkModeContext";
+import { MAX_FILE_SIZE, VALID_MIMETYPES } from "./constants";
 
 export const getMonths = () => {
   const months = {
@@ -92,5 +96,49 @@ export function reactionColor(reaction: string | undefined) {
       return "text-orange-700";
     default:
       return "text-secondary";
+  }
+}
+
+export function setEmojiPickerMode(
+  darkMode: DarkModeOptions,
+): Theme | undefined {
+  switch (darkMode) {
+    case "on":
+      return Theme.DARK;
+    case "off":
+      return Theme.LIGHT;
+    case "auto":
+      return Theme.AUTO;
+    default:
+      return undefined;
+  }
+}
+
+export function handleAddImage(
+  e: ChangeEvent<HTMLInputElement>,
+  setImage: (image: string) => void,
+) {
+  if (!e.target.files) return;
+
+  const image = e.target.files[0];
+
+  if (!VALID_MIMETYPES.includes(image.type)) {
+    toast.error("Selected file type is not supported");
+    return;
+  }
+
+  if (image.size > MAX_FILE_SIZE) {
+    toast.error("Selected file is too large");
+    return;
+  }
+
+  if (image) {
+    const reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onload = (e) => {
+      if (e.target) {
+        setImage(e.target.result as string);
+      }
+    };
   }
 }

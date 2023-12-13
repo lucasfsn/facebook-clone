@@ -2,15 +2,16 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { SignUpData, signup as signupApi } from "../../services/apiAuth";
+import { signup as signupApi } from "../../services/apiAuth";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { error, loading, login } from "./userSlice";
+import { SignUp } from "../../types/auth";
 
 export function useSignup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function signUpUser(user: SignUpData) {
+  async function signUpUser(user: SignUp) {
     dispatch(loading());
     try {
       const { message, signUpData } = await signupApi(user);

@@ -1,25 +1,12 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { RootState } from "../../store";
-
-export interface User {
-  id: string;
-  username: string;
-  picture: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-}
+import { SettingsChangePayload, SingleUser } from "../../types/user";
 
 interface UserState {
-  user: User | null;
+  user: SingleUser | null;
   isLoading: boolean;
   error: boolean;
-}
-
-interface SettingsChangePayload {
-  field: keyof User;
-  value: string;
 }
 
 const initialState: UserState = {
@@ -32,7 +19,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login(state, action: PayloadAction<User>) {
+    login(state, action: PayloadAction<SingleUser>) {
       state.user = action.payload;
       state.isLoading = false;
     },

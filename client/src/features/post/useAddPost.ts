@@ -1,8 +1,9 @@
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addImage } from "../../services/apiImages";
-import { PostData, addPost as addPostApi } from "../../services/apiPost";
+import { addPost as addPostApi } from "../../services/apiPost";
 import { AppDispatch } from "../../store";
+import { AddPostData } from "../../types/posts";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { getProfile } from "../profile/profileSlice";
 import { addPost, error, loading } from "./postSlice";
@@ -10,7 +11,7 @@ import { addPost, error, loading } from "./postSlice";
 export function useAddPost() {
   const dispatch: AppDispatch = useDispatch();
 
-  async function createPostWithImages(post: PostData, username: string) {
+  async function createPostWithImages(post: AddPostData, username: string) {
     dispatch(loading());
 
     try {
@@ -37,7 +38,7 @@ export function useAddPost() {
   }
 
   async function createPost(
-    post: PostData,
+    post: AddPostData,
     username: string,
     addedImage: boolean = false,
   ) {
@@ -57,7 +58,7 @@ export function useAddPost() {
     }
   }
 
-  async function createDetailsPost(post: PostData, username: string) {
+  async function createDetailsPost(post: AddPostData, username: string) {
     dispatch(loading());
 
     try {

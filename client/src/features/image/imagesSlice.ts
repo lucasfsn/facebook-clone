@@ -1,18 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {
-  ImagesData,
-  getImages as getImagesApi,
-} from "../../services/apiImages";
+import { getImages as getImagesApi } from "../../services/apiImages";
 import { RootState } from "../../store";
-
-interface Image {
-  url: string;
-  type: "profile" | "cover" | "post";
-  owner: string;
-}
+import { ImagesData, SingleImage } from "../../types/images";
 
 interface ImagesState {
-  images: Image[];
+  images: SingleImage[];
   isLoading: boolean;
   error: boolean;
 }
@@ -23,7 +15,7 @@ const initialState: ImagesState = {
   error: false,
 };
 
-export const fetchImages = createAsyncThunk<Image[], ImagesData>(
+export const fetchImages = createAsyncThunk<SingleImage[], ImagesData>(
   "images/fetchImages",
   async (body: ImagesData) => {
     const data = await getImagesApi(body);

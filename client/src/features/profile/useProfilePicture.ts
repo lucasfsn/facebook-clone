@@ -6,9 +6,10 @@ import {
   removeProfilePicture as removeProfilePictureApi,
   updateProfilePicture as updateProfilePictureApi,
 } from "../../services/apiProfile";
+import { SingleUser } from "../../types/user";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
-import { User, changedProfilePicture } from "../user/userSlice";
+import { changedProfilePicture } from "../user/userSlice";
 import { error, loading, updateProfile } from "./profileSlice";
 
 export function useProfilePicture() {
@@ -17,7 +18,7 @@ export function useProfilePicture() {
 
   async function updateProfilePicture(
     image: string,
-    user: User,
+    user: SingleUser,
     description: string,
   ) {
     dispatch(loading());
@@ -65,7 +66,7 @@ export function useProfilePicture() {
     }
   }
 
-  async function removeProfilePicture(user: User) {
+  async function removeProfilePicture(user: SingleUser) {
     dispatch(loading());
 
     try {

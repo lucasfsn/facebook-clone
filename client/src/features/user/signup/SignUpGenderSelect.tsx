@@ -1,14 +1,17 @@
 import { ChangeEvent } from "react";
 import { HiMiniQuestionMarkCircle } from "react-icons/hi2";
 
-interface Props {
+interface SignUpGenderSelectProps {
   handleSignUpChange: (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => void;
   error?: string;
 }
 
-function SignUpGenderSelect({ handleSignUpChange, error = "" }: Props) {
+function SignUpGenderSelect({
+  handleSignUpChange,
+  error = "",
+}: SignUpGenderSelectProps) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row items-center gap-1 text-sm text-gray-500">

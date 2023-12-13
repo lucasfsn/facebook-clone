@@ -18,7 +18,7 @@ function AddPostFormImage({
 }: AddPostFormImageProps) {
   const imageRef = useRef<HTMLInputElement>(null);
 
-  function handleAddImage(e: ChangeEvent<HTMLInputElement>) {
+  function handleAddImages(e: ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
     Array.from(e.target.files).forEach((file) => {
@@ -80,10 +80,10 @@ function AddPostFormImage({
           multiple
           hidden
           ref={imageRef}
-          onChange={handleAddImage}
+          onChange={handleAddImages}
           accept="image/jpeg,image/png,image/gif"
         />
-        <ImagesPost images={images} type="post" />
+        <ImagesPost post={{ images, type: "post" }} />
         {images.length === 0 && (
           <div
             className="flex h-[150px] flex-col items-center justify-center"

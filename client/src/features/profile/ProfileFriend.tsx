@@ -5,9 +5,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { getProfile } from "../../services/apiProfile";
+import { Friend, SingleProfile } from "../../types/profile";
 import Spinner from "../../ui/Spinner";
 import { getUser } from "../user/userSlice";
-import { Friend, ProfileRes, getUserProfile } from "./profileSlice";
+import { getUserProfile } from "./profileSlice";
 import { useFriend } from "./useFriend";
 
 interface ProfileFriendProps {
@@ -16,7 +17,7 @@ interface ProfileFriendProps {
 }
 
 function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
-  const [currentUser, setCurrentUser] = useState<ProfileRes | null>(null);
+  const [currentUser, setCurrentUser] = useState<SingleProfile | null>(null);
   const [showMenu, setShowMenu] = useState<boolean>(false);
 
   const user = useSelector(getUser);

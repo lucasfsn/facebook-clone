@@ -1,11 +1,11 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import {
-  ReactionType,
   addReaction as addReactionApi,
   getReactions as getReactionsApi,
 } from "../../services/apiPost";
 import { AppDispatch } from "../../store";
+import { ReactionType } from "../../types/posts";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { error } from "./postSlice";
 

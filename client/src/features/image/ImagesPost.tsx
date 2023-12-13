@@ -1,9 +1,13 @@
 import { useState } from "react";
+import { SinglePost } from "../../types/posts";
 import ImageSlider from "../../ui/ImageSlider";
-import { PostRes } from "../post/postSlice";
 
 interface ImagesPostProps {
-  post: PostRes;
+  post: {
+    images: SinglePost["images"];
+    type: SinglePost["type"];
+    user?: SinglePost["user"];
+  };
 }
 
 function ImagesPost({ post }: ImagesPostProps) {
@@ -37,7 +41,7 @@ function ImagesPost({ post }: ImagesPostProps) {
                 : "col-span-3"
             } ${post.type === "profile" ? "profile-post" : ""}`}
             style={
-              post.user.cover && post.type === "profile"
+              post.user?.cover && post.type === "profile"
                 ? { backgroundImage: `url(${post.user.cover})`, height: "50%" }
                 : {}
             }

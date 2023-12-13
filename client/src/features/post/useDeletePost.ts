@@ -3,18 +3,19 @@ import { useDispatch } from "react-redux";
 import { deleteImage as deleteImageApi } from "../../services/apiImages";
 import { deletePost as deletePostApi } from "../../services/apiPost";
 import { AppDispatch } from "../../store";
+import { SinglePost } from "../../types/posts";
 import {
   ResponseError,
   getPublicIdFromUrl,
   handleError,
 } from "../../utils/helpers";
 import { getProfile } from "../profile/profileSlice";
-import { PostRes, error, loading, deletePost as postDelete } from "./postSlice";
+import { error, loading, deletePost as postDelete } from "./postSlice";
 
 export function useDeletePost() {
   const dispatch: AppDispatch = useDispatch();
 
-  async function deletePost(post: PostRes, username: string) {
+  async function deletePost(post: SinglePost, username: string) {
     dispatch(loading());
 
     try {

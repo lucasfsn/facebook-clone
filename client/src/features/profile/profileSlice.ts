@@ -1,63 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getProfile as getProfileApi } from "../../services/apiProfile";
 import { AppDispatch, RootState } from "../../store";
+import { SingleProfile } from "../../types/profile";
 import { fetchImages } from "../image/imagesSlice";
-import { PostRes } from "../post/postSlice";
-
-type Relationship =
-  | "Single"
-  | "Married"
-  | "Divorced"
-  | "In a relationship"
-  | "Engaged"
-  | "Separated"
-  | "Widowed";
-
-export interface Details {
-  bio?: string;
-  workplace?: string;
-  highschool?: string;
-  college?: string;
-  currentCity?: string;
-  hometown?: string;
-  relationship?: Relationship;
-}
-
-export interface Friend {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  picture: string;
-  username: string;
-  friends?: string[];
-}
-
-export interface ProfileRes {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-  picture: string;
-  cover?: string;
-  gender: string;
-  birdthDay: number;
-  birdthMonth: number;
-  birdthYear: number;
-  friends: Friend[];
-  friendRequests: string[];
-  sentFriendRequests: string[];
-  search: string[];
-  details: Details;
-  savedPosts: string[];
-  createdAt: Date | string;
-  updatedAt: Date | string;
-  userPosts: PostRes[];
-  images: string[];
-}
 
 interface ProfileState {
-  profile: ProfileRes;
+  profile: SingleProfile;
   isLoading: boolean;
   error: boolean;
 }
@@ -98,7 +46,7 @@ const initialState: ProfileState = {
 };
 
 export const getProfile = createAsyncThunk<
-  ProfileRes,
+  SingleProfile,
   string,
   { dispatch: AppDispatch }
 >("profile/getProfile", async (username: string, { dispatch }) => {
@@ -125,7 +73,7 @@ const profileSlice = createSlice({
   name: "profile",
   initialState,
   reducers: {
-    updateProfile(state, action: PayloadAction<Partial<ProfileRes>>) {
+    updateProfile(state, action: PayloadAction<Partial<SingleProfile>>) {
       state.profile = { ...state.profile, ...action.payload };
       state.isLoading = false;
       state.error = false;

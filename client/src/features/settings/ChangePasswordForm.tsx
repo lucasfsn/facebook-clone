@@ -1,10 +1,11 @@
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
+import { ChangePasswordData } from "../../types/settings";
 import Button from "../../ui/Button";
 import Spinner from "../../ui/Spinner";
 import { getLoading, getUser } from "../user/userSlice";
 import { changePasswordValidation } from "../user/validation";
-import FormInput, { ChangePasswordData } from "./FormInput";
+import FormInput from "./FormInput";
 import { useChangePassword } from "./useChangePassword";
 
 const initialState: ChangePasswordData = {

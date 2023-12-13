@@ -2,7 +2,7 @@ import { ChangeEvent } from "react";
 import { HiMiniQuestionMarkCircle } from "react-icons/hi2";
 import { getDays, getMonths, getYears } from "../../../utils/helpers";
 
-interface Props {
+interface SignUpDateSelectProps {
   birthYear: number;
   birthMonth: number;
   birthDay: number;
@@ -18,7 +18,7 @@ function SignUpDateSelect({
   birthDay,
   handleSignUpChange,
   error = "",
-}: Props) {
+}: SignUpDateSelectProps) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex flex-row items-center gap-1 text-sm text-gray-500">
