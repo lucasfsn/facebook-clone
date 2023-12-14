@@ -23,7 +23,6 @@ export const addReaction: RequestHandler<
 > = async (req, res) => {
   try {
     const { reaction, postId, userId } = req.body;
-    console.log(userId);
 
     const hasReaction = await ReactionModel.findOne({
       post: postId,
@@ -31,7 +30,6 @@ export const addReaction: RequestHandler<
     });
 
     if (hasReaction) {
-      console.log(hasReaction);
       hasReaction.reaction === reaction
         ? await ReactionModel.findByIdAndDelete(hasReaction._id)
         : await ReactionModel.findByIdAndUpdate(hasReaction._id, { reaction });

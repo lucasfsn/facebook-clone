@@ -11,6 +11,11 @@ const postSchema = new Schema(
     content: { type: String },
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     key: { type: String },
+    audience: {
+      type: String,
+      enum: ['public', 'friends', 'private'],
+      default: 'public',
+    },
     comments: [
       {
         comment: { type: String },

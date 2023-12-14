@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
 import PostModel from '../models/post';
+import UserModel from '../models/user';
 
 interface PostBody {
   content: string;
@@ -45,13 +46,39 @@ export const allPosts: RequestHandler<
   unknown,
   unknown,
   unknown,
-  unknown
+  { userId: string }
 > = async (req, res) => {
   try {
-    const posts = await PostModel.find()
+    const userId = req.query.userId;
+    const { friends } = await UserModel.findById(userId).select('friends');
+
+    const friendsPostsPromises = friends.map(friend => {
+      return PostModel.find({ user: friend, audience: 'friends' })
+        .populate('user', 'firstName lastName picture username cover')
+        .populate(
+          'comments.author',
+          'firstName lastName picture username cover'
+        )
+        .sort({ createdAt: -1 });
+    });
+
+    const friendsPosts = (await Promise.all(friendsPostsPromises)).flat();
+
+    const publicPosts = await PostModel.find({ audience: 'public' })
       .populate('user', 'firstName lastName picture username cover')
       .populate('comments.author', 'firstName lastName picture username')
       .sort({ createdAt: -1 });
+
+    const userPosts = await PostModel.find({ user: userId })
+      .populate('user', 'firstName lastName picture username cover')
+      .populate('comments.author', 'firstName lastName picture username')
+      .sort({ createdAt: -1 });
+
+    const posts = [...friendsPosts, ...publicPosts, ...userPosts]
+      .filter(
+        (post, index, self) => index === self.findIndex(p => p.id === post.id)
+      )
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
     res.json({
       posts,
