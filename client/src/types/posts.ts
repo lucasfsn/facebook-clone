@@ -33,6 +33,11 @@ export interface SinglePost {
   createdAt: string;
   updatedAt: Date;
   key?: string;
+  audience: PostAudience;
+}
+
+export interface ProfilePost extends Omit<SinglePost, "user"> {
+  user: string;
 }
 
 export interface ReactionUser {
@@ -52,7 +57,10 @@ export interface AddPostData {
   content: string;
   userId: string;
   images: string[];
+  audience: PostAudience;
   key?: string;
 }
 
 export type ReactionType = "like" | "love" | "haha" | "wow" | "sad" | "angry";
+
+export type PostAudience = "public" | "friends" | "private";

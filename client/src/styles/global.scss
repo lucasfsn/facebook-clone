@@ -40,6 +40,10 @@ $--text-comment-dark: #cacaca;
   }
   .text-secondary {
     color: $--text-secondary-light;
+
+    &::placeholder {
+      color: $--text-secondary-light;
+    }
   }
   .bg-tertiary {
     background-color: $--bg-tertiary-light;
@@ -98,6 +102,10 @@ $--text-comment-dark: #cacaca;
   }
   .text-secondary {
     color: $--text-secondary-dark;
+
+    &::placeholder {
+      color: $--text-secondary-dark;
+    }
   }
   .bg-tertiary {
     background-color: $--bg-tertiary-dark;

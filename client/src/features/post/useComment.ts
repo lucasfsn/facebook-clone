@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { addImage } from "../../services/apiImages";
 import { addComment as addCommentApi } from "../../services/apiPost";
 import { AppDispatch } from "../../store";
+import { SingleUser } from "../../types/user";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { getProfile } from "../profile/profileSlice";
 import {
@@ -11,7 +12,6 @@ import {
   getPosts,
   loading,
 } from "./postSlice";
-import { SingleUser } from "../../types/user";
 
 export function useComment() {
   const dispatch: AppDispatch = useDispatch();
@@ -46,7 +46,7 @@ export function useComment() {
       );
 
       dispatch(addPostComment(comments));
-      dispatch(getPosts());
+      dispatch(getPosts(user.id));
       dispatch(getProfile(user.username));
 
       toast.success(message);

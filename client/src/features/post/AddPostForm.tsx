@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { FaGlobeEurope, FaUserTag } from "react-icons/fa";
-import { IoIosImages, IoMdArrowDropdown } from "react-icons/io";
+import {
+  FaGlobeEurope,
+  FaLock,
+  FaUserFriends,
+  FaUserTag,
+} from "react-icons/fa";
+import { IoIosImages } from "react-icons/io";
 import { useSelector } from "react-redux";
+import { PostAudience } from "../../types/posts";
 import Button from "../../ui/Button";
 import Loader from "../../ui/Loader";
 import { getUser } from "../user/userSlice";
@@ -16,6 +22,7 @@ function AddPostForm() {
   const [post, setPost] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
   const [showAddImage, setShowAddImage] = useState<boolean>(false);
+  const [audience, setAudience] = useState<PostAudience>("public");
 
   const user = useSelector(getUser);
   const isLoading = useSelector(getLoading);
@@ -31,6 +38,7 @@ function AddPostForm() {
             content: post,
             images,
             userId: user.id,
+            audience,
           },
           user.username,
         )
@@ -40,6 +48,7 @@ function AddPostForm() {
             content: post,
             userId: user.id,
             images: [],
+            audience,
           },
           user.username,
         );
@@ -49,6 +58,17 @@ function AddPostForm() {
     setPost("");
     setImages([]);
     setShowAddImage(false);
+  }
+
+  function audienceIcon(audience: PostAudience = "public") {
+    switch (audience) {
+      case "public":
+        return <FaGlobeEurope className="text-xs" />;
+      case "friends":
+        return <FaUserFriends className="text-xs" />;
+      case "private":
+        return <FaLock className="text-xs" />;
+    }
   }
 
   return (
@@ -67,10 +87,17 @@ function AddPostForm() {
             <span>
               {user?.firstName} {user?.lastName}
             </span>
-            <div className="bg-tertiary flex cursor-pointer flex-row items-center justify-center gap-1 rounded-md px-2 py-0.5 text-sm">
-              <FaGlobeEurope className="text-xs" />
-              <span>Public</span>
-              <IoMdArrowDropdown />
+            <div className="bg-tertiary flex cursor-pointer flex-row items-center gap-1 rounded-md pl-2 text-sm">
+              {audienceIcon(audience)}
+              <select
+                value={audience}
+                onChange={(e) => setAudience(e.target.value as PostAudience)}
+                className="bg-tertiary w-full border-none"
+              >
+                <option value="public">Public</option>
+                <option value="friends">Friends</option>
+                <option value="private">Only me</option>
+              </select>
             </div>
           </div>
         </div>

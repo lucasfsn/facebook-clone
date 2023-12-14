@@ -15,10 +15,10 @@ const initialState: PostsState = {
   error: false,
 };
 
-export const getPosts = createAsyncThunk<SinglePost[]>(
+export const getPosts = createAsyncThunk<SinglePost[], string>(
   "post/getPosts",
-  async () => {
-    const { data } = await getPostsApi();
+  async (userId: string) => {
+    const { data } = await getPostsApi(userId);
 
     return data.posts;
   },

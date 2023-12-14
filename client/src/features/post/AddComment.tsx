@@ -75,7 +75,7 @@ const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
             />
             <input
               type="text"
-              className="w-full bg-transparent outline-none"
+              className="text-secondary w-full bg-transparent outline-none"
               placeholder="Write a public comment..."
               value={comment}
               onChange={(e) => setComment(e.target.value)}

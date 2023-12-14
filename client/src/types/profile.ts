@@ -1,4 +1,4 @@
-import { SinglePost } from "./posts";
+import { ProfilePost } from "./posts";
 
 export type RelationshipType =
   | "Single"
@@ -48,6 +48,6 @@ export interface SingleProfile {
   savedPosts: string[];
   createdAt: Date | string;
   updatedAt: Date | string;
-  userPosts: SinglePost[];
+  userPosts: ProfilePost[];
   images: string[];
 }

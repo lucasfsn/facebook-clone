@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
-import { FaGlobeEurope } from "react-icons/fa";
+import { FaGlobeEurope, FaLock, FaUserFriends } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { TbListDetails } from "react-icons/tb";
@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import {
+  PostAudience,
   ReactionType,
   SingleComment,
   SinglePost,
@@ -81,6 +82,17 @@ function Post({ post }: PostProps) {
       setCommentsCount((prev) => prev + MAX_COMMENTS);
   }
 
+  function audienceIcon(audience: PostAudience = "public") {
+    switch (audience) {
+      case "public":
+        return <FaGlobeEurope />;
+      case "friends":
+        return <FaUserFriends />;
+      case "private":
+        return <FaLock />;
+    }
+  }
+
   return (
     <div className="bg-primary flex flex-col gap-2 rounded-lg">
       <div className="px-3 pt-3">
@@ -135,9 +147,7 @@ function Post({ post }: PostProps) {
               })()}
               <div className="text-tertiary flex flex-row items-center gap-1.5 text-xs">
                 <span>{formatDistanceToNow(new Date(post.createdAt))}</span>
-                <span>
-                  <FaGlobeEurope />
-                </span>
+                <span>{audienceIcon(post.audience)}</span>
               </div>
             </div>
           </div>

@@ -14,8 +14,10 @@ export async function addPost(post: AddPostData) {
   return { message, postData };
 }
 
-export async function getPosts() {
-  const { data } = await axios.get(`${apiUrl}/post/all`);
+export async function getPosts(userId: string) {
+  const { data } = await axios.get(`${apiUrl}/post/all`, {
+    params: { userId },
+  });
 
   return { data };
 }
