@@ -1,5 +1,6 @@
-import { RefObject } from "react";
+import { RefObject, useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
+import { search } from "../services/apiSearch";
 
 interface SearchBarProps {
   placeholder: string;
@@ -18,6 +19,19 @@ function SearchBar({
   full = false,
   input,
 }: SearchBarProps) {
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchResults, setSearchResults] = useState([]);
+
+  async function handleSearch() {
+    if (!searchValue) {
+      setSearchResults([]);
+      return;
+    }
+
+    const { data } = await search(searchValue);
+    setSearchResults(data);
+  }
+
   return (
     <div
       onClick={onClick}
@@ -25,11 +39,14 @@ function SearchBar({
     >
       {showIcon && <HiMagnifyingGlass className="text-md text-secondary" />}
       <input
-        className={`bg-tertiary border-none text-base outline-none lg:block ${
+        className={`bg-tertiary text-secondary border-none text-base outline-none lg:block ${
           full ? "" : "hidden"
         }`}
         type="text"
         placeholder={placeholder}
+        value={searchValue}
+        onChange={(e) => setSearchValue(e.target.value)}
+        onKeyUp={handleSearch}
         onFocus={() => setShowIcon(false)}
         onBlur={() => setShowIcon(true)}
         ref={input}
