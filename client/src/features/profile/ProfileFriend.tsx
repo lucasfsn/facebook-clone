@@ -35,16 +35,24 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
 
   useEffect(() => {
     async function fetchData() {
-      if (user) {
+      if (user && !currentUser) {
         const data = await getProfile(user.username);
         setCurrentUser(data);
       }
     }
 
     fetchData();
-  }, [user]);
+  }, [user, currentUser]);
 
-  if (user?.id === profile._id)
+  if (!currentUser) return <Spinner />;
+
+  const status = {
+    friends: currentUser.friends.some((f) => f._id === friend._id),
+    receiver: currentUser.sentFriendRequests.includes(friend._id),
+    sender: currentUser.friendRequests.includes(friend._id),
+  };
+
+  if (user?.id === profile._id && !status.sender && !status.receiver)
     return (
       <div className="separator flex items-center gap-1 rounded-md border p-4">
         <Link
@@ -64,18 +72,6 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
         </Link>
       </div>
     );
-
-  if (!currentUser) return <Spinner />;
-
-  const status = {
-    friends: currentUser.friends.some((f) => f._id === friend._id),
-    receiver:
-      currentUser.sentFriendRequests.includes(friend._id) &&
-      currentUser._id !== profile._id,
-    sender:
-      currentUser.friendRequests.includes(friend._id) &&
-      currentUser._id !== profile._id,
-  };
 
   let buttonContent: JSX.Element;
 

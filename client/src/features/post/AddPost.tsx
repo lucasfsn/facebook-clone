@@ -22,17 +22,17 @@ function AddPost({ username, children }: AddPostProps) {
             alt={user?.firstName}
             className="h-[40px] w-auto cursor-pointer rounded-full transition-all hover:brightness-95"
           />
-          <Modal.Open opens="post">
+          <Modal.Open opens="post-text">
             <button className="bg-tertiary bg-tertiary-hover w-full rounded-full px-3 text-left">
               {children}
             </button>
           </Modal.Open>
-          <Modal.Window name="post" type="center">
-            <AddPostForm username={username} />
+          <Modal.Window name="post-images" type="center">
+            <AddPostForm username={username} openImages={true} />
           </Modal.Window>
         </div>
         <div className="flex flex-row justify-around gap-0.5">
-          <Modal.Open opens="post">
+          <Modal.Open opens="post-images">
             <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
               <IoVideocam className="text-xl text-red-500 lg:text-2xl" />
               <span className="whitespace-nowrap font-semibold">
@@ -40,18 +40,21 @@ function AddPost({ username, children }: AddPostProps) {
               </span>
             </div>
           </Modal.Open>
-          <Modal.Open opens="post">
+          <Modal.Open opens="post-images">
             <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
               <IoImages className="text-xl text-green-500 lg:text-2xl" />
               <span className="font-semibold">Photo/video</span>
             </div>
           </Modal.Open>
-          <Modal.Open opens="post">
+          <Modal.Open opens="post-text">
             <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
               <IoHappyOutline className="text-xl text-yellow-500 lg:text-2xl" />
               <span className="font-semibold">Feeling/activity</span>
             </div>
           </Modal.Open>
+          <Modal.Window name="post-text" type="center">
+            <AddPostForm username={username} />
+          </Modal.Window>
         </div>
       </Modal>
     </div>

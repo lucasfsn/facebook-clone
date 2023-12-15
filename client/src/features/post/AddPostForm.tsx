@@ -18,14 +18,15 @@ import { useAddPost } from "./useAddPost";
 
 interface AddPostFormProps {
   username?: string;
+  openImages?: boolean;
 }
 
-function AddPostForm({ username }: AddPostFormProps) {
+function AddPostForm({ username, openImages = false }: AddPostFormProps) {
   const { createPost } = useAddPost();
 
   const [post, setPost] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
-  const [showAddImage, setShowAddImage] = useState<boolean>(false);
+  const [showAddImage, setShowAddImage] = useState<boolean>(openImages);
   const [audience, setAudience] = useState<PostAudience>("public");
 
   const user = useSelector(getUser);
