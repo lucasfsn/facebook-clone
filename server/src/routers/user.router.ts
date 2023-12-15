@@ -20,4 +20,7 @@ export const userRouter = Router()
   .delete('/profile/:id/remove', UserController.removeFriend)
   .delete('/profile/:id/removeRequest', UserController.removeFriendRequest)
   .get('/user/:id', UserController.getUserById)
-  .post('/search/:user', UserController.searchUser);
+  .get('/search/:id/get', UserController.searchGet)
+  .post('/search/:user', UserController.searchUser)
+  .put('/search/:user/add', UserController.searchAdd)
+  .delete('/search/:user/delete', UserController.searchDelete);

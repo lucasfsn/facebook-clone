@@ -9,18 +9,10 @@ interface PostBody {
   userId: string;
 }
 
-interface DeleteByIdParams {
-  id: string;
-}
-
 interface EditPostBody {
   content?: string;
   images?: string[];
   audience?: 'public' | 'friends' | 'private';
-}
-
-interface EditPostParams {
-  id: string;
 }
 
 interface CommentBody {
@@ -99,7 +91,7 @@ export const allPosts: RequestHandler<
 };
 
 export const deletePost: RequestHandler<
-  DeleteByIdParams,
+  { id: string },
   unknown,
   unknown,
   unknown
@@ -125,7 +117,7 @@ export const deletePost: RequestHandler<
 };
 
 export const editPost: RequestHandler<
-  EditPostParams,
+  { id: string },
   unknown,
   EditPostBody,
   unknown

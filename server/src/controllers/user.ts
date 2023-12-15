@@ -37,19 +37,7 @@ interface ChangeProfileImageBody {
   image: string;
 }
 
-interface GetUserProfileParams {
-  username: string;
-}
-
 type ChangeUserInfoData = 'firstName' | 'lastName' | 'email';
-
-interface ChangeUserInfoParams {
-  data: ChangeUserInfoData;
-}
-
-interface DeleteByIdParams {
-  id: string;
-}
 
 interface UpdateUserDetailsBody {
   details: {
@@ -61,18 +49,6 @@ interface UpdateUserDetailsBody {
     homeTown?: string;
     relationship?: string;
   };
-  userId: string;
-}
-
-interface FriendRequestParams {
-  id: string;
-}
-
-interface FriendRequestBody {
-  userId: string;
-}
-
-interface DeleteQueryParams {
   userId: string;
 }
 
@@ -221,7 +197,7 @@ export const changePassword: RequestHandler<
 };
 
 export const changeUserInfo: RequestHandler<
-  ChangeUserInfoParams,
+  { data: ChangeUserInfoData },
   unknown,
   ChangeUserInfoBody,
   unknown
@@ -290,7 +266,7 @@ export const changeUserInfo: RequestHandler<
 };
 
 export const deleteUser: RequestHandler<
-  DeleteByIdParams,
+  { id: string },
   unknown,
   unknown,
   unknown
@@ -313,7 +289,7 @@ export const deleteUser: RequestHandler<
 };
 
 export const getUserProfile: RequestHandler<
-  GetUserProfileParams,
+  { username: string },
   unknown,
   unknown,
   unknown
@@ -417,7 +393,7 @@ export const getUserProfile: RequestHandler<
 };
 
 export const updateProfileImage: RequestHandler<
-  DeleteByIdParams,
+  { id: string },
   unknown,
   ChangeProfileImageBody,
   unknown
@@ -463,7 +439,7 @@ export const updateCoverImage: RequestHandler<
 };
 
 export const removeCoverPhoto: RequestHandler<
-  DeleteByIdParams,
+  { id: string },
   unknown,
   unknown,
   unknown
@@ -482,7 +458,7 @@ export const removeCoverPhoto: RequestHandler<
 };
 
 export const removeProfilePicture: RequestHandler<
-  DeleteByIdParams,
+  { id: string },
   unknown,
   unknown,
   unknown
@@ -528,9 +504,9 @@ export const updateDetails: RequestHandler<
 };
 
 export const addFriend: RequestHandler<
-  FriendRequestParams,
+  { id: string },
   unknown,
-  FriendRequestBody,
+  { userId: string },
   unknown
 > = async (req, res) => {
   try {
@@ -570,9 +546,9 @@ export const addFriend: RequestHandler<
 };
 
 export const cancelFriendRequest: RequestHandler<
-  FriendRequestParams,
+  { id: string },
   unknown,
-  FriendRequestBody,
+  { userId: string },
   unknown
 > = async (req, res) => {
   try {
@@ -612,9 +588,9 @@ export const cancelFriendRequest: RequestHandler<
 };
 
 export const acceptFriendRequest: RequestHandler<
-  FriendRequestParams,
+  { id: string },
   unknown,
-  FriendRequestBody,
+  { userId: string },
   unknown
 > = async (req, res) => {
   try {
@@ -656,10 +632,10 @@ export const acceptFriendRequest: RequestHandler<
 };
 
 export const removeFriend: RequestHandler<
-  FriendRequestParams,
+  { id: string },
   unknown,
   unknown,
-  DeleteQueryParams
+  { userId: string }
 > = async (req, res) => {
   try {
     const { id } = req.params;
@@ -689,10 +665,10 @@ export const removeFriend: RequestHandler<
 };
 
 export const removeFriendRequest: RequestHandler<
-  FriendRequestParams,
+  { id: string },
   unknown,
   unknown,
-  DeleteQueryParams
+  { userId: string }
 > = async (req, res) => {
   try {
     const { id } = req.params;
@@ -728,7 +704,7 @@ export const removeFriendRequest: RequestHandler<
 };
 
 export const getUserById: RequestHandler<
-  FriendRequestParams,
+  { id: string },
   unknown,
   unknown,
   unknown
@@ -764,6 +740,99 @@ export const searchUser: RequestHandler<
     }).select('picture firstName lastName username');
 
     res.json(result);
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const searchAdd: RequestHandler<
+  { user: string },
+  unknown,
+  { id: string },
+  unknown
+> = async (req, res) => {
+  try {
+    const { user } = req.params;
+    const { id } = req.body;
+
+    const reqUser = await UserModel.findById(id);
+    const index = reqUser.search.findIndex(
+      item => item.user.toString() == user
+    );
+
+    if (index !== -1) {
+      reqUser.search[index].createdAt = new Date();
+      await reqUser.save();
+    } else {
+      reqUser.search.push({
+        user: new mongoose.Types.ObjectId(user),
+        createdAt: new Date(),
+      });
+      await reqUser.save();
+    }
+
+    const updatedUser = await UserModel.findById(id)
+      .select('search')
+      .populate('search.user', 'firstName lastName picture username');
+
+    const sorted = updatedUser.search.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    );
+
+    res.json(sorted);
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const searchGet: RequestHandler<
+  { id: string },
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const userSearchHistory = await UserModel.findById(id)
+      .select('search')
+      .populate('search.user', 'firstName lastName picture username');
+
+    const sortedSearchHistory = userSearchHistory.search.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    );
+
+    res.json(sortedSearchHistory);
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
+export const searchDelete: RequestHandler<
+  { user: string },
+  unknown,
+  unknown,
+  { id: string }
+> = async (req, res) => {
+  try {
+    const { user } = req.params;
+    const id = req.query.id;
+
+    const result = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        $pull: { search: { user: user } },
+      },
+      { new: true }
+    )
+      .select('search')
+      .populate('search.user', 'firstName lastName picture username');
+
+    const sortedResult = result.search.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    );
+
+    res.json(sortedResult);
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
