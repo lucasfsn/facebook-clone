@@ -35,7 +35,6 @@ const initialState: ProfileState = {
       hometown: "",
       relationship: undefined,
     },
-    savedPosts: [],
     createdAt: "",
     updatedAt: "",
     userPosts: [],

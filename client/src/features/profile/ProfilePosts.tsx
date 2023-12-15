@@ -31,7 +31,7 @@ function ProfilePosts() {
   return (
     <div className="flex w-full flex-col gap-4">
       {profilePosts.map((post) => (
-        <Post key={post._id} post={post} />
+        <Post key={post._id} post={post} username={profile.username} />
       ))}
     </div>
   );

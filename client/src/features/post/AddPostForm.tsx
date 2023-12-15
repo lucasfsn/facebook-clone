@@ -16,8 +16,12 @@ import AddPostFormText from "./AddPostFormText";
 import { getError, getLoading } from "./postSlice";
 import { useAddPost } from "./useAddPost";
 
-function AddPostForm() {
-  const { createPostWithImages, createPost } = useAddPost();
+interface AddPostFormProps {
+  username?: string;
+}
+
+function AddPostForm({ username }: AddPostFormProps) {
+  const { createPost } = useAddPost();
 
   const [post, setPost] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
@@ -31,27 +35,16 @@ function AddPostForm() {
   async function handlePostSubmit() {
     if (!user) return;
 
-    images.length !== 0
-      ? await createPostWithImages(
-          {
-            type: "post",
-            content: post,
-            images,
-            userId: user.id,
-            audience,
-          },
-          user.username,
-        )
-      : await createPost(
-          {
-            type: "post",
-            content: post,
-            userId: user.id,
-            images: [],
-            audience,
-          },
-          user.username,
-        );
+    await createPost(
+      {
+        type: "post",
+        content: post,
+        userId: user.id,
+        images,
+        audience,
+      },
+      username || user.username,
+    );
 
     if (error) return;
 

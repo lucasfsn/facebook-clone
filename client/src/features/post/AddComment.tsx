@@ -12,10 +12,11 @@ import { useComment } from "./useComment";
 
 interface AddCommentProps {
   postId: string;
+  username: string | undefined;
 }
 
 const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
-  ({ postId }, ref) => {
+  ({ postId, username }, ref) => {
     const [comment, setComment] = useState<string>("");
     const [image, setImage] = useState<string>("");
 
@@ -36,8 +37,11 @@ const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
 
     async function handleAddComment(e: React.KeyboardEvent<HTMLInputElement>) {
       if (e.key !== "Enter") return;
+      if (!user) return;
 
-      if (user) await addComment(comment, image, postId, user);
+      username
+        ? await addComment(comment, image, postId, user, username)
+        : await addComment(comment, image, postId, user);
     }
 
     return (

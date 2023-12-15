@@ -27,9 +27,10 @@ import { useReaction } from "./useReaction";
 
 export interface PostProps {
   post: SinglePost;
+  username?: string;
 }
 
-function Post({ post }: PostProps) {
+function Post({ post, username }: PostProps) {
   const [activeLike, setActiveLike] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [comments, setComments] = useState<SingleComment[]>(post.comments);
@@ -151,23 +152,20 @@ function Post({ post }: PostProps) {
               </div>
             </div>
           </div>
-          <div className="relative">
-            <button
-              className="bg-tertiary-hover cursor-pointer rounded-full p-1.5 text-center"
-              onClick={handleShowMenu}
-              ref={buttonRef}
-            >
-              <HiDotsHorizontal className="text-xl" />
-            </button>
-            {showMenu && (
-              <PostMenu
-                postCreatorId={post.user._id}
-                button={buttonRef}
-                close={() => setShowMenu(false)}
-                post={post}
-              />
-            )}
-          </div>
+          {post.user._id === userId && (
+            <div className="relative">
+              <button
+                className="bg-tertiary-hover cursor-pointer rounded-full p-1.5 text-center"
+                onClick={handleShowMenu}
+                ref={buttonRef}
+              >
+                <HiDotsHorizontal className="text-xl" />
+              </button>
+              {showMenu && (
+                <PostMenu close={() => setShowMenu(false)} post={post} />
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-3">
@@ -290,7 +288,7 @@ function Post({ post }: PostProps) {
             <span className="text-[0.95rem]">Comment</span>
           </button>
         </div>
-        <AddComment postId={post._id} ref={commentRef} />
+        <AddComment postId={post._id} ref={commentRef} username={username} />
         <div className="flex max-h-[150px] flex-col gap-3 overflow-y-scroll py-3">
           {comments &&
             comments

@@ -63,7 +63,7 @@ function Profile() {
         </div>
       </div>
       <div className="flex flex-col gap-4 overflow-x-hidden md:w-[57.5%]">
-        <AddPost>
+        <AddPost username={profile.username}>
           {isProfileOwner
             ? "What's on your mind?"
             : `Write something to ${profile.firstName}...`}

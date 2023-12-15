@@ -42,6 +42,7 @@ export function useProfilePicture() {
           content: description,
           images: data.images,
           userId: user.id,
+          audience: "public",
         },
         user.username,
         true,

@@ -52,6 +52,7 @@ export function useCover() {
           content: "",
           images: data.images,
           userId: user.id,
+          audience: "public",
         },
         user.username,
         true,

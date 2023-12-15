@@ -6,12 +6,7 @@ import { AppDispatch } from "../../store";
 import { SingleUser } from "../../types/user";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { getProfile } from "../profile/profileSlice";
-import {
-  addComment as addPostComment,
-  error,
-  getPosts,
-  loading,
-} from "./postSlice";
+import { addComment as addPostComment, error, loading } from "./postSlice";
 
 export function useComment() {
   const dispatch: AppDispatch = useDispatch();
@@ -21,6 +16,7 @@ export function useComment() {
     image: string,
     postId: string,
     user: SingleUser,
+    username?: string,
   ) {
     dispatch(loading());
 
@@ -38,16 +34,18 @@ export function useComment() {
         image = data.images[0];
       }
 
-      const { message, comments } = await addCommentApi(
+      const { message, comments, idPost } = await addCommentApi(
         postId,
         comment,
         image,
         user.id,
       );
 
-      dispatch(addPostComment(comments));
-      dispatch(getPosts(user.id));
-      dispatch(getProfile(user.username));
+      console.log(username);
+
+      username
+        ? dispatch(getProfile(username))
+        : dispatch(addPostComment({ idPost, comments }));
 
       toast.success(message);
     } catch (err) {

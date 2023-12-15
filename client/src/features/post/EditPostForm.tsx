@@ -1,67 +1,146 @@
-import EmojiPicker, { EmojiClickData, EmojiStyle } from "emoji-picker-react";
-import { useRef, useState } from "react";
-import { FaRegSmile } from "react-icons/fa";
-import { useDarkMode } from "../../context/DarkModeContext";
-import { useEmojiPicker } from "../../hooks/useEmojiPicker";
-import { SinglePost } from "../../types/posts";
-import { setEmojiPickerMode } from "../../utils/helpers";
+import { useState } from "react";
+import {
+  FaGlobeEurope,
+  FaLock,
+  FaUserFriends,
+  FaUserTag,
+} from "react-icons/fa";
+import { IoIosImages } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { PostAudience, SinglePost } from "../../types/posts";
+import Button from "../../ui/Button";
+import Loader from "../../ui/Loader";
+import { getUser } from "../user/userSlice";
+import AddPostFormImage from "./AddPostFormImage";
+import AddPostFormText from "./AddPostFormText";
+import { getError, getLoading } from "./postSlice";
+import { useEditPost } from "./useEditPost";
 
 interface EditPostFormProps {
   post: SinglePost;
-  withImage?: boolean;
+  close: () => void;
 }
 
-function EditPostForm({ post, withImage = false }: EditPostFormProps) {
-  const [text, setText] = useState<string>(post.content);
+function EditPostForm({ post, close }: EditPostFormProps) {
+  const { editPost } = useEditPost();
 
-  const { showEmojiPicker, handleShowEmojiPicker } = useEmojiPicker();
-  const { darkMode } = useDarkMode();
-  const postRef = useRef<HTMLTextAreaElement>(null);
+  const [postContent, setPostContent] = useState<string>(post.content);
+  const [images, setImages] = useState<string[]>(post.images);
+  const [showAddImage, setShowAddImage] = useState<boolean>(
+    post.images.length !== 0,
+  );
+  const [audience, setAudience] = useState<PostAudience>(post.audience);
 
-  function handleAddEmoji({ emoji }: EmojiClickData) {
-    postRef.current?.focus();
+  const user = useSelector(getUser);
+  const isLoading = useSelector(getLoading);
+  const error = useSelector(getError);
 
-    setText((prev) => prev + emoji);
+  async function handlePostSubmit() {
+    if (!user) return;
+
+    await editPost(
+      {
+        _id: post._id,
+        content: postContent,
+        images,
+        audience,
+      },
+      user,
+    );
+
+    if (error) return;
+
+    setPostContent("");
+    setImages([]);
+    setShowAddImage(false);
+    close();
+  }
+
+  function audienceIcon(audience: PostAudience = "public") {
+    switch (audience) {
+      case "public":
+        return <FaGlobeEurope className="text-xs" />;
+      case "friends":
+        return <FaUserFriends className="text-xs" />;
+      case "private":
+        return <FaLock className="text-xs" />;
+    }
   }
 
   return (
-    <div className="relative">
-      <textarea
-        ref={postRef}
-        value={text}
-        maxLength={150}
-        onChange={(e) => setText(e.target.value)}
-        className={`bg-primary w-full resize-none focus:outline-none ${
-          withImage ? "h-min text-base" : "h-40 text-2xl"
-        }`}
-      />
-      {showEmojiPicker && (
-        <div
-          className={`absolute z-50 ${
-            withImage ? "-right-1/2 top-8" : "-right-1/3 bottom-8"
-          }`}
-        >
-          <EmojiPicker
-            emojiStyle={EmojiStyle.FACEBOOK}
-            theme={setEmojiPickerMode(darkMode)}
-            height={225}
-            width={350}
-            searchDisabled={true}
-            skinTonesDisabled={true}
-            previewConfig={{
-              showPreview: false,
-            }}
-            lazyLoadEmojis={true}
-            onEmojiClick={handleAddEmoji}
+    <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md">
+      <div className="separator border-b p-3 text-center text-xl font-bold">
+        Edit post
+      </div>
+      <div className="flex flex-col gap-3 px-3 pb-3">
+        <div className="flex flex-row items-center gap-2">
+          <img
+            src={user?.picture}
+            alt={user?.firstName}
+            className="h-[40px] w-auto cursor-pointer rounded-full transition-all hover:brightness-95"
           />
+          <div className="flex flex-col gap-0.5">
+            <span>
+              {user?.firstName} {user?.lastName}
+            </span>
+            <div className="bg-tertiary flex cursor-pointer flex-row items-center gap-1 rounded-md pl-2 text-sm">
+              {audienceIcon(audience)}
+              <select
+                value={audience}
+                onChange={(e) => setAudience(e.target.value as PostAudience)}
+                className="bg-tertiary w-full border-none"
+              >
+                <option value="public">Public</option>
+                <option value="friends">Friends</option>
+                <option value="private">Only me</option>
+              </select>
+            </div>
+          </div>
         </div>
-      )}
-      <FaRegSmile
-        className={`text-tertiary absolute right-2 cursor-pointer text-2xl transition-all hover:text-gray-300 ${
-          withImage ? "top-0" : "bottom-0"
-        }`}
-        onClick={handleShowEmojiPicker}
-      />
+        <AddPostFormText
+          firstName={user?.firstName}
+          post={postContent}
+          setPost={setPostContent}
+          isShowingImage={showAddImage}
+        />
+        <div className="max-h-[200px] overflow-y-scroll">
+          {showAddImage && (
+            <AddPostFormImage
+              images={images}
+              setImages={setImages}
+              setShowAddImage={setShowAddImage}
+            />
+          )}
+        </div>
+        <div className="separator flex flex-row items-center justify-between rounded-lg border px-4 py-2.5">
+          <span className="font-semibold">Add to your post</span>
+          <div className="flex flex-row gap-2 text-2xl">
+            <div
+              className={`bg-tertiary-hover flex cursor-pointer items-center justify-center rounded-full p-1.5 ${
+                showAddImage ? "bg-tertiary" : ""
+              }`}
+              onClick={() => setShowAddImage(true)}
+            >
+              <IoIosImages className="text-green-500" />
+            </div>
+            <div
+              className="bg-tertiary-hover flex cursor-pointer items-center justify-center rounded-full p-1.5"
+              onClick={() => setShowAddImage(false)}
+            >
+              <FaUserTag className="translate-x-0.5 text-blue-600" />
+            </div>
+          </div>
+        </div>
+        <Button
+          className={`bg-post-disabled bg-blue-600 text-sm disabled:text-neutral-500 ${
+            isLoading ? "h-[2rem]" : ""
+          }`}
+          disabled={(!post && images.length === 0) || isLoading}
+          onClick={handlePostSubmit}
+        >
+          {isLoading ? <Loader /> : "Save"}
+        </Button>
+      </div>
     </div>
   );
 }

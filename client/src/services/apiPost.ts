@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AddPostData, ReactionType } from "../types/posts";
+import { AddPostData, ReactionType, SinglePost } from "../types/posts";
 
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -45,7 +45,7 @@ export async function addComment(
 
   const { message, comments } = data;
 
-  return { message, comments };
+  return { message, comments, idPost: postId };
 }
 
 export async function addReaction(
@@ -69,4 +69,15 @@ export async function getReactions(postId: string, userId: string) {
     userReaction: data.userReaction,
     reactionsCount: data.reactionsCount,
   };
+}
+
+export async function editPost(
+  postId: string,
+  editedPost: Partial<SinglePost>,
+) {
+  const { data } = await axios.put(`${apiUrl}/post/edit/${postId}`, {
+    ...editedPost,
+  });
+
+  return { updatedPost: data.post, message: data.message };
 }

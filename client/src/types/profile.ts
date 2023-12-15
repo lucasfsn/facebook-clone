@@ -45,7 +45,6 @@ export interface SingleProfile {
   sentFriendRequests: string[];
   search: string[];
   details: Details;
-  savedPosts: string[];
   createdAt: Date | string;
   updatedAt: Date | string;
   userPosts: ProfilePost[];

@@ -14,6 +14,11 @@ export interface SingleComment {
   commentDate: Date;
 }
 
+export interface AddComment {
+  idPost: string;
+  comments: SingleComment[];
+}
+
 export interface PostOwner {
   _id: string;
   firstName: string;
@@ -33,6 +38,13 @@ export interface SinglePost {
   createdAt: string;
   updatedAt: Date;
   key?: string;
+  audience: PostAudience;
+}
+
+export interface EditSinglePost {
+  _id: string;
+  content: string;
+  images: string[];
   audience: PostAudience;
 }
 

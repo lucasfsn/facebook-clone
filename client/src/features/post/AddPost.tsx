@@ -6,10 +6,11 @@ import { getUser } from "../user/userSlice";
 import AddPostForm from "./AddPostForm";
 
 interface AddPostProps {
+  username?: string;
   children: ReactNode;
 }
 
-function AddPost({ children }: AddPostProps) {
+function AddPost({ username, children }: AddPostProps) {
   const user = useSelector(getUser);
 
   return (
@@ -27,7 +28,7 @@ function AddPost({ children }: AddPostProps) {
             </button>
           </Modal.Open>
           <Modal.Window name="post" type="center">
-            <AddPostForm />
+            <AddPostForm username={username} />
           </Modal.Window>
         </div>
         <div className="flex flex-row justify-around gap-0.5">

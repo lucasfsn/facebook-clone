@@ -1,10 +1,10 @@
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { updateUserDetails as updateUserDetailsApi } from "../../services/apiProfile";
+import { Details } from "../../types/profile";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
-import {  error, loading, updateProfile } from "./profileSlice";
-import { Details } from "../../types/profile";
+import { error, loading, updateProfile } from "./profileSlice";
 
 export function useDetails() {
   const { createDetailsPost } = useAddPost();
@@ -32,6 +32,7 @@ export function useDetails() {
             content: `${details[updatedDetail]}`,
             images: [],
             userId: updatedUser._id,
+            audience: "public",
             key:
               updatedDetail === "currentCity" ? "current city" : updatedDetail,
           },

@@ -11,12 +11,10 @@ import { addPost, error, loading } from "./postSlice";
 export function useAddPost() {
   const dispatch: AppDispatch = useDispatch();
 
-  async function createPostWithImages(post: AddPostData, username: string) {
+  async function createImagesPost(images: string[], username: string) {
     dispatch(loading());
 
     try {
-      const { images } = post;
-
       const blobImages = images.map((image) => imageToBlob(image));
       const imagePath = `${username}/posts/images`;
 
@@ -29,7 +27,7 @@ export function useAddPost() {
 
       const { data } = await addImage(formData);
 
-      await createPost({ ...post, images: data.images }, username);
+      return data.images;
     } catch (err) {
       handleError(err as ResponseError);
 
@@ -45,7 +43,18 @@ export function useAddPost() {
     dispatch(loading());
 
     try {
-      const { message, postData } = await addPostApi(post);
+      let postImages;
+      if (
+        post.images.length !== 0 &&
+        post.type !== "cover" &&
+        post.type !== "profile"
+      )
+        postImages = await createImagesPost(post.images, username);
+
+      const { message, postData } = await addPostApi({
+        ...post,
+        images: postImages || post.images,
+      });
 
       dispatch(addPost(postData));
       dispatch(getProfile(username));
@@ -73,5 +82,5 @@ export function useAddPost() {
     }
   }
 
-  return { createPostWithImages, createPost, createDetailsPost };
+  return { createPost, createDetailsPost };
 }
