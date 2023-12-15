@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
+import PostModel from '../models/post';
 import UserModel, { User } from '../models/user';
 import { generateUsername } from '../utils/generateUsername';
 import { validateEmail, validateName } from '../utils/validateUserData';
@@ -297,96 +298,21 @@ export const getUserProfile: RequestHandler<
   try {
     const { username } = req.params;
 
-    const user = await UserModel.findOne({ username: username });
+    const user = await UserModel.findOne({ username: username })
+      .select('-password')
+      .populate('friends', 'picture firstName lastName username');
 
     if (!user) throw createHttpError(404, 'User not found');
 
-    const userWithPosts = await UserModel.aggregate([
-      {
-        $match: { _id: new mongoose.Types.ObjectId(user._id) },
-      },
-      {
-        $lookup: {
-          from: 'posts',
-          localField: '_id',
-          foreignField: 'user',
-          as: 'userPosts',
-        },
-      },
-      {
-        $lookup: {
-          from: 'posts',
-          let: { userId: '$_id' },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ['$user', '$$userId'],
-                },
-              },
-            },
-            {
-              $sort: { createdAt: -1 },
-            },
-          ],
-          as: 'userPosts',
-        },
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'friends',
-          foreignField: '_id',
-          as: 'friends',
-        },
-      },
-      {
-        $lookup: {
-          from: 'users',
-          localField: 'userPosts.comments.author',
-          foreignField: '_id',
-          as: 'authorDetails',
-        },
-      },
-      {
-        $unwind: {
-          path: '$authorDetails',
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $addFields: {
-          'userPosts.comments.author': '$authorDetails',
-        },
-      },
-      {
-        $project: {
-          authorDetails: 0,
-        },
-      },
-      {
-        $project: {
-          password: 0,
-          'friends.gender': 0,
-          'friends.password': 0,
-          'friends.email': 0,
-          'friends.__v': 0,
-          'friends.friendRequests': 0,
-          'friends.search': 0,
-          'friends.createdAt': 0,
-          'friends.updatedAt': 0,
-          'friends.details': 0,
-          'friends.cover': 0,
-          'friends.sentFriendRequests': 0,
-          'friends.userPosts': 0,
-          'friends.birthDay': 0,
-          'friends.birthMonth': 0,
-          'friends.birthYear': 0,
-        },
-      },
-    ]);
+    const userPosts = await PostModel.find({ user: user._id })
+      .populate('user')
+      .populate(
+        'comments.author',
+        'picture firstName lastName username commentAt'
+      )
+      .sort({ createdAt: -1 });
 
-    res.json(...userWithPosts);
+    res.json({ ...user.toObject(), userPosts });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
