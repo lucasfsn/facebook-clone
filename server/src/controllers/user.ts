@@ -745,3 +745,26 @@ export const getUserById: RequestHandler<
     res.status(err.status || 500).json({ message: err.message });
   }
 };
+
+export const searchUser: RequestHandler<
+  { user: string },
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  try {
+    const { user } = req.params;
+
+    const result = await UserModel.find({
+      $or: [
+        { firstName: { $regex: user, $options: 'i' } },
+        { lastName: { $regex: user, $options: 'i' } },
+        { username: { $regex: user, $options: 'i' } },
+      ],
+    }).select('picture firstName lastName username');
+
+    res.json(result);
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
