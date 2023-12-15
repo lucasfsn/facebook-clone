@@ -13,6 +13,16 @@ interface DeleteByIdParams {
   id: string;
 }
 
+interface EditPostBody {
+  content?: string;
+  images?: string[];
+  audience?: 'public' | 'friends' | 'private';
+}
+
+interface EditPostParams {
+  id: string;
+}
+
 interface CommentBody {
   comment: string;
   image?: string;
@@ -114,6 +124,34 @@ export const deletePost: RequestHandler<
   }
 };
 
+export const editPost: RequestHandler<
+  EditPostParams,
+  unknown,
+  EditPostBody,
+  unknown
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { content, images, audience } = req.body;
+
+    const post = await PostModel.findById(id).select('content images audience');
+    if (!post) throw createHttpError(404, 'Post not found');
+
+    if (content) post.content = content;
+    if (images) post.images = images;
+    if (audience) post.audience = audience;
+
+    const updatedPost = await post.save();
+
+    res.json({
+      message: 'Post updated successfully',
+      post: updatedPost,
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};
+
 export const commentPost: RequestHandler<
   unknown,
   unknown,
@@ -141,6 +179,7 @@ export const commentPost: RequestHandler<
     res.json({
       message: 'Comment added successfully',
       comments: post.comments,
+      postId,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

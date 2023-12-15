@@ -6,4 +6,5 @@ export const postRouter = Router()
   .post('/add', PostController.createPost)
   .get('/all', PostController.allPosts)
   .delete('/delete/:id', PostController.deletePost)
-  .post('/comment', PostController.commentPost);
+  .post('/comment', PostController.commentPost)
+  .put('/edit/:id', PostController.editPost);

@@ -397,7 +397,6 @@ export const getUserProfile: RequestHandler<
           'friends.__v': 0,
           'friends.friendRequests': 0,
           'friends.search': 0,
-          'friends.savedPosts': 0,
           'friends.createdAt': 0,
           'friends.updatedAt': 0,
           'friends.details': 0,

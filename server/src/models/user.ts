@@ -82,18 +82,6 @@ const userSchema = new Schema(
         ],
       },
     },
-    savedPosts: [
-      {
-        post: {
-          type: Schema.Types.ObjectId,
-          ref: 'Post',
-        },
-        savedAt: {
-          type: Date,
-          default: new Date(),
-        },
-      },
-    ],
   },
   { timestamps: true }
 );
