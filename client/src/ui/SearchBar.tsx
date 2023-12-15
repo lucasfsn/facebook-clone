@@ -1,6 +1,7 @@
 import { RefObject, useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { search } from "../services/apiSearch";
+import { SearchUser } from "../types/search";
 
 interface SearchBarProps {
   placeholder: string;
@@ -9,6 +10,7 @@ interface SearchBarProps {
   onClick?: () => void;
   full?: boolean;
   input?: RefObject<HTMLInputElement>;
+  setSearchResults: (value: SearchUser[]) => void;
 }
 
 function SearchBar({
@@ -18,12 +20,12 @@ function SearchBar({
   onClick,
   full = false,
   input,
+  setSearchResults,
 }: SearchBarProps) {
   const [searchValue, setSearchValue] = useState<string>("");
-  const [searchResults, setSearchResults] = useState([]);
 
   async function handleSearch() {
-    if (!searchValue) {
+    if (!searchValue || searchValue.length <= 2) {
       setSearchResults([]);
       return;
     }

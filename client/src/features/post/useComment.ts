@@ -41,8 +41,6 @@ export function useComment() {
         user.id,
       );
 
-      console.log(username);
-
       username
         ? dispatch(getProfile(username))
         : dispatch(addPostComment({ idPost, comments }));

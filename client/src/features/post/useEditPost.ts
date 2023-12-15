@@ -64,7 +64,6 @@ export function useEditPost() {
 
       toast.success(message);
     } catch (err) {
-      console.log(err);
       handleError(err as ResponseError);
 
       dispatch(error());
