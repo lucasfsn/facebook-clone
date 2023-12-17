@@ -1,16 +1,15 @@
 import { ErrorMessage, useField } from "formik";
-import { ChangeEvent } from "react";
 import { HiExclamationTriangle } from "react-icons/hi2";
 
 interface LoginInputProps {
   placeholder: string;
   name: string;
   type: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function LoginInput({ placeholder, ...props }: LoginInputProps) {
-  const [field, meta] = useField(props);
+function LoginInput({ placeholder, name, type }: LoginInputProps) {
+  const [field, meta] = useField(name);
+
   return (
     <div className="relative">
       {meta.touched && meta.error && (
@@ -21,8 +20,10 @@ function LoginInput({ placeholder, ...props }: LoginInputProps) {
         className={`w-full rounded-md border p-3.5 text-lg focus:outline-none ${
           meta.touched && meta.error ? "border-red-500" : "border-blue-500"
         }`}
-        {...field}
-        {...props}
+        type={type}
+        name={name}
+        onChange={field.onChange}
+        onBlur={field.onBlur}
       />
       <p className="pt-1 text-left text-sm text-red-500">
         {meta.touched && meta.error && <ErrorMessage name={field.name} />}

@@ -9,7 +9,7 @@ function SignUp() {
           Create new account
         </button>
       </Modal.Open>
-      <Modal.Window name="signup-form" type="signup">
+      <Modal.Window name="signup-form" type="signup" alwaysClose={false}>
         <SignUpForm />
       </Modal.Window>
     </Modal>

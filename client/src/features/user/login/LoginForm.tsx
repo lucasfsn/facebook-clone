@@ -1,5 +1,4 @@
 import { Form, Formik } from "formik";
-import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Login } from "../../../types/auth";
@@ -18,29 +17,20 @@ const initialState: Login = {
 
 function LoginForm() {
   const { loginUser } = useLogin();
-  const [user, setUser] = useState<Login>(initialState);
   const isLoading = useSelector(getLoading);
 
   if (isLoading) return <Spinner />;
 
-  function handleLoginChange(e: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-
-    setUser({ ...user, [name]: value });
+  async function handleSubmit(values: Login) {
+    await loginUser(values);
   }
-
-  async function handleSubmit() {
-    await loginUser(user);
-  }
-
-  loginValidation();
 
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-4 rounded-lg bg-white p-4 text-center shadow-3xl">
         <Formik
           enableReinitialize
-          initialValues={user}
+          initialValues={initialState}
           validationSchema={loginValidation}
           onSubmit={handleSubmit}
         >
@@ -49,13 +39,11 @@ function LoginForm() {
               type="text"
               name="email"
               placeholder="Email or phone number"
-              onChange={handleLoginChange}
             />
             <LoginInput
               type="password"
               name="password"
               placeholder="Password"
-              onChange={handleLoginChange}
             />
             <Button className="bg-blue-500">Log In</Button>
           </Form>

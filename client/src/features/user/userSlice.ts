@@ -28,6 +28,8 @@ const userSlice = createSlice({
     },
     deleteUser(state) {
       state.user = null;
+      state.isLoading = false;
+      state.error = false;
     },
     loading(state) {
       state.isLoading = true;
