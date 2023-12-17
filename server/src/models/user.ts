@@ -34,14 +34,8 @@ const userSchema = new Schema(
     birthMonth: { type: Number, required: true, trim: true },
     birthYear: { type: Number, required: true, trim: true },
     friends: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    friendRequests: {
-      type: Array,
-      default: [],
-    },
-    sentFriendRequests: {
-      type: Array,
-      default: [],
-    },
+    friendRequests: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    sentFriendRequests: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     search: [
       {
         user: {

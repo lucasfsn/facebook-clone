@@ -279,6 +279,18 @@ export const deleteUser: RequestHandler<
 
     if (!user) throw createHttpError(404, 'User not found');
 
+    await UserModel.updateMany(
+      {},
+      {
+        $pull: {
+          search: { user: user._id },
+          friends: user._id,
+          sentFriendRequests: user._id,
+          friendRequests: user._id,
+        },
+      }
+    );
+
     await UserModel.deleteOne({ _id: id });
 
     res.send({
