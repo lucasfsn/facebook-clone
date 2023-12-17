@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FaPenToSquare } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import { HiMagnifyingGlass } from "react-icons/hi2";
@@ -23,6 +23,7 @@ function HomeContacts() {
     setSearchResults([]);
     setShowSearch(false);
   });
+  const memoizedSearchResults = useMemo(() => searchResults, [searchResults]);
 
   useEffect(() => {
     if (user) dispatch(getProfile(user?.username));
@@ -53,24 +54,25 @@ function HomeContacts() {
               />
             )}
           </div>
-          {(searchResults.length > 0 ? searchResults : profile.friends).map(
-            (friend) => (
-              <Link
-                to={`/profile/${friend.username}`}
-                key={friend._id}
-                className="bg-tertiary-hover flex cursor-pointer items-center gap-2.5 rounded-lg p-2"
-              >
-                <img
-                  src={friend.picture}
-                  className="aspect-square w-[35px] rounded-full"
-                />
-                <div className="flex gap-1.5">
-                  <span>{friend.firstName}</span>
-                  <span>{friend.lastName}</span>
-                </div>
-              </Link>
-            ),
-          )}
+          {(memoizedSearchResults.length > 0
+            ? searchResults
+            : profile.friends
+          ).map((friend) => (
+            <Link
+              to={`/profile/${friend.username}`}
+              key={friend._id}
+              className="bg-tertiary-hover flex cursor-pointer items-center gap-2.5 rounded-lg p-2"
+            >
+              <img
+                src={friend.picture}
+                className="aspect-square w-[35px] rounded-full"
+              />
+              <div className="flex gap-1.5">
+                <span>{friend.firstName}</span>
+                <span>{friend.lastName}</span>
+              </div>
+            </Link>
+          ))}
         </div>
         <div className="flex flex-col gap-2 py-2">
           <span className="ml-2 font-semibold">Group conversations</span>

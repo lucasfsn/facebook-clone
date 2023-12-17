@@ -141,7 +141,9 @@ function Header() {
             <button
               className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]"
               ref={buttonRef}
-              onClick={() => setShowNotifications((show) => !show)}
+              onClick={() =>
+                friendRequests > 0 && setShowNotifications((show) => !show)
+              }
             >
               <RiNotification2Fill />
               {friendRequests > 0 && (

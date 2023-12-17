@@ -3,7 +3,12 @@ import { Theme } from "emoji-picker-react";
 import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { DarkModeOptions } from "../context/DarkModeContext";
-import { MAX_FILE_SIZE, MIN_COVER_WIDTH, VALID_MIMETYPES } from "./constants";
+import {
+  MAX_FILE_SIZE,
+  MIN_COVER_WIDTH,
+  VALID_MIMETYPES,
+  VALID_PROFILE_PHOTO_MIMETYPES,
+} from "./constants";
 
 export const getMonths = () => {
   const months = {
@@ -151,7 +156,7 @@ export function handleAddCover(
 
   const image = e.target.files[0];
 
-  if (!VALID_MIMETYPES.includes(image.type)) {
+  if (!VALID_PROFILE_PHOTO_MIMETYPES.includes(image.type)) {
     toast.error("Selected file type is not supported");
     return;
   }
