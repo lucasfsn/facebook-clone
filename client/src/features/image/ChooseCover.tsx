@@ -1,6 +1,6 @@
 import { BsPlus } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { getImages } from "../image/imagesSlice";
+import { getImages } from "./imagesSlice";
 
 interface ChooseCoverProps {
   uploadCoverRef: React.RefObject<HTMLElement>;
@@ -13,7 +13,7 @@ function ChooseCover({ uploadCoverRef, handleChooseImage }: ChooseCoverProps) {
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md py-4">
       <div className="separator border-b pb-4 text-center text-xl font-bold">
-        Choose cover picture
+        Choose Cover Photo
       </div>
 
       <div className="flex flex-col gap-3 px-3">

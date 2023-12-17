@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CgMenuGridO } from "react-icons/cg";
 import { FaFacebookMessenger } from "react-icons/fa";
 import {
@@ -14,7 +14,10 @@ import {
 import { RiHome5Fill, RiHome5Line, RiNotification2Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { getLoading } from "../features/profile/profileSlice";
 import { getUser } from "../features/user/userSlice";
+import { useOutsideClick } from "../hooks/useOutsideClick";
+import { getProfile } from "../services/apiProfile";
 import HeaderLink from "./HeaderLink";
 import HeaderSearchModal from "./HeaderSearchModal";
 import Logo from "./Logo";
@@ -25,8 +28,30 @@ import UserModal from "./UserModal";
 
 function Header() {
   const [showSearchPanel, setShowSearchPanel] = useState(false);
+  const [friendRequests, setFriendRequests] = useState<number>(0);
+  const [showNotifications, setShowNotifications] = useState<boolean>(false);
+
   const user = useSelector(getUser);
   const location = useLocation();
+  const loading = useSelector(getLoading);
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const { ref } = useOutsideClick(
+    () => setShowNotifications(false),
+    true,
+    buttonRef,
+  );
+
+  useEffect(() => {
+    async function fetchFriendRequests() {
+      if (user) {
+        const data = await getProfile(user?.username);
+        setFriendRequests(data.friendRequests.length);
+      }
+    }
+
+    fetchFriendRequests();
+  }, [user, loading]);
 
   const currentPage =
     location.pathname === "/" ? "home" : location.pathname.split("/")[1];
@@ -112,12 +137,35 @@ function Header() {
           <button className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
             <FaFacebookMessenger />
           </button>
-          <button className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
-            <RiNotification2Fill />
-            <div className="absolute -right-1 -top-1 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-red-600 text-center text-sm text-white">
-              1
-            </div>
-          </button>
+          <div className="relative">
+            <button
+              className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]"
+              ref={buttonRef}
+              onClick={() => setShowNotifications((show) => !show)}
+            >
+              <RiNotification2Fill />
+              {friendRequests > 0 && (
+                <div className="absolute -right-1 -top-1 flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-red-600 text-center text-sm text-white">
+                  {friendRequests}
+                </div>
+              )}
+            </button>
+            {showNotifications && (
+              <div
+                className="bg-primary text-secondary absolute right-0 w-max rounded-lg px-2 py-3 shadow-3xl"
+                ref={ref}
+              >
+                <Link
+                  to="/friends/requests"
+                  onClick={() => setShowNotifications(false)}
+                  className="bg-tertiary-hover rounded-md px-2.5 py-1"
+                >
+                  You have received <strong>{friendRequests}</strong> friend
+                  request{friendRequests > 1 && "s"}
+                </Link>
+              </div>
+            )}
+          </div>
           <Modal.Open opens="profile">
             <img
               src={user?.picture}

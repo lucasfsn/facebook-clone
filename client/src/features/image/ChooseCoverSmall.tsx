@@ -1,15 +1,12 @@
 import { useRef, useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { capitalize, handleAddImage } from "../../utils/helpers";
-import { getImages } from "../image/imagesSlice";
-import EditProfilePicture from "./EditProfilePicture";
+import { SingleImage } from "../../types/images";
+import { handleAddCover } from "../../utils/helpers";
+import EditCoverSmall from "./EditCoverSmall";
+import { getImages } from "./imagesSlice";
 
-interface ChoosePictureProps {
-  filter: "profile" | "cover";
-}
-
-function ChoosePicture({ filter }: ChoosePictureProps) {
+function ChooseCoverSmall() {
   const [image, setImage] = useState<string>("");
   const ref = useRef<HTMLInputElement>(null);
 
@@ -18,10 +15,10 @@ function ChoosePicture({ filter }: ChoosePictureProps) {
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md py-4">
       <div className="separator border-b pb-4 text-center text-xl font-bold">
-        Choose {filter} picture
+        Choose Cover Photo
       </div>
       {image ? (
-        <EditProfilePicture image={image} setImage={setImage} />
+        <EditCoverSmall image={image} setImage={setImage} />
       ) : (
         <div className="flex flex-col gap-3 px-3">
           <button
@@ -33,27 +30,23 @@ function ChoosePicture({ filter }: ChoosePictureProps) {
             <input
               type="file"
               ref={ref}
-              accept="image/jpeg,image/png,image/gif"
-              onChange={(e) => {
-                handleAddImage(e, setImage);
-              }}
+              accept="image/jpeg,image/png"
+              onChange={(e) => handleAddCover(e, setImage)}
               hidden
             />
             <BsPlus className="text-xl" />
             <span>Upload photo</span>
           </button>
           <div className="flex flex-col gap-3">
-            <p className="text-secondary text-lg font-semibold">
-              {capitalize(filter)} pictures
-            </p>
-            <div className="grid grid-cols-4 gap-2 overflow-hidden rounded-md">
-              {images.map((image) => {
-                if (image.type === filter)
+            <p className="text-secondary text-lg font-semibold">Cover photos</p>
+            <div className="grid grid-cols-4 gap-2 overflow-hidden">
+              {images.map((image: SingleImage) => {
+                if (image.type === "cover")
                   return (
                     <img
                       key={image.url}
                       src={image.url}
-                      className="aspect-square h-full w-full cursor-pointer object-cover hover:brightness-110"
+                      className="aspect-video h-full cursor-pointer rounded-md object-cover hover:brightness-110"
                       onClick={() => setImage(image.url)}
                     />
                   );
@@ -66,4 +59,4 @@ function ChoosePicture({ filter }: ChoosePictureProps) {
   );
 }
 
-export default ChoosePicture;
+export default ChooseCoverSmall;

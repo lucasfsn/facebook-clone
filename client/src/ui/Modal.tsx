@@ -59,6 +59,7 @@ interface WindowProps {
   type: WindowType;
   width?: string;
   onClose?: () => void;
+  alwaysClose?: boolean;
 }
 
 function Window({
@@ -67,11 +68,12 @@ function Window({
   type,
   width = "475px",
   onClose,
+  alwaysClose = true,
 }: WindowProps) {
   const { openName, close } = useContext(ModalContext) as ModalContextProps;
 
   const { ref } = useOutsideClick(() => {
-    close();
+    alwaysClose && close();
     onClose?.();
   });
 

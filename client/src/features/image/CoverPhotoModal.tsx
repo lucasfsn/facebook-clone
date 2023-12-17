@@ -4,9 +4,9 @@ import { IoIosImages } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import Modal from "../../ui/Modal";
+import { useCover } from "../profile/useCover";
 import { getUserId } from "../user/userSlice";
 import ChooseCover from "./ChooseCover";
-import { useCover } from "./useCover";
 
 interface CoverPhotoModalProps {
   button: RefObject<HTMLButtonElement>;

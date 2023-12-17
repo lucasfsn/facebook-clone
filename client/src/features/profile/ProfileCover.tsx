@@ -1,25 +1,14 @@
-import {
-  ChangeEvent,
-  useLayoutEffect,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import { useLayoutEffect, useReducer, useRef, useState } from "react";
 import AvatarEditor from "react-avatar-editor";
-import toast from "react-hot-toast";
 import { FaCamera, FaGlobeEurope } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { ImagePosition } from "../../types/images";
 import Button from "../../ui/Button";
 import ImageSlider from "../../ui/ImageSlider";
-import {
-  MAX_FILE_SIZE,
-  MIN_COVER_WIDTH,
-  VALID_MIMETYPES,
-} from "../../utils/constants";
+import { handleAddCover } from "../../utils/helpers";
+import CoverPhotoModal from "../image/CoverPhotoModal";
 import { getUser } from "../user/userSlice";
-import CoverPhotoModal from "./CoverPhotoModal";
 import { getUserProfile } from "./profileSlice";
 import { useCover } from "./useCover";
 
@@ -126,38 +115,6 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
     dispatch({ type: "cover/set", payload: imageUrl });
   }
 
-  function handleAddCover(e: ChangeEvent<HTMLInputElement>) {
-    if (!e.target.files) return;
-
-    const image = e.target.files[0];
-
-    if (!VALID_MIMETYPES.includes(image.type)) {
-      toast.error("Selected file type is not supported");
-      return;
-    }
-
-    if (image.size > MAX_FILE_SIZE) {
-      toast.error("Selected file is too large");
-      return;
-    }
-
-    if (image) {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = (e) => {
-        const img = new Image();
-        img.src = e.target?.result as string;
-        img.onload = () => {
-          if (img.width < MIN_COVER_WIDTH) {
-            toast.error("This cover photo is too small");
-            return;
-          }
-          dispatch({ type: "cover/set", payload: img.src });
-        };
-      };
-    }
-  }
-
   async function handleSaveCover() {
     if (!user) return;
 
@@ -177,7 +134,11 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
         ref={uploadCoverRef}
         hidden
         accept="image/jpeg,image/png,image/gif"
-        onChange={handleAddCover}
+        onChange={(e) =>
+          handleAddCover(e, (img) =>
+            dispatch({ type: "cover/set", payload: img }),
+          )
+        }
       />
       {state.showEditor && (
         <div className="absolute left-0 top-0 z-10 flex w-full justify-between bg-black bg-opacity-50 p-3.5">
@@ -236,13 +197,15 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
             style={{
               top: "0",
               left: "0",
+              width: `${width}px`,
+              height: "100%",
               position: "absolute",
-              objectFit: "contain",
+              objectFit: "cover",
               cursor: "move",
             }}
             image={state.cover}
             crossOrigin="anonymous"
-            width={width}
+            width={1000}
             height={350}
             border={0}
             color={[255, 255, 255, 0.1]}

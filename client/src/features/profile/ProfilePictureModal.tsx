@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import ImageSlider from "../../ui/ImageSlider";
 import Modal from "../../ui/Modal";
+import ChoosePicture from "../image/ChoosePicture";
 import { getUser } from "../user/userSlice";
-import ChoosePicture from "./ChoosePicture";
 import { getProfilePicture } from "./profileSlice";
 import { useProfilePicture } from "./useProfilePicture";
 
@@ -70,7 +70,7 @@ function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
             type="center"
             onClose={() => setIsModalOpen(false)}
           >
-            <ChoosePicture filter="profile" />
+            <ChoosePicture />
           </Modal.Window>
         </Modal>
         <div

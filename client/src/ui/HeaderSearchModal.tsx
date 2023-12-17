@@ -176,7 +176,8 @@ function HeaderSearchModal({ setShowSearchPanel }: HeaderSearchModalProps) {
           setSearchResults={setSearchResults}
         />
       </div>
-      {state.search.history.length === 0 &&
+      {!state.isLoading &&
+        state.search.history.length === 0 &&
         state.search.results.length === 0 && (
           <div className="self-center py-2 text-gray-500">
             No recent searches
@@ -185,46 +186,46 @@ function HeaderSearchModal({ setShowSearchPanel }: HeaderSearchModalProps) {
       {state.search.results.length === 0 &&
         state.search.history.length !== 0 && (
           <div className="flex max-h-[50dvh] flex-col gap-1 overflow-y-scroll">
+            <span className="text-secondary px-2 py-1 text-lg font-semibold">
+              Recent searches
+            </span>
             {state.isLoading ? (
               <Loading />
             ) : (
-              <span className="text-secondary px-2 py-1 text-lg font-semibold">
-                Recent searches
-              </span>
-            )}
-            <div className="flex flex-col">
-              {state.search.history.map((result) => (
-                <div
-                  className="bg-tertiary-hover flex items-center rounded-md p-2"
-                  key={result.user._id}
-                >
-                  <Link
-                    to={`/profile/${result.user.username}`}
-                    className="flex flex-grow items-center justify-between"
-                    onClick={() => handleAddToSearchHistory(result.user._id)}
-                  >
-                    <div className="text-secondary flex items-center gap-3">
-                      <img
-                        src={result.user.picture}
-                        alt={result.user.username}
-                        className="aspect-square w-[35px] rounded-full"
-                      />
-                      <span>
-                        {result.user.firstName} {result.user.lastName}
-                      </span>
-                    </div>
-                  </Link>
+              <div className="flex flex-col">
+                {state.search.history.map((result) => (
                   <div
-                    className="bg-tertiary-hover cursor-pointer rounded-full p-1.5 hover:brightness-125"
-                    onClick={async () =>
-                      await handleDeleteFromSearchHistory(result.user._id)
-                    }
+                    className="bg-tertiary-hover flex items-center rounded-md p-2"
+                    key={result.user._id}
                   >
-                    <HiXMark className="text-tertiary text-lg" />
+                    <Link
+                      to={`/profile/${result.user.username}`}
+                      className="flex flex-grow items-center justify-between"
+                      onClick={() => handleAddToSearchHistory(result.user._id)}
+                    >
+                      <div className="text-secondary flex items-center gap-3">
+                        <img
+                          src={result.user.picture}
+                          alt={result.user.username}
+                          className="aspect-square w-[35px] rounded-full"
+                        />
+                        <span>
+                          {result.user.firstName} {result.user.lastName}
+                        </span>
+                      </div>
+                    </Link>
+                    <div
+                      className="bg-tertiary-hover cursor-pointer rounded-full p-1.5 hover:brightness-125"
+                      onClick={async () =>
+                        await handleDeleteFromSearchHistory(result.user._id)
+                      }
+                    >
+                      <HiXMark className="text-tertiary text-lg" />
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       <div className="max-h-[50dvh] overflow-y-scroll">

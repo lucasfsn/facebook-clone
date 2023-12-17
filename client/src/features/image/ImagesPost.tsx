@@ -42,7 +42,11 @@ function ImagesPost({ post }: ImagesPostProps) {
             } ${post.type === "profile" ? "profile-post" : ""}`}
             style={
               post.user?.cover && post.type === "profile"
-                ? { backgroundImage: `url(${post.user.cover})`, height: "50%" }
+                ? {
+                    backgroundImage: `url(${post.user.cover})`,
+                    height: "50%",
+                    backgroundPosition: "center",
+                  }
                 : {}
             }
           >

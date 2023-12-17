@@ -1,14 +1,11 @@
 import { useState } from "react";
-import { BiSolidBusSchool } from "react-icons/bi";
-import { FaCity, FaGlobeEurope } from "react-icons/fa";
-import { GiTakeMyMoney } from "react-icons/gi";
-import { HiHeart, HiHome } from "react-icons/hi2";
-import { IoSchool } from "react-icons/io5";
+import { FaGlobeEurope } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Details } from "../../types/profile";
 import Modal from "../../ui/Modal";
 import { getUserId } from "../user/userSlice";
 import EditDetails from "./EditDetails";
+import ProfileDetails from "./ProfileDetails";
 import { getProfileDetails } from "./profileSlice";
 import { useDetails } from "./useDetails";
 
@@ -22,7 +19,6 @@ function ProfilePanelIntro({ isProfileOwner }: ProfileIntroProps) {
 
   const [details, setDetails] = useState<Details>(profileDetails);
   const [showBio, setShowBio] = useState<boolean>(false);
-  const [showEditDetails, setShowEditDetails] = useState<boolean>(true);
 
   const { updateDetails } = useDetails();
 
@@ -43,7 +39,6 @@ function ProfilePanelIntro({ isProfileOwner }: ProfileIntroProps) {
   }
 
   function handleCloseEditDetails() {
-    setShowEditDetails(false);
     setDetails(profileDetails);
   }
 
@@ -97,62 +92,22 @@ function ProfilePanelIntro({ isProfileOwner }: ProfileIntroProps) {
             {details.bio ? "Edit bio" : "Add bio"}
           </button>
         )}
-        {profileDetails.currentCity && (
-          <div className="flex flex-row items-center gap-2.5">
-            <FaCity className="text-tertiary md:text-2xl" />
-            <span>Lives in {profileDetails.currentCity}</span>
-          </div>
-        )}
-        {profileDetails.hometown && (
-          <div className="flex flex-row items-center gap-2.5">
-            <HiHome className="text-tertiary md:text-2xl" />
-            <span>From {profileDetails.hometown}</span>
-          </div>
-        )}
-        {profileDetails.highschool && (
-          <div className="flex flex-row items-center gap-2.5">
-            <BiSolidBusSchool className="text-tertiary md:text-2xl" />
-            <span>Studied at {profileDetails.highschool}</span>
-          </div>
-        )}
-        {profileDetails.college && (
-          <div className="flex flex-row items-center gap-2.5">
-            <IoSchool className="text-tertiary md:text-2xl" />
-            <span>Studied at {profileDetails.college}</span>
-          </div>
-        )}
-        {profileDetails.relationship && (
-          <div className="flex flex-row items-center gap-2.5">
-            <HiHeart className="text-tertiary md:text-2xl" />
-            <span>{profileDetails.relationship}</span>
-          </div>
-        )}
-        {profileDetails.workplace && (
-          <div className="flex flex-row items-center gap-2.5">
-            <GiTakeMyMoney className="text-tertiary md:text-2xl" />
-            <span>Works at {profileDetails.workplace}</span>
-          </div>
-        )}
+        <ProfileDetails details={profileDetails} />
         {isProfileOwner && (
           <Modal>
             <Modal.Open opens="details">
-              <button
-                className="bg-tertiary bg-tertiary-hover w-full rounded-md p-1.5"
-                onClick={() => setShowEditDetails(true)}
-              >
+              <button className="bg-tertiary bg-tertiary-hover w-full rounded-md p-1.5">
                 Edit details
               </button>
             </Modal.Open>
-            {showEditDetails && (
-              <Modal.Window name="details" type="center">
-                <EditDetails
-                  details={details}
-                  setDetails={setDetails}
-                  handleSave={handleSave}
-                  close={handleCloseEditDetails}
-                />
-              </Modal.Window>
-            )}
+            <Modal.Window name="details" type="center">
+              <EditDetails
+                details={details}
+                setDetails={setDetails}
+                handleSave={handleSave}
+                close={handleCloseEditDetails}
+              />
+            </Modal.Window>
           </Modal>
         )}
       </div>

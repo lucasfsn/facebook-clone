@@ -3,8 +3,9 @@ import { FaCamera, FaPencilAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import Modal from "../../ui/Modal";
+import ChoosePicture from "../image/ChoosePicture";
 import { getUser } from "../user/userSlice";
-import ChoosePicture from "./ChoosePicture";
+import EditProfile from "./EditProfile";
 import ProfileCover from "./ProfileCover";
 import ProfileHeaderFriend from "./ProfileHeaderFriend";
 import ProfilePictureModal from "./ProfilePictureModal";
@@ -69,7 +70,7 @@ function ProfileHeader() {
                       </div>
                     </Modal.Open>
                     <Modal.Window name="picture" type="center">
-                      <ChoosePicture filter="profile" />
+                      <ChoosePicture />
                     </Modal.Window>
                   </Modal>
                 )}
@@ -86,10 +87,21 @@ function ProfileHeader() {
             </div>
             <div className="ml-auto p-2">
               {isProfileOwner ? (
-                <button className="bg-tertiary text-secondary bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold md:px-3 md:py-1.5 md:text-base">
-                  <FaPencilAlt />
-                  <span>Edit Profile</span>
-                </button>
+                <Modal>
+                  <Modal.Open opens="edit-profile">
+                    <button className="bg-tertiary text-secondary bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold md:px-3 md:py-1.5 md:text-base">
+                      <FaPencilAlt />
+                      <span>Edit profile</span>
+                    </button>
+                  </Modal.Open>
+                  <Modal.Window
+                    name="edit-profile"
+                    type="center"
+                    alwaysClose={false}
+                  >
+                    <EditProfile profile={profile} />
+                  </Modal.Window>
+                </Modal>
               ) : (
                 <ProfileHeaderFriend />
               )}

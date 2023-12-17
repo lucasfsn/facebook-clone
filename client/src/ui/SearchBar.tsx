@@ -1,5 +1,7 @@
 import { RefObject, useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
+import { useSelector } from "react-redux";
+import { getUserProfile } from "../features/profile/profileSlice";
 import { search } from "../services/apiSearch";
 import { SearchUser } from "../types/search";
 
@@ -10,7 +12,8 @@ interface SearchBarProps {
   onClick?: () => void;
   full?: boolean;
   input?: RefObject<HTMLInputElement>;
-  setSearchResults: (value: SearchUser[]) => void;
+  setSearchResults?: (value: SearchUser[]) => void;
+  filterFriends?: boolean;
 }
 
 function SearchBar({
@@ -21,23 +24,35 @@ function SearchBar({
   full = false,
   input,
   setSearchResults,
+  filterFriends = false,
 }: SearchBarProps) {
   const [searchValue, setSearchValue] = useState<string>("");
+  const profile = useSelector(getUserProfile);
 
   async function handleSearch() {
+    if (!setSearchResults) return;
+
     if (!searchValue || searchValue.length <= 2) {
       setSearchResults([]);
       return;
     }
 
     const { data } = await search(searchValue);
-    setSearchResults(data);
+
+    const filteredFriends = data.filter((res: SearchUser) =>
+      profile.friends.find((friend) => friend._id === res._id),
+    );
+
+    if (filterFriends) setSearchResults(filteredFriends);
+    else setSearchResults(data);
   }
 
   return (
     <div
       onClick={onClick}
-      className="bg-tertiary flex h-[40px] min-w-[40px] cursor-text items-center justify-start gap-2 rounded-full px-3 py-1"
+      className={`bg-tertiary flex h-[40px] min-w-[40px] cursor-text items-center justify-start gap-2 overflow-hidden rounded-full px-3 py-1 ${
+        showIcon ? "cursor-default" : ""
+      }`}
     >
       {showIcon && <HiMagnifyingGlass className="text-md text-secondary" />}
       <input

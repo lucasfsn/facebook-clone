@@ -3,7 +3,7 @@ import { Theme } from "emoji-picker-react";
 import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { DarkModeOptions } from "../context/DarkModeContext";
-import { MAX_FILE_SIZE, VALID_MIMETYPES } from "./constants";
+import { MAX_FILE_SIZE, MIN_COVER_WIDTH, VALID_MIMETYPES } from "./constants";
 
 export const getMonths = () => {
   const months = {
@@ -139,6 +139,41 @@ export function handleAddImage(
       if (e.target) {
         setImage(e.target.result as string);
       }
+    };
+  }
+}
+
+export function handleAddCover(
+  e: ChangeEvent<HTMLInputElement>,
+  setImage: (image: string) => void,
+) {
+  if (!e.target.files) return;
+
+  const image = e.target.files[0];
+
+  if (!VALID_MIMETYPES.includes(image.type)) {
+    toast.error("Selected file type is not supported");
+    return;
+  }
+
+  if (image.size > MAX_FILE_SIZE) {
+    toast.error("Selected file is too large");
+    return;
+  }
+
+  if (image) {
+    const reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target?.result as string;
+      img.onload = () => {
+        if (img.width < MIN_COVER_WIDTH) {
+          toast.error("This cover photo is too small");
+          return;
+        }
+        setImage(img.src);
+      };
     };
   }
 }
