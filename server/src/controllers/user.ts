@@ -3,6 +3,7 @@ import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
 import mongoose from 'mongoose';
 import PostModel from '../models/post';
+import ReactionModel from '../models/reaction';
 import UserModel, { User } from '../models/user';
 import { generateUsername } from '../utils/generateUsername';
 import { validateEmail, validateName } from '../utils/validateUserData';
@@ -290,6 +291,15 @@ export const deleteUser: RequestHandler<
         },
       }
     );
+
+    await PostModel.updateMany(
+      {},
+      { $pull: { comments: { author: user._id } } }
+    );
+
+    await ReactionModel.deleteMany({ by: user._id });
+
+    await PostModel.deleteMany({ user: user._id });
 
     await UserModel.deleteOne({ _id: id });
 

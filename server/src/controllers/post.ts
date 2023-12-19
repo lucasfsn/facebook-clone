@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
 import PostModel from '../models/post';
+import ReactionModel from '../models/reaction';
 import UserModel from '../models/user';
 
 interface PostBody {
@@ -102,6 +103,8 @@ export const deletePost: RequestHandler<
     const post = await PostModel.findById(id);
 
     if (!post) throw createHttpError(404, 'Post not found');
+
+    await ReactionModel.deleteMany({ post: post._id });
 
     await PostModel.deleteOne({ _id: id });
 
