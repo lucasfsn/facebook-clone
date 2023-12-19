@@ -130,8 +130,8 @@ function HomeMain() {
           <IoIosArrowBack className="text-2xl" />
         </button>
       )}
-      {state.position <
-        state.storyWidth * (stories.length + 1) - state.mainWidth && (
+      {2 * state.position <
+        state.storyWidth * stories.length - state.mainWidth && (
         <button
           onClick={() => handleClick("right")}
           className="bg-primary bg-tertiary-hover absolute right-3 top-[90px] z-10 flex h-[45px] w-[45px] items-center justify-center rounded-full shadow-md"

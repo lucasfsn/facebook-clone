@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { getProfile } from "../../services/apiProfile";
 import { Friend, SingleProfile } from "../../types/profile";
-import Spinner from "../../ui/Spinner";
+import Loading from "../../ui/Loading";
 import { getUser } from "../user/userSlice";
 import { getUserProfile } from "./profileSlice";
 import { useFriend } from "./useFriend";
@@ -44,7 +44,7 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
     fetchData();
   }, [user, currentUser]);
 
-  if (!currentUser) return <Spinner />;
+  if (!currentUser) return <Loading />;
 
   const status = {
     friends: currentUser.friends.some((f) => f._id === friend._id),
@@ -177,9 +177,9 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
             >
               <div
                 className="bg-tertiary-hover flex items-center gap-2 rounded-md p-1.5"
-                onClick={async () => {
-                  await removeFriend(currentUser._id, friend._id);
-                }}
+                onClick={async () =>
+                  await removeFriend(currentUser._id, friend._id)
+                }
               >
                 <BsFillPersonXFill className="text-xl" />
                 <span>Unfriend</span>

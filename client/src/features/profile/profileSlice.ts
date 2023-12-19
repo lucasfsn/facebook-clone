@@ -100,7 +100,7 @@ const profileSlice = createSlice({
       state.error = false;
     });
     builder.addCase(getProfile.fulfilled, (state, action) => {
-      state.profile = { ...state.profile, ...action.payload };
+      state.profile = action.payload;
       state.isLoading = false;
       state.error = false;
     });

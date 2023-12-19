@@ -28,10 +28,9 @@ function ProfileLayout() {
     if (error) navigate("/profile");
   }, [dispatch, profileUsername, error, navigate]);
 
-  if (isLoadingProfile) return <Spinner />;
-
   return (
     <div className="w-full">
+      {isLoadingProfile && <Spinner />}
       <ProfileHeader />
       <Outlet />
     </div>

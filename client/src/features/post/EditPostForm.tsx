@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   FaGlobeEurope,
   FaLock,
@@ -56,16 +56,16 @@ function EditPostForm({ post, close }: EditPostFormProps) {
     close();
   }
 
-  function audienceIcon(audience: PostAudience = "public") {
+  const audienceIcon = useMemo(() => {
     switch (audience) {
-      case "public":
+      case PostAudience.Public:
         return <FaGlobeEurope className="text-xs" />;
-      case "friends":
+      case PostAudience.Friends:
         return <FaUserFriends className="text-xs" />;
-      case "private":
+      case PostAudience.Private:
         return <FaLock className="text-xs" />;
     }
-  }
+  }, [audience]);
 
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md">
@@ -84,7 +84,7 @@ function EditPostForm({ post, close }: EditPostFormProps) {
               {user?.firstName} {user?.lastName}
             </span>
             <div className="bg-tertiary flex cursor-pointer flex-row items-center gap-1 rounded-md pl-2 text-sm">
-              {audienceIcon(audience)}
+              {audienceIcon}
               <select
                 value={audience}
                 onChange={(e) => setAudience(e.target.value as PostAudience)}

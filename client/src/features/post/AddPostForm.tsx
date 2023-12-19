@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   FaGlobeEurope,
   FaLock,
@@ -27,7 +27,7 @@ function AddPostForm({ username, openImages = false }: AddPostFormProps) {
   const [post, setPost] = useState<string>("");
   const [images, setImages] = useState<string[]>([]);
   const [showAddImage, setShowAddImage] = useState<boolean>(openImages);
-  const [audience, setAudience] = useState<PostAudience>("public");
+  const [audience, setAudience] = useState<PostAudience>(PostAudience.Public);
 
   const user = useSelector(getUser);
   const isLoading = useSelector(getLoading);
@@ -54,16 +54,16 @@ function AddPostForm({ username, openImages = false }: AddPostFormProps) {
     setShowAddImage(false);
   }
 
-  function audienceIcon(audience: PostAudience = "public") {
+  const audienceIcon = useMemo(() => {
     switch (audience) {
-      case "public":
+      case PostAudience.Public:
         return <FaGlobeEurope className="text-xs" />;
-      case "friends":
+      case PostAudience.Friends:
         return <FaUserFriends className="text-xs" />;
-      case "private":
+      case PostAudience.Private:
         return <FaLock className="text-xs" />;
     }
-  }
+  }, [audience]);
 
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md">
@@ -82,7 +82,7 @@ function AddPostForm({ username, openImages = false }: AddPostFormProps) {
               {user?.firstName} {user?.lastName}
             </span>
             <div className="bg-tertiary flex cursor-pointer flex-row items-center gap-1 rounded-md pl-2 text-sm">
-              {audienceIcon(audience)}
+              {audienceIcon}
               <select
                 value={audience}
                 onChange={(e) => setAudience(e.target.value as PostAudience)}

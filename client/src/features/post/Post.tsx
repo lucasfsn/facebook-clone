@@ -1,5 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaGlobeEurope, FaLock, FaUserFriends } from "react-icons/fa";
 import { HiDotsHorizontal } from "react-icons/hi";
@@ -83,16 +83,16 @@ function Post({ post, username }: PostProps) {
       setCommentsCount((prev) => prev + MAX_COMMENTS);
   }
 
-  function audienceIcon(audience: PostAudience = "public") {
-    switch (audience) {
-      case "public":
+  const audienceIcon = useMemo(() => {
+    switch (post.audience) {
+      case PostAudience.Public:
         return <FaGlobeEurope />;
-      case "friends":
+      case PostAudience.Friends:
         return <FaUserFriends />;
-      case "private":
+      case PostAudience.Private:
         return <FaLock />;
     }
-  }
+  }, [post.audience]);
 
   return (
     <div className="bg-primary flex flex-col gap-2 rounded-lg">
@@ -148,7 +148,7 @@ function Post({ post, username }: PostProps) {
               })()}
               <div className="text-tertiary flex flex-row items-center gap-1.5 text-xs">
                 <span>{formatDistanceToNow(new Date(post.createdAt))}</span>
-                <span>{audienceIcon(post.audience)}</span>
+                <span>{audienceIcon}</span>
               </div>
             </div>
           </div>

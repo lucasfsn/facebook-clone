@@ -75,4 +75,8 @@ export interface AddPostData {
 
 export type ReactionType = "like" | "love" | "haha" | "wow" | "sad" | "angry";
 
-export type PostAudience = "public" | "friends" | "private";
+export enum PostAudience {
+  Public = "public",
+  Friends = "friends",
+  Private = "private",
+}

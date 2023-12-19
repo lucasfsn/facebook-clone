@@ -3,9 +3,9 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signup as signupApi } from "../../services/apiAuth";
+import { SignUp } from "../../types/auth";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { error, loading, login } from "./userSlice";
-import { SignUp } from "../../types/auth";
 
 export function useSignup() {
   const navigate = useNavigate();

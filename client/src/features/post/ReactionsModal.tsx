@@ -16,7 +16,9 @@ interface ReactionsModalProps {
 const ReactionsModal = forwardRef<HTMLDivElement, ReactionsModalProps>(
   ({ postId, setActiveLike, setReaction, currentReaction }, ref) => {
     const [activeReaction, setActiveReaction] = useState<string | null>(null);
+
     const { addReaction } = useReaction();
+
     const userId = useSelector(getUserId);
 
     async function handleAddReaction(reaction: ReactionType) {
