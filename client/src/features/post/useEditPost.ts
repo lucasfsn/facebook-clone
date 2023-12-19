@@ -51,7 +51,7 @@ export function useEditPost() {
       }
 
       const { message, updatedPost } = await editPostApi(post._id, {
-        content: post.content,
+        content: post.content.trim(),
         images: [
           ...(postImages || []),
           ...post.images.filter((image) => image.startsWith("https://")),

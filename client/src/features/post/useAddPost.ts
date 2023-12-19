@@ -54,6 +54,7 @@ export function useAddPost() {
       const { message, postData } = await addPostApi({
         ...post,
         images: postImages || post.images,
+        content: post.content.trim(),
       });
 
       dispatch(addPost(postData));
@@ -71,7 +72,11 @@ export function useAddPost() {
     dispatch(loading());
 
     try {
-      const { postData } = await addPostApi(post);
+      console.log(post);
+      const { postData } = await addPostApi({
+        ...post,
+        content: post.content.trim(),
+      });
 
       dispatch(addPost(postData));
       dispatch(getProfile(username));

@@ -294,7 +294,11 @@ function Post({ post, username }: PostProps) {
             comments
               .slice(0, commentsCount)
               .map((comment) => (
-                <Comment key={comment._id} comment={comment} />
+                <Comment
+                  key={comment._id}
+                  comment={comment}
+                  postId={post._id}
+                />
               ))}
           {comments.length > MAX_COMMENTS &&
             commentsCount < post.comments.length && (

@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getPosts as getPostsApi } from "../../services/apiPost";
 import { RootState } from "../../store";
-import { AddComment, EditSinglePost, SinglePost } from "../../types/posts";
+import {
+  AddComment,
+  EditSinglePost,
+  SingleComment,
+  SinglePost,
+} from "../../types/posts";
 
 interface PostsState {
   posts: SinglePost[];
@@ -61,6 +66,20 @@ const postSlice = createSlice({
       });
       state.isLoading = false;
     },
+    deleteComment(
+      state,
+      action: PayloadAction<{ postId: string; comments: SingleComment[] }>,
+    ) {
+      state.posts = state.posts.map((post) => {
+        if (post._id === action.payload.postId) {
+          return { ...post, comments: action.payload.comments };
+        }
+
+        return post;
+      });
+      state.isLoading = false;
+      state.error = false;
+    },
     addedReaction(state) {
       state.isLoading = false;
     },
@@ -97,6 +116,7 @@ export const {
   loading,
   error,
   addComment,
+  deleteComment,
 } = postSlice.actions;
 
 export default postSlice.reducer;

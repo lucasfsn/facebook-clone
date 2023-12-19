@@ -1,29 +1,19 @@
 import { useState } from "react";
 import { HiChevronRight } from "react-icons/hi2";
-import { IoMdHelpCircle, IoMdMoon, IoMdSettings } from "react-icons/io";
+import { IoMdMoon, IoMdSettings } from "react-icons/io";
 import { IoLogOut } from "react-icons/io5";
-import { MdFeedback } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLogout } from "../features/user/useLogout";
 import { getUser } from "../features/user/userSlice";
 import UserModalDisplay from "./UserModalDisplay";
-import UserModalHelp from "./UserModalHelp";
-import UserModalSettings from "./UserModalSettings";
 
 function UserModal() {
   const { logoutUser } = useLogout();
-  const [showSettings, setShowSettings] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
   const [showDisplau, setShowDisplau] = useState(false);
 
   const user = useSelector(getUser);
-
-  if (showSettings)
-    return <UserModalSettings handleGoBack={() => setShowSettings(false)} />;
-
-  if (showHelp)
-    return <UserModalHelp handleGoBack={() => setShowHelp(false)} />;
+  const navigate = useNavigate();
 
   if (showDisplau)
     return <UserModalDisplay handleGoBack={() => setShowDisplau(false)} />;
@@ -47,28 +37,13 @@ function UserModal() {
       </div>
       <div className="flex flex-col">
         <div
-          className="bg-tertiary-hover flex cursor-pointer items-center justify-between rounded-lg p-2 text-base"
-          onClick={() => setShowSettings(true)}
+          className="bg-tertiary-hover flex cursor-pointer items-center gap-2  rounded-lg p-2 text-base"
+          onClick={() => navigate("/settings")}
         >
-          <div className="flex items-center gap-2">
-            <div className="bg-tertiary text-secondary rounded-full p-2 text-xl">
-              <IoMdSettings />
-            </div>
-            <span className="text-secondary">Settings & privacy</span>
+          <div className="bg-tertiary text-secondary rounded-full p-2 text-xl">
+            <IoMdSettings />
           </div>
-          <HiChevronRight className="text-secondary text-2xl" />
-        </div>
-        <div
-          className="bg-tertiary-hover flex cursor-pointer items-center justify-between rounded-lg p-2 text-base"
-          onClick={() => setShowHelp(true)}
-        >
-          <div className="flex items-center gap-2">
-            <div className="bg-tertiary text-secondary rounded-full p-2 text-xl">
-              <IoMdHelpCircle />
-            </div>
-            <span className="text-secondary">Help & support</span>
-          </div>
-          <HiChevronRight className="text-secondary text-2xl" />
+          <span className="text-secondary">Settings</span>
         </div>
         <div
           className="bg-tertiary-hover flex cursor-pointer items-center justify-between rounded-lg p-2 text-base"
@@ -81,12 +56,6 @@ function UserModal() {
             <span className="text-secondary">Display & accessibility</span>
           </div>
           <HiChevronRight className="text-secondary text-2xl" />
-        </div>
-        <div className="bg-tertiary-hover flex cursor-pointer items-center gap-2 rounded-lg p-2 text-base">
-          <div className="bg-tertiary text-secondary rounded-full p-2 text-xl">
-            <MdFeedback />
-          </div>
-          <span className="text-secondary">Give feedback</span>
         </div>
         <div
           className="bg-tertiary-hover flex cursor-pointer items-center gap-2  rounded-lg p-2 text-base"

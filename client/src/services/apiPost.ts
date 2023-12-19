@@ -23,7 +23,7 @@ export async function getPosts(userId: string) {
 }
 
 export async function deletePost(id: string) {
-  const { data } = await axios.delete(`${apiUrl}/post/delete/${id}`);
+  const { data } = await axios.delete(`${apiUrl}/post/${id}`);
 
   const { posts, message } = data;
 
@@ -80,4 +80,12 @@ export async function editPost(
   });
 
   return { updatedPost: data.post, message: data.message };
+}
+
+export async function deleteComment(postId: string, commentId: string) {
+  const { data } = await axios.delete(`${apiUrl}/post/comment/${postId}`, {
+    params: { commentId },
+  });
+
+  return { comments: data.comments, message: data.message };
 }

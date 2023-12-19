@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { IoHappyOutline, IoImages, IoVideocam } from "react-icons/io5";
+import { IoHappyOutline, IoImages } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import Modal from "../../ui/Modal";
 import { getUser } from "../user/userSlice";
@@ -31,15 +31,7 @@ function AddPost({ username, children }: AddPostProps) {
             <AddPostForm username={username} openImages={true} />
           </Modal.Window>
         </div>
-        <div className="flex flex-row justify-around gap-0.5">
-          <Modal.Open opens="post-images">
-            <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
-              <IoVideocam className="text-xl text-red-500 lg:text-2xl" />
-              <span className="whitespace-nowrap font-semibold">
-                Live video
-              </span>
-            </div>
-          </Modal.Open>
+        <div className="grid grid-cols-2">
           <Modal.Open opens="post-images">
             <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
               <IoImages className="text-xl text-green-500 lg:text-2xl" />

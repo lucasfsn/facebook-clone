@@ -141,9 +141,7 @@ function Header() {
             <button
               className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]"
               ref={buttonRef}
-              onClick={() =>
-                friendRequests > 0 && setShowNotifications((show) => !show)
-              }
+              onClick={() => setShowNotifications((show) => !show)}
             >
               <RiNotification2Fill />
               {friendRequests > 0 && (
@@ -157,14 +155,18 @@ function Header() {
                 className="bg-primary text-secondary absolute right-0 w-max rounded-lg px-2 py-3 shadow-3xl"
                 ref={ref}
               >
-                <Link
-                  to="/friends/requests"
-                  onClick={() => setShowNotifications(false)}
-                  className="bg-tertiary-hover rounded-md px-2.5 py-1"
-                >
-                  You have received <strong>{friendRequests}</strong> friend
-                  request{friendRequests > 1 && "s"}
-                </Link>
+                {friendRequests > 0 ? (
+                  <Link
+                    to="/friends/requests"
+                    onClick={() => setShowNotifications(false)}
+                    className="bg-tertiary-hover rounded-md px-2.5 py-1"
+                  >
+                    You have received <strong>{friendRequests}</strong> friend
+                    request{friendRequests > 1 && "s"}
+                  </Link>
+                ) : (
+                  <p>You're all caught up! No new notifications.</p>
+                )}
               </div>
             )}
           </div>

@@ -20,7 +20,7 @@ export async function addImage(formData: FormData) {
 }
 
 export async function deleteImage(id: string) {
-  const { data } = await axios.delete(`${apiUrl}/image/delete/${id}`);
+  const { data } = await axios.delete(`${apiUrl}/image/${id}`);
 
   return { status: data.status };
 }

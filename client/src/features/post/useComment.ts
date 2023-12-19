@@ -1,12 +1,20 @@
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addImage } from "../../services/apiImages";
-import { addComment as addCommentApi } from "../../services/apiPost";
+import {
+  addComment as addCommentApi,
+  deleteComment as deleteCommentApi,
+} from "../../services/apiPost";
 import { AppDispatch } from "../../store";
 import { SingleUser } from "../../types/user";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { getProfile } from "../profile/profileSlice";
-import { addComment as addPostComment, error, loading } from "./postSlice";
+import {
+  addComment as addPostComment,
+  deleteComment as deletePostComment,
+  error,
+  loading,
+} from "./postSlice";
 
 export function useComment() {
   const dispatch: AppDispatch = useDispatch();
@@ -53,5 +61,21 @@ export function useComment() {
     }
   }
 
-  return { addComment };
+  async function deleteComment(postId: string, commentId: string) {
+    dispatch(loading());
+
+    try {
+      const { comments, message } = await deleteCommentApi(postId, commentId);
+
+      dispatch(deletePostComment({ postId, comments }));
+
+      toast.success(message);
+    } catch (err) {
+      handleError(err as ResponseError);
+
+      dispatch(error());
+    }
+  }
+
+  return { addComment, deleteComment };
 }

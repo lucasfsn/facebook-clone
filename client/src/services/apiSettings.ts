@@ -21,7 +21,7 @@ export async function changeSettings(user: ChangeUserSettings) {
 }
 
 export async function deleteAccount(id: string) {
-  const { data } = await axios.delete(`${apiUrl}/delete/${id}`);
+  const { data } = await axios.delete(`${apiUrl}/${id}`);
 
   const { message } = data;
 
