@@ -180,3 +180,35 @@ export const commentPost: RequestHandler<
     res.status(500).json({ message: err.message });
   }
 };
+
+export const deleteComment: RequestHandler<
+  { id: string },
+  unknown,
+  unknown,
+  { commentId: string }
+> = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const commentId = req.query.commentId;
+
+    const post = await PostModel.findById(id);
+    if (!post) throw createHttpError(404, 'Post not found');
+
+    const commentIndex = post.comments.findIndex(
+      c => c._id.toString() === commentId
+    );
+
+    if (commentIndex === -1) throw createHttpError(404, 'Comment not found');
+
+    post.comments.splice(commentIndex, 1);
+
+    const updatedPost = await post.save();
+
+    res.json({
+      message: 'Comment deleted successfully',
+      comments: updatedPost.comments,
+    });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
+  }
+};

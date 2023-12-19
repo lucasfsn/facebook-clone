@@ -1,5 +1,12 @@
 import { InferSchemaType, model, Schema } from 'mongoose';
 
+const commentSchema = new Schema({
+  comment: { type: String },
+  image: { type: String },
+  author: { type: Schema.Types.ObjectId, ref: 'User' },
+  commentDate: { type: Date, required: true },
+});
+
 const postSchema = new Schema(
   {
     type: {
@@ -16,18 +23,12 @@ const postSchema = new Schema(
       enum: ['public', 'friends', 'private'],
       default: 'public',
     },
-    comments: [
-      {
-        comment: { type: String },
-        image: { type: String },
-        author: { type: Schema.Types.ObjectId, ref: 'User' },
-        commentDate: { type: Date, required: true },
-      },
-    ],
+    comments: [commentSchema],
   },
   { timestamps: true }
 );
 
-type Post = InferSchemaType<typeof postSchema>;
+type Comment = InferSchemaType<typeof commentSchema>;
+type Post = InferSchemaType<typeof postSchema> & { comments: Comment[] };
 
 export default model<Post>('Post', postSchema);
