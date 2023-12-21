@@ -7,16 +7,16 @@ import { useSelector } from "react-redux";
 import { useDarkMode } from "../../context/DarkModeContext";
 import { useEmojiPicker } from "../../hooks/useEmojiPicker";
 import { handleAddImage, setEmojiPickerMode } from "../../utils/helpers";
+import { getUserProfile } from "../profile/profileSlice";
 import { getUser } from "../user/userSlice";
 import { useComment } from "./useComment";
 
 interface AddCommentProps {
   postId: string;
-  username: string | undefined;
 }
 
 const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
-  ({ postId, username }, ref) => {
+  ({ postId }, ref) => {
     const [comment, setComment] = useState<string>("");
     const [image, setImage] = useState<string>("");
 
@@ -27,6 +27,8 @@ const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
     const { darkMode } = useDarkMode();
     const { showEmojiPicker, handleShowEmojiPicker } = useEmojiPicker();
     const user = useSelector(getUser);
+
+    const profile = useSelector(getUserProfile);
 
     function handleAddEmoji({ emoji }: EmojiClickData) {
       const ref = inputRef.current;
@@ -39,9 +41,7 @@ const AddComment = forwardRef<HTMLInputElement, AddCommentProps>(
       if (e.key !== "Enter") return;
       if (!user) return;
 
-      username
-        ? await addComment(comment, image, postId, user, username)
-        : await addComment(comment, image, postId, user);
+      await addComment(comment, image, postId, user, profile.username);
     }
 
     return (

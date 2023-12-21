@@ -72,7 +72,6 @@ export function useAddPost() {
     dispatch(loading());
 
     try {
-      console.log(post);
       const { postData } = await addPostApi({
         ...post,
         content: post.content.trim(),

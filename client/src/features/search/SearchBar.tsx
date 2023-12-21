@@ -1,9 +1,9 @@
 import { RefObject, useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { useSelector } from "react-redux";
-import { getUserProfile } from "../features/profile/profileSlice";
-import { search } from "../services/apiSearch";
-import { SearchUser } from "../types/search";
+import { SearchUser } from "../../types/search";
+import { getUserProfile } from "../profile/profileSlice";
+import { useSearchResults } from "./useSearchResults";
 
 interface SearchBarProps {
   placeholder: string;
@@ -12,7 +12,6 @@ interface SearchBarProps {
   onClick?: () => void;
   full?: boolean;
   input?: RefObject<HTMLInputElement>;
-  setSearchResults?: (value: SearchUser[]) => void;
   filterFriends?: boolean;
 }
 
@@ -23,28 +22,26 @@ function SearchBar({
   onClick,
   full = false,
   input,
-  setSearchResults,
   filterFriends = false,
 }: SearchBarProps) {
   const [searchValue, setSearchValue] = useState<string>("");
   const profile = useSelector(getUserProfile);
+  const { getResults, setResults } = useSearchResults();
 
   async function handleSearch() {
-    if (!setSearchResults) return;
-
     if (!searchValue || searchValue.length <= 2) {
-      setSearchResults([]);
+      setResults([]);
       return;
     }
 
-    const { data } = await search(searchValue);
+    const data = await getResults(searchValue);
 
     const filteredFriends = data.filter((res: SearchUser) =>
       profile.friends.find((friend) => friend._id === res._id),
     );
 
-    if (filterFriends) setSearchResults(filteredFriends);
-    else setSearchResults(data);
+    if (filterFriends) setResults(filteredFriends);
+    else setResults(data);
   }
 
   return (

@@ -55,7 +55,7 @@ export function useFriend(isProfileFriendsPage: boolean = false) {
         : dispatch(
             updateProfile({
               friends: profile.friends.filter(
-                (friend) => friend._id !== userId,
+                (friend) => friend._id !== friendId,
               ),
             }),
           );

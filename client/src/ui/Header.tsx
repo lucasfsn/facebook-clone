@@ -14,44 +14,44 @@ import {
 import { RiHome5Fill, RiHome5Line, RiNotification2Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { getLoading } from "../features/profile/profileSlice";
+import { getLoading as getLoadingPosts } from "../features/post/postSlice";
+import { getLoading as getLoadingProfile } from "../features/profile/profileSlice";
+import { useGetAnyProfile } from "../features/profile/useGetAnyProfile";
+import SearchBar from "../features/search/SearchBar";
+import SearchModal from "../features/search/SearchModal";
 import { getUser } from "../features/user/userSlice";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { getProfile } from "../services/apiProfile";
 import HeaderLink from "./HeaderLink";
-import HeaderSearchModal from "./HeaderSearchModal";
 import Logo from "./Logo";
 import MenuModal from "./MenuModal";
 import Modal from "./Modal";
-import SearchBar from "./SearchBar";
 import UserModal from "./UserModal";
 
 function Header() {
   const [showSearchPanel, setShowSearchPanel] = useState(false);
-  const [friendRequests, setFriendRequests] = useState<number>(0);
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
 
   const user = useSelector(getUser);
   const location = useLocation();
-  const loading = useSelector(getLoading);
+  const loadingProfile = useSelector(getLoadingProfile);
+  const loadingPosts = useSelector(getLoadingPosts);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
+
   const { ref } = useOutsideClick(
     () => setShowNotifications(false),
     true,
     buttonRef,
   );
 
-  useEffect(() => {
-    async function fetchFriendRequests() {
-      if (user) {
-        const data = await getProfile(user?.username);
-        setFriendRequests(data.friendRequests.length);
-      }
-    }
+  const { profile, refreshProfile } = useGetAnyProfile(user?.username);
 
-    fetchFriendRequests();
-  }, [user, loading]);
+  useEffect(() => {
+    if (!user) return;
+    refreshProfile();
+  }, [user, loadingProfile, loadingPosts, location.pathname, refreshProfile]);
+
+  const friendRequests = profile?.friendRequests.length || 0;
 
   const currentPage =
     location.pathname === "/" ? "home" : location.pathname.split("/")[1];
@@ -63,7 +63,7 @@ function Header() {
           <Logo style="icon" />
         </Link>
         {showSearchPanel ? (
-          <HeaderSearchModal setShowSearchPanel={setShowSearchPanel} />
+          <SearchModal setShowSearchPanel={setShowSearchPanel} />
         ) : (
           <SearchBar
             placeholder="Search Facebook"

@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { PostAudience } from "../../types/posts";
 import Post from "../post/Post";
 import { getUserId } from "../user/userSlice";
 import { getUserProfile } from "./profileSlice";
@@ -12,9 +13,9 @@ function ProfilePosts() {
   const profilePosts = profile.userPosts.filter((post) => {
     if (post.user._id === userId) {
       return true;
-    } else if (isFriend && post.audience === "friends") {
+    } else if (isFriend && post.audience === PostAudience.Friends) {
       return true;
-    } else if (post.audience === "public") {
+    } else if (post.audience === PostAudience.Public) {
       return true;
     }
     return false;
@@ -23,7 +24,7 @@ function ProfilePosts() {
   return (
     <div className="flex w-full flex-col gap-4">
       {profilePosts.map((post) => (
-        <Post key={post._id} post={post} username={profile.username} />
+        <Post key={post._id} post={post} />
       ))}
     </div>
   );

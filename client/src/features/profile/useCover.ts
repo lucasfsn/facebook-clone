@@ -6,6 +6,7 @@ import {
   removeCoverPhoto as removeCoverApi,
   updateCover as updateCoverApi,
 } from "../../services/apiProfile";
+import { PostAudience } from "../../types/posts";
 import { SingleUser } from "../../types/user";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
@@ -52,7 +53,7 @@ export function useCover() {
           content: "",
           images: data.images,
           userId: user.id,
-          audience: "public",
+          audience: PostAudience.Public,
         },
         user.username,
         true,

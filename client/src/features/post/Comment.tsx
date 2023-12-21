@@ -4,6 +4,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { SingleComment } from "../../types/posts";
+import { getUserProfile } from "../profile/profileSlice";
 import { getUserId } from "../user/userSlice";
 import { useComment } from "./useComment";
 
@@ -16,13 +17,15 @@ function Comment({ comment, postId }: CommentProps) {
   const userId = useSelector(getUserId);
   const [menu, showMenu] = useState(false);
 
+  const profile = useSelector(getUserProfile);
+
   const { deleteComment } = useComment();
 
   const buttons = useRef(null);
   const { ref } = useOutsideClick(() => showMenu(false), true, buttons);
 
   async function handleDeleteComment() {
-    await deleteComment(postId, comment._id);
+    await deleteComment(postId, comment._id, profile.username);
   }
 
   return (

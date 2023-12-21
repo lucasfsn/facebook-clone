@@ -1,36 +1,20 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getProfile } from "../../services/apiProfile";
-import { SingleProfile } from "../../types/profile";
 import Spinner from "../../ui/Spinner";
+import { getLoading, getUserProfile } from "../profile/profileSlice";
 import { useFriend } from "../profile/useFriend";
-import { getUser } from "../user/userSlice";
 
 function Friends() {
-  const [currentUser, setCurrentUser] = useState<SingleProfile | null>(null);
-  const [refreshKey, setRefreshKey] = useState(0);
-
-  const user = useSelector(getUser);
+  const profile = useSelector(getUserProfile);
+  const loading = useSelector(getLoading);
 
   const { removeFriend } = useFriend();
 
-  useEffect(() => {
-    async function fetchData() {
-      if (user) {
-        const data = await getProfile(user.username);
-        setCurrentUser(data);
-      }
-    }
-
-    fetchData();
-  }, [user, refreshKey]);
-
-  if (!currentUser) return <Spinner />;
+  if (loading) return <Spinner />;
 
   return (
     <div className="text-secondary grid w-2/3 grid-cols-3 gap-2 p-6 font-semibold lg:grid-cols-4 xl:grid-cols-5">
-      {currentUser.friends.map((friend) => (
+      {profile.friends.map((friend) => (
         <div
           key={friend._id}
           className="bg-primary h-fit overflow-hidden rounded-md"
@@ -53,8 +37,7 @@ function Friends() {
               className="bg-tertiary bg-tertiary-hover cursor-pointer rounded-md p-1.5 text-center"
               onClick={async (e) => {
                 e.stopPropagation();
-                await removeFriend(currentUser._id, friend._id);
-                setRefreshKey((key) => key + 1);
+                await removeFriend(profile._id, friend._id);
               }}
             >
               Remove

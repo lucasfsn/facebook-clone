@@ -24,7 +24,7 @@ export function useComment() {
     image: string,
     postId: string,
     user: SingleUser,
-    username?: string,
+    username: string,
   ) {
     dispatch(loading());
 
@@ -49,9 +49,8 @@ export function useComment() {
         user.id,
       );
 
-      username
-        ? dispatch(getProfile(username))
-        : dispatch(addPostComment({ idPost, comments }));
+      dispatch(getProfile(username));
+      dispatch(addPostComment({ idPost, comments }));
 
       toast.success(message);
     } catch (err) {
@@ -61,12 +60,17 @@ export function useComment() {
     }
   }
 
-  async function deleteComment(postId: string, commentId: string) {
+  async function deleteComment(
+    postId: string,
+    commentId: string,
+    username: string,
+  ) {
     dispatch(loading());
 
     try {
       const { comments, message } = await deleteCommentApi(postId, commentId);
 
+      dispatch(getProfile(username));
       dispatch(deletePostComment({ postId, comments }));
 
       toast.success(message);

@@ -1,36 +1,31 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { FaPenToSquare } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import { HiMagnifyingGlass } from "react-icons/hi2";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
-import { AppDispatch } from "../../store";
-import { SearchUser } from "../../types/search";
-import SearchBar from "../../ui/SearchBar";
-import { getProfile, getUserProfile } from "../profile/profileSlice";
-import { getUser } from "../user/userSlice";
+import { getUserProfile } from "../profile/profileSlice";
+import SearchBar from "../search/SearchBar";
+import { getSearch } from "../search/searchSlice";
+import { useSearchResults } from "../search/useSearchResults";
 
 function HomeContacts() {
-  const dispatch: AppDispatch = useDispatch();
-  const user = useSelector(getUser);
   const profile = useSelector(getUserProfile);
 
-  const [searchResults, setSearchResults] = useState<SearchUser[]>([]);
   const [showSearch, setShowSearch] = useState<boolean>(false);
+  const { setResults } = useSearchResults();
+  const search = useSelector(getSearch);
 
   const { ref } = useOutsideClick(() => {
-    setSearchResults([]);
+    setResults([]);
     setShowSearch(false);
   });
-  const memoizedSearchResults = useMemo(() => searchResults, [searchResults]);
 
-  useEffect(() => {
-    if (user) dispatch(getProfile(user?.username));
-  }, [dispatch, user]);
+  const memoizedSearchResults = useMemo(() => search.results, [search.results]);
 
   return (
-    <div className="text-secondary sticky top-[55px] hidden max-h-[calc(100dvh_-90px)] min-w-[275px] flex-col pr-3 pt-3 md:block">
+    <div className="text-secondary sticky top-[55px] hidden max-h-[calc(100dvh_-90px)] w-[300px] flex-col pr-3 pt-3 md:block">
       <div className="flex flex-col justify-center">
         <div className="separator flex max-h-[70dvh] flex-col overflow-y-scroll border-b pb-2">
           <div
@@ -48,14 +43,13 @@ function HomeContacts() {
             ) : (
               <SearchBar
                 placeholder="Search Friends"
-                setSearchResults={setSearchResults}
                 full={true}
                 filterFriends={true}
               />
             )}
           </div>
           {(memoizedSearchResults.length > 0
-            ? searchResults
+            ? search.results
             : profile.friends
           ).map((friend) => (
             <Link

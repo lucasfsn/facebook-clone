@@ -22,7 +22,7 @@ export async function searchGet(id: string) {
   return { data };
 }
 
-export async function serachDelete(user: string, id: string) {
+export async function searchDelete(user: string, id: string) {
   const { data } = await axios.delete(`${apiUrl}/search/${user}`, {
     params: {
       id,

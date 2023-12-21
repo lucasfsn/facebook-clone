@@ -17,7 +17,7 @@ function ProfileLayout() {
   const { username } = useParams();
 
   const user = useSelector(getUser);
-  const isLoadingProfile = useSelector(getLoadingProfile);
+  const loading = useSelector(getLoadingProfile);
   const error = useSelector(getError);
 
   const profileUsername = username || user?.username;
@@ -28,9 +28,10 @@ function ProfileLayout() {
     if (error) navigate("/profile");
   }, [dispatch, profileUsername, error, navigate]);
 
+  if (loading) return <Spinner />;
+
   return (
     <div className="w-full">
-      {isLoadingProfile && <Spinner />}
       <ProfileHeader />
       <Outlet />
     </div>

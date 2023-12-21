@@ -27,10 +27,9 @@ import { useReaction } from "./useReaction";
 
 export interface PostProps {
   post: SinglePost;
-  username?: string;
 }
 
-function Post({ post, username }: PostProps) {
+function Post({ post }: PostProps) {
   const [activeLike, setActiveLike] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [comments, setComments] = useState<SingleComment[]>(post.comments);
@@ -288,7 +287,7 @@ function Post({ post, username }: PostProps) {
             <span className="text-[0.95rem]">Comment</span>
           </button>
         </div>
-        <AddComment postId={post._id} ref={commentRef} username={username} />
+        <AddComment postId={post._id} ref={commentRef} />
         <div className="flex max-h-[150px] flex-col gap-3 overflow-y-scroll py-3">
           {comments &&
             comments
