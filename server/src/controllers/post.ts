@@ -191,18 +191,13 @@ export const deleteComment: RequestHandler<
     const { id } = req.params;
     const commentId = req.query.commentId;
 
-    const post = await PostModel.findById(id);
-    if (!post) throw createHttpError(404, 'Post not found');
+    const updatedPost = await PostModel.findByIdAndUpdate(
+      id,
+      { $pull: { comments: { _id: commentId } } },
+      { new: true }
+    ).populate('comments.author', 'picture firstName lastName username');
 
-    const commentIndex = post.comments.findIndex(
-      c => c._id.toString() === commentId
-    );
-
-    if (commentIndex === -1) throw createHttpError(404, 'Comment not found');
-
-    post.comments.splice(commentIndex, 1);
-
-    const updatedPost = await post.save();
+    if (!updatedPost) throw createHttpError(404, 'Post not found');
 
     res.json({
       message: 'Comment deleted successfully',
