@@ -1,52 +1,82 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaGlobeEurope } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { Details } from "../../types/profile";
+import { Details, RelationshipType } from "../../types/profile";
+import { relationshipOptions } from "../../utils/helpers";
 import { getProfileDetails } from "./profileSlice";
 
-interface EditDetailsLabel {
+interface EditDetailProps {
   detail: keyof Details;
   title?: string;
   details: Details;
   setDetails: React.Dispatch<React.SetStateAction<Details>>;
+  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   children: string;
 }
 
-function EditDetailsLabel({
+function EditDetail({
   detail,
   title,
   details,
   setDetails,
+  setDisabled,
   children,
-}: EditDetailsLabel) {
+}: EditDetailProps) {
   const [showEdit, setShowEdit] = useState<boolean>(false);
 
   const profileDetails = useSelector(getProfileDetails);
 
-  const isAdded =
-    details[detail] !== "" ? children.replace("Add", "Edit") : children;
+  const isAdded = details[detail] ? children.replace("Add", "Edit") : children;
+
+  useEffect(() => {
+    setDisabled(showEdit);
+  }, [setDisabled, showEdit]);
 
   return (
     <div className="flex flex-col gap-2">
       <p className="text-lg font-semibold">{title}</p>
       <div
         className="flex w-fit cursor-pointer items-center gap-2"
-        onClick={() => setShowEdit((show) => !show)}
+        onClick={() => {
+          setShowEdit((show) => !show);
+        }}
       >
         <CiCirclePlus className="text-3xl text-blue-300" />
         <span className="text-blue-600 hover:underline">{isAdded}</span>
       </div>
       {showEdit ? (
         <>
-          <textarea
-            value={details[detail]}
-            onChange={(e) =>
-              setDetails({ ...details, [detail]: e.target.value })
-            }
-            placeholder={children}
-            className="bg-tertiary resize-none rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-blue-800"
-          />
+          {detail === "relationship" ? (
+            <select
+              onChange={(e) =>
+                setDetails({
+                  ...details,
+                  [detail]:
+                    e.target.value === "Status"
+                      ? undefined
+                      : (e.target.value as RelationshipType),
+                })
+              }
+              value={details["relationship"]}
+              className="bg-tertiary rounded-md p-1.5 focus:outline-none"
+            >
+              {["Status", ...relationshipOptions].map((relation) => (
+                <option value={relation} key={relation}>
+                  {relation}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <textarea
+              value={details[detail]}
+              onChange={(e) =>
+                setDetails({ ...details, [detail]: e.target.value })
+              }
+              placeholder={children}
+              className="bg-tertiary resize-none rounded-md p-1.5 focus:outline-none focus:ring-2 focus:ring-blue-800"
+            />
+          )}
           <div className="flex justify-between pt-1">
             <div className="text-secondary flex items-center gap-2">
               <FaGlobeEurope className="text-xl" />
@@ -83,4 +113,4 @@ function EditDetailsLabel({
   );
 }
 
-export default EditDetailsLabel;
+export default EditDetail;

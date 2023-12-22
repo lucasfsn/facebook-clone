@@ -1,19 +1,23 @@
+import { useState } from "react";
 import { Details } from "../../types/profile";
-import EditDetailsLabel from "./EditDetailsLabel";
+import Button from "../../ui/Button";
+import EditDetail from "./EditDetail";
 
 interface EditDetailsProps {
   details: Details;
   setDetails: React.Dispatch<React.SetStateAction<Details>>;
   handleSave: () => Promise<void>;
-  close: () => void;
+  handleCancel: () => void;
 }
 
 function EditDetails({
   details,
   setDetails,
   handleSave,
-  close,
+  handleCancel,
 }: EditDetailsProps) {
+  const [disabled, setDisabled] = useState<boolean>(false);
+
   return (
     <div className="bg-primary text-secondary flex flex-col rounded-md py-4">
       <div className="separator border-b pb-4 text-center text-xl font-bold">
@@ -24,73 +28,80 @@ function EditDetails({
           <p className="font-semibold">Customize your intro</p>
           <p className="text-tertiary">Details you select will be public.</p>
         </div>
-        <EditDetailsLabel
+        <EditDetail
           detail="workplace"
           title="Work"
           details={details}
           setDetails={setDetails}
+          setDisabled={setDisabled}
         >
           Add a workplace
-        </EditDetailsLabel>
+        </EditDetail>
         <div className="flex flex-col">
           <p className="text-lg font-semibold">Education</p>
-          <EditDetailsLabel
+          <EditDetail
             detail="highschool"
             details={details}
             setDetails={setDetails}
+            setDisabled={setDisabled}
           >
             Add high school
-          </EditDetailsLabel>
-          <EditDetailsLabel
+          </EditDetail>
+          <EditDetail
             detail="college"
             details={details}
             setDetails={setDetails}
+            setDisabled={setDisabled}
           >
             Add college
-          </EditDetailsLabel>
+          </EditDetail>
         </div>
-        <EditDetailsLabel
+        <EditDetail
           detail="currentCity"
           title="Current city"
           details={details}
           setDetails={setDetails}
+          setDisabled={setDisabled}
         >
           Add current city
-        </EditDetailsLabel>
-        <EditDetailsLabel
+        </EditDetail>
+        <EditDetail
           detail="hometown"
           title="Hometown"
           details={details}
           setDetails={setDetails}
+          setDisabled={setDisabled}
         >
           Add a hometown
-        </EditDetailsLabel>
-        <EditDetailsLabel
+        </EditDetail>
+        <EditDetail
           detail="relationship"
           title="Relationship"
           details={details}
           setDetails={setDetails}
+          setDisabled={setDisabled}
         >
           Add a relationship status
-        </EditDetailsLabel>
+        </EditDetail>
       </div>
       <div className="separator flex items-center justify-between border-t px-4 pt-4">
         <div className="font-semibold text-blue-300">
           Update Your Information
         </div>
         <div className="flex gap-2">
-          <button
-            className="bg-tertiary bg-tertiary-hover rounded-md px-2.5 py-1.5 font-semibold"
-            onClick={close}
+          <Button
+            className="bg-tertiary bg-tertiary-hover text-secondary font-semibold"
+            onClick={handleCancel}
           >
             Cancel
-          </button>
-          <button
-            className="rounded-md bg-blue-500 px-2.5 py-1.5 font-semibold text-white hover:bg-blue-400"
+          </Button>
+          <Button
+            className="bg-blue-500 font-semibold text-white hover:bg-blue-400"
             onClick={handleSave}
+            disabled={disabled}
           >
             Save
-          </button>
+          </Button>
         </div>
       </div>
     </div>

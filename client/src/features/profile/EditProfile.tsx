@@ -36,11 +36,9 @@ function EditProfile({ profile }: EditProfileProps) {
       [] as string[],
     ) as (keyof Details)[];
 
-    await updateDetails(updatedDetails, details, userId);
-  }
+    if (!updatedDetails.length) return;
 
-  function handleCloseEditDetails() {
-    setDetails(profile.details);
+    await updateDetails(updatedDetails, details, userId);
   }
 
   const anyDetailNotEmpty = Object.entries(profile.details).some(
@@ -105,7 +103,7 @@ function EditProfile({ profile }: EditProfileProps) {
                 details={details}
                 setDetails={setDetails}
                 handleSave={handleSave}
-                close={handleCloseEditDetails}
+                handleCancel={() => setDetails(profile.details)}
               />
             </Modal.Window>
           </div>

@@ -28,7 +28,6 @@ function Comment({ comment, postId }: CommentProps) {
   async function handleDeleteComment() {
     await deleteComment(postId, comment._id, profile.username);
   }
-  // if (postId === "65848924e0d84a4c15170a16") console.log(comment);
 
   return (
     <div className="flex gap-2">

@@ -35,11 +35,9 @@ function ProfilePanelIntro({ isProfileOwner }: ProfileIntroProps) {
       [] as string[],
     ) as (keyof Details)[];
 
-    await updateDetails(updatedDetails, details, userId);
-  }
+    if (!updatedDetails.length) return;
 
-  function handleCloseEditDetails() {
-    setDetails(profileDetails);
+    await updateDetails(updatedDetails, details, userId);
   }
 
   return (
@@ -105,7 +103,7 @@ function ProfilePanelIntro({ isProfileOwner }: ProfileIntroProps) {
                 details={details}
                 setDetails={setDetails}
                 handleSave={handleSave}
-                close={handleCloseEditDetails}
+                handleCancel={() => setDetails(profileDetails)}
               />
             </Modal.Window>
           </Modal>

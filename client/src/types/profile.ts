@@ -2,11 +2,15 @@ import { SinglePost } from "./posts";
 
 export type RelationshipType =
   | "Single"
-  | "Married"
-  | "Divorced"
   | "In a relationship"
   | "Engaged"
+  | "Married"
+  | "In a civil union"
+  | "In a domestic partnership"
+  | "In an open relationship"
+  | "It's complicated"
   | "Separated"
+  | "Divorced"
   | "Widowed";
 
 export interface Details {

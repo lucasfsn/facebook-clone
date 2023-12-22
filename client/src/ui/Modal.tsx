@@ -81,9 +81,7 @@ function Window({
 
   const handleClose = () => {
     close();
-    if (onClose) {
-      onClose();
-    }
+    onClose?.();
   };
 
   if (type !== "custom") {

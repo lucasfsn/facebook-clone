@@ -13,10 +13,15 @@ import { useProfilePicture } from "./useProfilePicture";
 
 interface ProfilePictureModalProps {
   button: RefObject<HTMLImageElement>;
+  isProfileOwner: boolean;
   close: () => void;
 }
 
-function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
+function ProfilePictureModal({
+  button,
+  isProfileOwner,
+  close,
+}: ProfilePictureModalProps) {
   const [showSlider, setShowSlider] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -45,7 +50,7 @@ function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
         <ImageSlider images={[profilePicture]} close={handleCloseSlider} />
       )}
       <div
-        className="bg-primary text-secondary absolute bottom-0 left-0 z-10 flex w-[300px] translate-y-[80px] flex-col rounded-lg p-2 shadow-3xl"
+        className="bg-primary text-secondary absolute left-0 top-full z-10 flex w-[300px] flex-col rounded-lg p-2 shadow-3xl"
         ref={ref}
       >
         <div
@@ -55,33 +60,37 @@ function ProfilePictureModal({ button, close }: ProfilePictureModalProps) {
           <BsPersonSquare />
           <span>See profile picture</span>
         </div>
-        <Modal>
-          <Modal.Open opens="picture">
+        {isProfileOwner && (
+          <>
+            <Modal>
+              <Modal.Open opens="picture">
+                <div
+                  className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <IoIosImages />
+                  <span>Choose profile picture</span>
+                </div>
+              </Modal.Open>
+              <Modal.Window
+                name="picture"
+                type="center"
+                onClose={() => setIsModalOpen(false)}
+              >
+                <ChoosePicture />
+              </Modal.Window>
+            </Modal>
             <div
               className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => {
+                if (user) removeProfilePicture(user);
+              }}
             >
-              <IoIosImages />
-              <span>Choose profile picture</span>
+              <HiOutlineTrash />
+              <span>Remove picture</span>
             </div>
-          </Modal.Open>
-          <Modal.Window
-            name="picture"
-            type="center"
-            onClose={() => setIsModalOpen(false)}
-          >
-            <ChoosePicture />
-          </Modal.Window>
-        </Modal>
-        <div
-          className="bg-tertiary-hover flex cursor-pointer flex-row items-center gap-2 rounded-md px-2 py-1"
-          onClick={() => {
-            if (user) removeProfilePicture(user);
-          }}
-        >
-          <HiOutlineTrash />
-          <span>Remove picture</span>
-        </div>
+          </>
+        )}
       </div>
     </>
   );

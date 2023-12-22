@@ -3,12 +3,27 @@ import { Theme } from "emoji-picker-react";
 import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { DarkModeOptions } from "../context/DarkModeContext";
+import { RelationshipType } from "../types/profile";
 import {
   MAX_FILE_SIZE,
   MIN_COVER_WIDTH,
   VALID_MIMETYPES,
   VALID_PROFILE_PHOTO_MIMETYPES,
 } from "./constants";
+
+export const relationshipOptions: RelationshipType[] = [
+  "Single",
+  "In a relationship",
+  "Engaged",
+  "Married",
+  "In a civil union",
+  "In a domestic partnership",
+  "In an open relationship",
+  "It's complicated",
+  "Separated",
+  "Divorced",
+  "Widowed",
+];
 
 export const getMonths = () => {
   const months = {

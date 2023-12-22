@@ -49,9 +49,10 @@ function ProfileHeader() {
           <div className="flex flex-row items-center px-3 xl:mx-auto xl:w-4/6">
             <div className="relative h-[110px]">
               <div className="bg-primary relative -translate-y-1/2 cursor-pointer rounded-full p-1">
-                {showProfilePictureModal && isProfileOwner && (
+                {showProfilePictureModal && (
                   <ProfilePictureModal
                     button={profilePictureRef}
+                    isProfileOwner={isProfileOwner}
                     close={() => setShowProfilePictureModal(false)}
                   />
                 )}
