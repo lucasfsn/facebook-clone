@@ -78,9 +78,13 @@ function SearchModal({ setShowSearchPanel }: SearchModalProps) {
           input={input}
         />
       </div>
-      {loading === "fulfilled" && search.history.length === 0 && (
-        <div className="self-center py-2 text-gray-500">No recent searches</div>
-      )}
+      {loading === "fulfilled" &&
+        search.results.length === 0 &&
+        search.history.length === 0 && (
+          <div className="self-center py-2 text-gray-500">
+            No recent searches
+          </div>
+        )}
       {search.history.length !== 0 && search.results.length === 0 && (
         <div className="flex max-h-[50dvh] flex-col gap-1 overflow-y-scroll">
           <span className="text-secondary px-2 py-1 text-lg font-semibold">

@@ -4,6 +4,7 @@ import { FaGlobeEurope } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { ImagePosition } from "../../types/images";
 import Button from "../../ui/Button";
+import { getLoading } from "../profile/profileSlice";
 import { useCover } from "../profile/useCover";
 import { getUser } from "../user/userSlice";
 
@@ -17,6 +18,7 @@ function EditCoverSmall({ image, setImage }: EditCoverSmallProps) {
 
   const { updateCover } = useCover();
   const user = useSelector(getUser);
+  const loading = useSelector(getLoading);
 
   const ref = useRef<AvatarEditor>(null);
 
@@ -74,6 +76,7 @@ function EditCoverSmall({ image, setImage }: EditCoverSmallProps) {
           <Button
             className="bg-blue-600 px-6 text-sm font-semibold hover:bg-blue-500"
             onClick={handleSaveCover}
+            disabled={loading}
           >
             Save
           </Button>

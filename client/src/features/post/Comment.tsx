@@ -2,6 +2,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useRef, useState } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { SingleComment } from "../../types/posts";
 import { getUserProfile } from "../profile/profileSlice";
@@ -27,14 +28,17 @@ function Comment({ comment, postId }: CommentProps) {
   async function handleDeleteComment() {
     await deleteComment(postId, comment._id, profile.username);
   }
+  // if (postId === "65848924e0d84a4c15170a16") console.log(comment);
 
   return (
     <div className="flex gap-2">
-      <img
-        src={comment.author.picture}
-        alt={comment.author.firstName}
-        className="aspect-square h-[35px] rounded-full"
-      />
+      <Link to={`/profile/${comment.author.username}`}>
+        <img
+          src={comment.author.picture}
+          alt={comment.author.firstName}
+          className="aspect-square h-[35px] rounded-full"
+        />
+      </Link>
       <div className="flex flex-col gap-1.5">
         <div className="bg-tertiary relative flex w-fit flex-col rounded-[1.25rem] px-3 py-2">
           <div className="text-secondary">
