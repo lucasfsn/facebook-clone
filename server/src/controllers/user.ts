@@ -8,6 +8,8 @@ import UserModel, { User } from '../models/user';
 import { generateUsername } from '../utils/generateUsername';
 import { validateEmail, validateName } from '../utils/validateUserData';
 
+type Gender = 'male' | 'female' | 'other';
+
 interface SignUpBody {
   firstName?: string;
   lastName?: string;
@@ -16,7 +18,7 @@ interface SignUpBody {
   birthDay?: number;
   birthMonth?: number;
   birthYear?: number;
-  gender?: string;
+  gender?: Gender;
 }
 
 interface LogInBody {
@@ -52,6 +54,19 @@ interface UpdateUserDetailsBody {
     relationship?: string;
   };
   userId: string;
+}
+
+interface ProfileImport {
+  firstName: string;
+  lastName: string;
+  gender: Gender;
+  birthDay: number;
+  birthMonth: number;
+  birthYear: number;
+  search: {
+    user: string;
+    createdAt: string;
+  }[];
 }
 
 export const signUp: RequestHandler<
@@ -784,4 +799,48 @@ export const searchDelete: RequestHandler<
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
+};
+
+export const exportProfile: RequestHandler<
+  { userId: string },
+  unknown,
+  unknown,
+  unknown
+> = async (req, res) => {
+  const { userId } = req.params;
+  const user = await UserModel.findById(userId)
+    .select(
+      'firstName lastName gender birthDay birthMonth birthYear search.user search.createdAt -_id'
+    )
+    .select('-search._id');
+
+  if (!user) {
+    return res.status(404).send({ error: 'User not found' });
+  }
+
+  res.json(user);
+};
+
+export const importProfile: RequestHandler<
+  { userId: string },
+  unknown,
+  ProfileImport,
+  unknown
+> = async (req, res) => {
+  const { userId } = req.params;
+  const profile = req.body;
+
+  const user = await UserModel.findById(userId);
+
+  if (!user) {
+    return res.status(404).send({ error: 'User not found' });
+  }
+
+  const result = await UserModel.findOneAndUpdate(
+    { _id: userId },
+    { $set: profile },
+    { new: true }
+  );
+
+  res.send({ user: result, message: 'Profile imported successfully' });
 };

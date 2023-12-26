@@ -23,4 +23,6 @@ export const userRouter = Router()
   .get('/search/:id/get', UserController.searchGet)
   .post('/search/:user', UserController.searchUser)
   .put('/search/:user/add', UserController.searchAdd)
-  .delete('/search/:user', UserController.searchDelete);
+  .delete('/search/:user', UserController.searchDelete)
+  .post('/import/:userId', UserController.importProfile)
+  .get('/export/:userId', UserController.exportProfile);
