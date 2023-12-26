@@ -1,29 +1,17 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useSelector } from "react-redux";
-import { useMoveBack } from "../../hooks/useMoveBack";
 import Modal from "../../ui/Modal";
-import { getUser } from "../user/userSlice";
 import ChangeEmailForm from "./ChangeEmailForm";
 import ChangeNameForm from "./ChangeNameForm";
 import ChangePasswordForm from "./ChangePasswordForm";
 import DeleteAccountForm from "./DeleteAccountForm";
+import ExportProfile from "./ExportProfile";
+import ImportProfile from "./ImportProfile";
 
 function UserSettings() {
-  const user = useSelector(getUser);
-  const moveBack = useMoveBack();
-
   return (
-    <div className="text-secondary flex h-max w-full flex-col justify-between gap-10 self-start p-5">
-      <div className="flex flex-col gap-1">
-        <span className="text-3xl font-semibold">
-          Hello, {user?.firstName}!
-        </span>
-        <span className="text-2xl font-semibold">
-          Here you can easily edit your settings 😊
-        </span>
-      </div>
-      <div className="flex flex-col gap-2">
-        <Modal>
+    <div className="flex h-full flex-col justify-between gap-2">
+      <Modal>
+        <div className="flex flex-col gap-2">
           <div className="flex w-[150px] flex-row items-center justify-between gap-2 text-xl">
             <span>First name</span>
             <Modal.Open opens="firstName">
@@ -68,7 +56,31 @@ function UserSettings() {
               <ChangePasswordForm />
             </Modal.Window>
           </div>
-          <div className="flex flex-row items-center gap-2 self-end text-rose-900">
+        </div>
+        <div className="flex flex-col gap-2 self-end">
+          <div className="flex flex-row items-center gap-2 text-blue-700">
+            <Modal.Open opens="export">
+              <button className="bg-primary bg-tertiary-hover shake flex rounded-full p-2 text-lg">
+                <IoIosArrowBack />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="export" type="center">
+              <ExportProfile />
+            </Modal.Window>
+            <span>Export profile</span>
+          </div>
+          <div className="flex flex-row items-center gap-2 text-blue-700">
+            <Modal.Open opens="import">
+              <button className="bg-primary bg-tertiary-hover shake flex rounded-full p-2 text-lg">
+                <IoIosArrowBack />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="import" type="center">
+              <ImportProfile />
+            </Modal.Window>
+            <span>Import profile</span>
+          </div>
+          <div className="flex flex-row items-center gap-2 text-rose-900">
             <Modal.Open opens="deleteAccount">
               <button className="bg-primary bg-tertiary-hover shake flex rounded-full p-2 text-lg">
                 <IoIosArrowBack />
@@ -79,14 +91,8 @@ function UserSettings() {
             </Modal.Window>
             <span>Delete account</span>
           </div>
-        </Modal>
-      </div>
-      <button
-        onClick={moveBack}
-        className="self-start font-semibold text-blue-500 hover:underline"
-      >
-        Go Back
-      </button>
+        </div>
+      </Modal>
     </div>
   );
 }

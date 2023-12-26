@@ -2,6 +2,7 @@ import axios from "axios";
 import { Theme } from "emoji-picker-react";
 import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
+import * as Yup from "yup";
 import { DarkModeOptions } from "../context/DarkModeContext";
 import { RelationshipType } from "../types/profile";
 import {
@@ -72,8 +73,10 @@ export type ResponseError = {
   response?: { data: { message: string } };
 };
 
-export const handleError = (err: ResponseError) => {
-  if (axios.isAxiosError(err)) {
+export const handleError = (err: ResponseError | Yup.ValidationError) => {
+  if (err instanceof Yup.ValidationError) {
+    toast.error(err.message);
+  } else if (axios.isAxiosError(err)) {
     switch (err.code) {
       case "ERR_NETWORK":
         toast.error("An unexpected error occurred");
@@ -196,4 +199,24 @@ export function handleAddCover(
       };
     };
   }
+}
+
+export function importProfileFile(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      if (event.target === null) {
+        reject(new Error("FileReader event target was null"));
+      } else {
+        resolve(event.target.result as string);
+      }
+    };
+
+    reader.onerror = () => {
+      reject(new Error("An error occurred while reading the file"));
+    };
+
+    reader.readAsText(file);
+  });
 }

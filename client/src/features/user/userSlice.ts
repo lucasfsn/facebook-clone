@@ -41,6 +41,17 @@ const userSlice = createSlice({
       if (state.user) {
         state.user[action.payload.field] = action.payload.value;
         state.isLoading = false;
+        Cookies.set("user", JSON.stringify(state.user));
+      }
+    },
+    importUserProfile(
+      state,
+      action: PayloadAction<{ firstName: string; lastName: string }>,
+    ) {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+        state.isLoading = false;
+        Cookies.set("user", JSON.stringify(state.user));
       }
     },
     changedProfilePicture(state, action: PayloadAction<string>) {
@@ -59,6 +70,7 @@ export const {
   deleteUser,
   loading,
   changedPassword,
+  importUserProfile,
   changedSetting,
   changedProfilePicture,
   error,

@@ -1,5 +1,9 @@
 import axios from "axios";
-import { ChangePassword, ChangeUserSettings } from "../types/settings";
+import {
+  ChangePassword,
+  ChangeUserSettings,
+  ProfileImport,
+} from "../types/settings";
 
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -26,4 +30,16 @@ export async function deleteAccount(id: string) {
   const { message } = data;
 
   return { message };
+}
+
+export async function exportProfile(userId: string) {
+  const { data } = await axios.get(`${apiUrl}/export/${userId}`);
+
+  return { data };
+}
+
+export async function importProfile(userId: string, profile: ProfileImport) {
+  const { data } = await axios.post(`${apiUrl}/import/${userId}`, profile);
+
+  return { data };
 }

@@ -1,3 +1,5 @@
+export type Gender = "male" | "female" | "other";
+
 export interface ChangeNameData {
   [key: string]: string;
   name: string;
@@ -29,4 +31,17 @@ export interface ChangeUserSettings {
   email: string;
   field: ChangeUserSettingsType;
   value: string;
+}
+
+export interface ProfileImport {
+  firstName: string;
+  lastName: string;
+  gender: Gender;
+  birthDay: number;
+  birthMonth: number;
+  birthYear: number;
+  search: {
+    user: string;
+    createdAt: string;
+  }[];
 }

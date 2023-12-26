@@ -37,7 +37,7 @@ export const signUpValidation = () =>
     birthMonth: Yup.number().required(`Please enter your birth month.`),
     birthYear: Yup.number()
       .required(
-        `It looks like you entered the wrong info. Please be surfe to use your real birthday.`,
+        `It looks like you entered the wrong info. Please be sure to use your real birthday.`,
       )
       .max(minAge, "You must be at least 13 years old."),
     gender: Yup.string().required("Please choose a gender."),
@@ -86,3 +86,41 @@ export const changeEmailValidation = () =>
         "Please enter a valid email address.",
       ),
   });
+
+export const ProfileImportSchema = Yup.object({
+  firstName: Yup.string()
+    .required(`First name is missing`)
+    .min(2, "First name must be at least 2 characters long.")
+    .max(50, "First name cannot contain more than 50 characters.")
+    .matches(
+      /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/,
+      "First name cannot contain numbers and special characters.",
+    ),
+  lastName: Yup.string()
+    .required(`Last name is missing`)
+    .min(2, "Last name must be at least 2 characters long.")
+    .max(50, "Last name cannot contain more than 50 characters.")
+    .matches(
+      /^(?=(?:[^A-Za-z]*[A-Za-z]){2})(?![^\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,]*[\d~`?!^*¨ˆ;@=$%{}\[\]|\\\/<>#“.,])\S+(?: \S+){0,2}$/,
+      "Last name cannot contain numbers and special characters.",
+    ),
+  birthDay: Yup.number().required(`Birth day is missing.`),
+  birthMonth: Yup.number().required(`Birth month is missing.`),
+  birthYear: Yup.number()
+    .required(`Birth year is missing.`)
+    .max(minAge, "You must be at least 13 years old."),
+  gender: Yup.string()
+    .oneOf(
+      ["male", "female", "other"],
+      'Gender must be "male", "female", or "other"',
+    )
+    .required("Gender is missing"),
+  search: Yup.array()
+    .of(
+      Yup.object().shape({
+        user: Yup.string().required("Search field is missing"),
+        createdAt: Yup.string().required("Search field is missing"),
+      }),
+    )
+    .required("Search is missing"),
+}).noUnknown("Unknown key found. Please check your file");
