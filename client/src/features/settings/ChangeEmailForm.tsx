@@ -2,10 +2,10 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { ChangeEmailData } from "../../types/settings";
 import Button from "../../ui/Button";
+import FormInput from "../../ui/FormInput";
 import Spinner from "../../ui/Spinner";
+import { changeEmailValidation } from "../../utils/validation";
 import { getLoading, getUser } from "../user/userSlice";
-import { changeEmailValidation } from "../user/validation";
-import FormInput from "./FormInput";
 import { useChangeSettings } from "./useChangeSettings";
 
 const initialState: ChangeEmailData = {
@@ -40,8 +40,9 @@ function ChangeEmailForm() {
       >
         <FormInput<ChangeEmailData>
           placeholder="New email"
-          type="text"
           name="email"
+          type="text"
+          purpose="settings"
           formik={formik}
         />
 

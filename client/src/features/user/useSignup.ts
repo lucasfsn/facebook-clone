@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signup as signupApi } from "../../services/apiAuth";
-import { SignUp } from "../../types/auth";
+import { SignUpData } from "../../types/auth";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { error, loading, login } from "./userSlice";
 
@@ -11,7 +11,7 @@ export function useSignup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function signUpUser(user: SignUp) {
+  async function signUpUser(user: SignUpData) {
     dispatch(loading());
     try {
       const { message, signUpData } = await signupApi(user);

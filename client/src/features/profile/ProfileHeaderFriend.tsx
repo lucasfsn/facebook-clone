@@ -4,9 +4,9 @@ import { IoPersonAdd } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import Spinner from "../../ui/Spinner";
+import { useFriends } from "../friends/useFriends";
 import { getUserId } from "../user/userSlice";
 import { getUserProfile } from "./profileSlice";
-import { useFriend } from "./useFriend";
 
 function ProfileHeaderFriend() {
   const [showMenu, setShowMenu] = useState<boolean>(false);
@@ -19,7 +19,7 @@ function ProfileHeaderFriend() {
     removeFriend,
     denyFriendRequest,
     acceptFriendRequest,
-  } = useFriend();
+  } = useFriends();
 
   const { ref } = useOutsideClick(() => setShowMenu(false));
 

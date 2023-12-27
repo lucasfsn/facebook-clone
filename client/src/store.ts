@@ -1,5 +1,5 @@
 import { Action, ThunkAction, configureStore } from "@reduxjs/toolkit";
-import imagesSlice from "./features/image/imagesSlice";
+import imagesSlice from "./features/pictures/imagesSlice";
 import postReducer from "./features/post/postSlice";
 import profileSlice from "./features/profile/profileSlice";
 import searchSlice from "./features/search/searchSlice";

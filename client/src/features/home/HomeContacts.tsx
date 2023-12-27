@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { FaPenToSquare } from "react-icons/fa6";
 import { FiPlus } from "react-icons/fi";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { useSelector } from "react-redux";
@@ -77,9 +76,6 @@ function HomeContacts() {
             <span className="text-base">Create new group</span>
           </div>
         </div>
-      </div>
-      <div className="bg-tertiary bg-tertiary-hover text-secondary fixed bottom-5 right-5 flex h-[45px] w-[45px] min-w-[45px] cursor-pointer items-center justify-center self-end rounded-full text-xl shadow-lg">
-        <FaPenToSquare />
       </div>
     </div>
   );

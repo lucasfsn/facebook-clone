@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
 import ImageSlider from "../../ui/ImageSlider";
 import Modal from "../../ui/Modal";
-import ChoosePicture from "../image/ChoosePicture";
+import ChoosePicture from "../pictures/ChoosePicture";
 import { getUser } from "../user/userSlice";
 import { getProfilePicture } from "./profileSlice";
 import { useProfilePicture } from "./useProfilePicture";

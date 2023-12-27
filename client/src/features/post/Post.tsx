@@ -17,7 +17,7 @@ import {
 } from "../../types/posts";
 import { MAX_COMMENTS } from "../../utils/constants";
 import { capitalize, reactionColor } from "../../utils/helpers";
-import ImagesPost from "../image/ImagesPost";
+import ImagesPost from "../pictures/ImagesPost";
 import { getUserId } from "../user/userSlice";
 import AddComment from "./AddComment";
 import Comment from "./Comment";

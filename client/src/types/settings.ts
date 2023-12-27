@@ -16,10 +16,6 @@ export interface ChangePasswordData {
   confirmPassword: string;
 }
 
-export type FormInputData = {
-  [key: string]: string;
-} & (ChangePasswordData | ChangeNameData | ChangeEmailData);
-
 export interface ChangePassword {
   email: string;
   password: string;

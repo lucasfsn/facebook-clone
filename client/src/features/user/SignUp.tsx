@@ -1,4 +1,4 @@
-import Modal from "../../../ui/Modal";
+import Modal from "../../ui/Modal";
 import SignUpForm from "./SignUpForm";
 
 function SignUp() {
@@ -10,6 +10,10 @@ function SignUp() {
         </button>
       </Modal.Open>
       <Modal.Window name="signup-form" type="signup" alwaysClose={false}>
+        <div className="flex w-full flex-col border-b p-4 text-left">
+          <h1 className="text-3xl font-semibold">Sign Up</h1>
+          <span className="text-gray-500">It's quick and easy.</span>
+        </div>
         <SignUpForm />
       </Modal.Window>
     </Modal>

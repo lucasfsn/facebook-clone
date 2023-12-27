@@ -3,7 +3,7 @@ import { FaCamera, FaPencilAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import Modal from "../../ui/Modal";
-import ChoosePicture from "../image/ChoosePicture";
+import ChoosePicture from "../pictures/ChoosePicture";
 import { getUser } from "../user/userSlice";
 import EditProfile from "./EditProfile";
 import ProfileCover from "./ProfileCover";

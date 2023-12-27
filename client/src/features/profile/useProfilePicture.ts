@@ -6,6 +6,7 @@ import {
   removeProfilePicture as removeProfilePictureApi,
   updateProfilePicture as updateProfilePictureApi,
 } from "../../services/apiProfile";
+import { PostAudience } from "../../types/posts";
 import { SingleUser } from "../../types/user";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";
 import { useAddPost } from "../post/useAddPost";
@@ -42,7 +43,7 @@ export function useProfilePicture() {
           content: description,
           images: data.images,
           userId: user.id,
-          audience: "public",
+          audience: PostAudience.Public,
         },
         user.username,
         true,

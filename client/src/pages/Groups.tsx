@@ -1,5 +1,7 @@
+import PageNotAvailable from "../ui/PageNotAvailable";
+
 function Groups() {
-  return <div className="bg-secondary">Groups</div>;
+  return <PageNotAvailable />;
 }
 
 export default Groups;

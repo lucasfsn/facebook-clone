@@ -1,15 +1,15 @@
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { DarkModeProvider } from "./context/DarkModeContext";
-import Friends from "./features/friends/Friends";
 import FriendsRequests from "./features/friends/FriendsRequests";
-import Images from "./features/image/Images";
-import Profile from "./features/profile/Profile";
+import Images from "./features/pictures/Images";
 import ProfileFriends from "./features/profile/ProfileFriends";
+import Friends from "./pages/Friends";
 import Groups from "./pages/Groups";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Marketplace from "./pages/Marketplace";
+import Profile from "./pages/Profile";
 import ChangePassword from "./pages/Settings";
 import Watch from "./pages/Watch";
 import "./styles/global.scss";

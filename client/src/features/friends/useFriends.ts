@@ -6,18 +6,18 @@ import {
   cancelFriendRequest as cancelFriendRequestApi,
   removeFriend as removeFriendApi,
   removeFriendRequest as removeFriendRequestApi,
-} from "../../services/apiFriend";
+} from "../../services/apiFriends";
 import { ResponseError, handleError } from "../../utils/helpers";
-import { getUser } from "../user/userSlice";
 import {
   error,
   getUserProfile,
   loading,
   updateProfile,
   updated,
-} from "./profileSlice";
+} from "../profile/profileSlice";
+import { getUser } from "../user/userSlice";
 
-export function useFriend(isProfileFriendsPage: boolean = false) {
+export function useFriends(isProfileFriendsPage: boolean = false) {
   const dispatch = useDispatch();
   const profile = useSelector(getUserProfile);
   const user = useSelector(getUser);

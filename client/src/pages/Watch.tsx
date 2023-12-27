@@ -1,5 +1,7 @@
+import PageNotAvailable from "../ui/PageNotAvailable";
+
 function Watch() {
-  return <div className="bg-secondary">Watch</div>;
+  return <PageNotAvailable />;
 }
 
 export default Watch;

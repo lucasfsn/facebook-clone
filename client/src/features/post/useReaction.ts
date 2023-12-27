@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   addReaction as addReactionApi,
   getReactions as getReactionsApi,
-} from "../../services/apiPost";
+} from "../../services/apiPosts";
 import { AppDispatch } from "../../store";
 import { ReactionType } from "../../types/posts";
 import { ResponseError, handleError } from "../../utils/helpers";

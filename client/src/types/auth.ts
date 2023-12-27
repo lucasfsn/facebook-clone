@@ -1,4 +1,5 @@
-export interface SignUp {
+export interface SignUpData {
+  [key: string]: string | number;
   firstName: string;
   lastName: string;
   email: string;
@@ -9,7 +10,8 @@ export interface SignUp {
   gender: string;
 }
 
-export interface Login {
+export interface LoginData {
+  [key: string]: string;
   email: string;
   password: string;
 }

@@ -7,9 +7,9 @@ import { useOutsideClick } from "../../hooks/useOutsideClick";
 import { getProfile } from "../../services/apiProfile";
 import { Friend, SingleProfile } from "../../types/profile";
 import Loading from "../../ui/Loading";
+import { useFriends } from "../friends/useFriends";
 import { getUser } from "../user/userSlice";
 import { getUserProfile } from "./profileSlice";
-import { useFriend } from "./useFriend";
 
 interface ProfileFriendProps {
   friend: Friend;
@@ -31,7 +31,7 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
     removeFriend,
     denyFriendRequest,
     acceptFriendRequest,
-  } = useFriend(true);
+  } = useFriends(true);
 
   useEffect(() => {
     async function fetchData() {

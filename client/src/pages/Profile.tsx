@@ -1,13 +1,13 @@
 import { LuSettings2 } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import ImagesProfile from "../image/ImagesProfile";
-import AddPost from "../post/AddPost";
-import { getUser } from "../user/userSlice";
-import ProfilePanelFriends from "./ProfilePanelFriends";
-import ProfilePanelIntro from "./ProfilePanelIntro";
-import ProfilePosts from "./ProfilePosts";
-import { getUserProfile } from "./profileSlice";
+import ImagesProfile from "../features/pictures/ImagesProfile";
+import AddPost from "../features/post/AddPost";
+import ProfilePanelFriends from "../features/profile/ProfilePanelFriends";
+import ProfilePanelIntro from "../features/profile/ProfilePanelIntro";
+import ProfilePosts from "../features/profile/ProfilePosts";
+import { getUserProfile } from "../features/profile/profileSlice";
+import { getUser } from "../features/user/userSlice";
 
 function Profile() {
   const user = useSelector(getUser);

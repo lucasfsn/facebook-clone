@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addImage } from "../../services/apiImages";
-import { addPost as addPostApi } from "../../services/apiPost";
+import { addPost as addPostApi } from "../../services/apiPosts";
 import { AppDispatch } from "../../store";
 import { AddPostData } from "../../types/posts";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";

@@ -1,14 +1,14 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Spinner from "../../ui/Spinner";
-import { getLoading, getUserProfile } from "../profile/profileSlice";
-import { useFriend } from "../profile/useFriend";
+import { useFriends } from "../features/friends/useFriends";
+import { getLoading, getUserProfile } from "../features/profile/profileSlice";
+import Spinner from "../ui/Spinner";
 
 function Friends() {
   const profile = useSelector(getUserProfile);
   const loading = useSelector(getLoading);
 
-  const { removeFriend } = useFriend();
+  const { removeFriend } = useFriends();
 
   if (loading) return <Spinner />;
 

@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { deleteImage as deleteImageApi } from "../../services/apiImages";
-import { deletePost as deletePostApi } from "../../services/apiPost";
+import { deletePost as deletePostApi } from "../../services/apiPosts";
 import { AppDispatch } from "../../store";
 import { SinglePost } from "../../types/posts";
 import {

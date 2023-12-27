@@ -2,10 +2,10 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { ChangePasswordData } from "../../types/settings";
 import Button from "../../ui/Button";
+import FormInput from "../../ui/FormInput";
 import Spinner from "../../ui/Spinner";
+import { changePasswordValidation } from "../../utils/validation";
 import { getLoading, getUser } from "../user/userSlice";
-import { changePasswordValidation } from "../user/validation";
-import FormInput from "./FormInput";
 import { useChangePassword } from "./useChangePassword";
 
 const initialState: ChangePasswordData = {
@@ -42,14 +42,16 @@ function ChangePasswordForm() {
         <div className="flex flex-col gap-3">
           <FormInput<ChangePasswordData>
             placeholder="New password"
-            type="password"
             name="password"
+            type="password"
+            purpose="settings"
             formik={formik}
           />
           <FormInput
             placeholder="Confirm password"
-            type="password"
             name="confirmPassword"
+            type="password"
+            purpose="settings"
             formik={formik}
           />
         </div>

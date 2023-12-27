@@ -1,5 +1,7 @@
+import PageNotAvailable from "../ui/PageNotAvailable";
+
 function Marketplace() {
-  return <div className="bg-secondary">Marketplace</div>;
+  return <PageNotAvailable />;
 }
 
 export default Marketplace;

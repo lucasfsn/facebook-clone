@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getPosts as getPostsApi } from "../../services/apiPost";
+import { getPosts as getPostsApi } from "../../services/apiPosts";
 import { RootState } from "../../store";
 import {
   AddComment,

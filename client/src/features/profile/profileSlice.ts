@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getProfile as getProfileApi } from "../../services/apiProfile";
 import { AppDispatch, RootState } from "../../store";
 import { SingleProfile } from "../../types/profile";
-import { fetchImages } from "../image/imagesSlice";
+import { fetchImages } from "../pictures/imagesSlice";
 
 interface ProfileState {
   profile: SingleProfile;

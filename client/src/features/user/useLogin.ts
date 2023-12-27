@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login as loginApi } from "../../services/apiAuth";
-import { Login } from "../../types/auth";
+import { LoginData } from "../../types/auth";
 import { ResponseError, handleError } from "../../utils/helpers";
 import { error, loading, login } from "./userSlice";
 
@@ -11,7 +11,7 @@ export function useLogin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  async function loginUser(user: Login) {
+  async function loginUser(user: LoginData) {
     dispatch(loading());
 
     try {

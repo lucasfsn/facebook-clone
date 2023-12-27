@@ -4,7 +4,7 @@ import { addImage } from "../../services/apiImages";
 import {
   addComment as addCommentApi,
   deleteComment as deleteCommentApi,
-} from "../../services/apiPost";
+} from "../../services/apiPosts";
 import { AppDispatch } from "../../store";
 import { SingleUser } from "../../types/user";
 import { ResponseError, handleError, imageToBlob } from "../../utils/helpers";

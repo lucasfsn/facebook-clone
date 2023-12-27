@@ -7,7 +7,7 @@ import { ImagePosition } from "../../types/images";
 import Button from "../../ui/Button";
 import ImageSlider from "../../ui/ImageSlider";
 import { handleAddCover } from "../../utils/helpers";
-import CoverPhotoModal from "../image/CoverPhotoModal";
+import CoverPhotoModal from "../pictures/CoverPhotoModal";
 import { getUser } from "../user/userSlice";
 import { getUserProfile } from "./profileSlice";
 import { useCover } from "./useCover";

@@ -6,8 +6,8 @@ import {
   handleError,
   importProfileFile,
 } from "../../utils/helpers";
+import { ProfileImportSchema } from "../../utils/validation";
 import { error, importUserProfile, loading } from "../user/userSlice";
-import { ProfileImportSchema } from "../user/validation";
 
 export function useImport() {
   const dispatch = useDispatch();
