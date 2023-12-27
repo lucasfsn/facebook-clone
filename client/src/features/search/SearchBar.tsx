@@ -13,6 +13,7 @@ interface SearchBarProps {
   full?: boolean;
   input?: RefObject<HTMLInputElement>;
   filterFriends?: boolean;
+  setContactsResults?: (arg: SearchUser[]) => void;
 }
 
 function SearchBar({
@@ -23,6 +24,7 @@ function SearchBar({
   full = false,
   input,
   filterFriends = false,
+  setContactsResults = () => {},
 }: SearchBarProps) {
   const [searchValue, setSearchValue] = useState<string>("");
   const profile = useSelector(getUserProfile);
@@ -31,17 +33,19 @@ function SearchBar({
   async function handleSearch() {
     if (!searchValue || searchValue.length <= 2) {
       setResults([]);
+      setContactsResults?.([]);
       return;
     }
 
     const data = await getResults(searchValue);
 
+    if (!filterFriends) return setResults(data);
+
     const filteredFriends = data.filter((res: SearchUser) =>
       profile.friends.find((friend) => friend._id === res._id),
     );
 
-    if (filterFriends) setResults(filteredFriends);
-    else setResults(data);
+    setContactsResults(filteredFriends);
   }
 
   return (

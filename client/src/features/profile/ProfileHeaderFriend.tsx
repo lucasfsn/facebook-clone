@@ -94,7 +94,13 @@ function ProfileHeaderFriend() {
           <div
             className="bg-tertiary-hover rounded-md p-1.5"
             onClick={async () => {
-              await acceptFriendRequest(userId, profile._id);
+              await acceptFriendRequest(userId, {
+                _id: profile._id,
+                firstName: profile.firstName,
+                lastName: profile.lastName,
+                picture: profile.picture,
+                username: profile.username,
+              });
             }}
           >
             Confirm

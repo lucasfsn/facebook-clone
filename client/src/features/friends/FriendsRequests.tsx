@@ -8,7 +8,6 @@ import { getUser } from "../user/userSlice";
 function FriendsRequests() {
   const user = useSelector(getUser);
   const [requests, setRequests] = useState<Friend[]>([]);
-  const [refreshKey, setRefreshKey] = useState(0);
 
   const fetchData = useCallback(
     async function () {
@@ -26,7 +25,7 @@ function FriendsRequests() {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData, user, refreshKey]);
+  }, [fetchData, user, requests.length]);
 
   return (
     <div className="flex w-2/3 flex-col gap-2 p-4">
@@ -34,7 +33,11 @@ function FriendsRequests() {
         <ProfileFriend
           friend={friend}
           key={friend._id}
-          onFriendRequestChange={() => setRefreshKey((key) => key + 1)}
+          onFriendRequestChange={() =>
+            setRequests(
+              requests.filter((request) => request._id !== friend._id),
+            )
+          }
         />
       ))}
     </div>

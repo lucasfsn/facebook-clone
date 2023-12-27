@@ -65,8 +65,8 @@ function Post({ post }: PostProps) {
 
   async function handleAddReaction() {
     if (!userId) return;
-    await addReaction("like", post._id, userId);
-    reaction === "like" ? setReaction("") : setReaction("like");
+    await addReaction(reaction || "like", post._id, userId);
+    reaction ? setReaction("") : setReaction("like");
   }
 
   function handleShowMenu() {

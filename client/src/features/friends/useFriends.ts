@@ -7,6 +7,7 @@ import {
   removeFriend as removeFriendApi,
   removeFriendRequest as removeFriendRequestApi,
 } from "../../services/apiFriends";
+import { Friend } from "../../types/profile";
 import { ResponseError, handleError } from "../../utils/helpers";
 import {
   error,
@@ -55,7 +56,8 @@ export function useFriends(isProfileFriendsPage: boolean = false) {
         : dispatch(
             updateProfile({
               friends: profile.friends.filter(
-                (friend) => friend._id !== friendId,
+                (friend) =>
+                  friend._id !== (userId === profile._id ? friendId : userId),
               ),
             }),
           );
@@ -78,7 +80,7 @@ export function useFriends(isProfileFriendsPage: boolean = false) {
         ? dispatch(updated())
         : dispatch(
             updateProfile({
-              friendRequests: profile.friendRequests.filter(
+              sentFriendRequests: profile.sentFriendRequests.filter(
                 (friend) => friend !== userId,
               ),
             }),
@@ -92,30 +94,33 @@ export function useFriends(isProfileFriendsPage: boolean = false) {
     }
   }
 
-  async function acceptFriendRequest(userId: string, friendId: string) {
+  async function acceptFriendRequest(userId: string, friend: Friend) {
     dispatch(loading());
-
     try {
-      const { message } = await acceptFriendRequestApi(userId, friendId);
+      const { message } = await acceptFriendRequestApi(userId, friend._id);
 
-      if (!isProfileFriendsPage && user) {
-        dispatch(
-          updateProfile({
-            friends: [
-              ...profile.friends,
-              {
-                _id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                picture: user.picture,
-                username: user.username,
-              },
-            ],
-          }),
-        );
-      } else {
-        dispatch(updated());
-      }
+      isProfileFriendsPage
+        ? dispatch(updated())
+        : dispatch(
+            updateProfile({
+              friends: [
+                ...profile.friends,
+                user?.id === profile._id
+                  ? friend
+                  : {
+                      ...user,
+                      _id: user?.id || "",
+                      firstName: user?.firstName || "",
+                      lastName: user?.lastName || "",
+                      picture: user?.picture || "",
+                      username: user?.username || "",
+                    },
+              ],
+              sentFriendRequests: profile.sentFriendRequests.filter(
+                (f) => f !== userId,
+              ),
+            }),
+          );
 
       toast.success(message);
     } catch (err) {

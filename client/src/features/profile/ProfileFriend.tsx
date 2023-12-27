@@ -31,7 +31,7 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
     removeFriend,
     denyFriendRequest,
     acceptFriendRequest,
-  } = useFriends(true);
+  } = useFriends(user?.id !== profile._id);
 
   useEffect(() => {
     async function fetchData() {
@@ -70,6 +70,13 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
             </span>
           </div>
         </Link>
+        <div
+          className="bg-tertiary bg-tertiar-hover text-secondary relative flex cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold md:px-3 md:py-1.5 md:text-base"
+          onClick={async () => await removeFriend(friend._id, currentUser._id)}
+        >
+          <BsFillPersonXFill className="text-xl" />
+          <span>Unfriend</span>
+        </div>
       </div>
     );
 
@@ -153,7 +160,7 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
               <div
                 className="bg-tertiary-hover rounded-md p-1.5"
                 onClick={async () => {
-                  await acceptFriendRequest(currentUser._id, friend._id);
+                  await acceptFriendRequest(currentUser._id, friend);
                   onFriendRequestChange?.();
                 }}
               >
