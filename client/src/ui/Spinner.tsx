@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 function Spinner() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.body.classList.add("no-scroll");
 
     return () => {

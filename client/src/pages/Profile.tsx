@@ -1,4 +1,3 @@
-import { LuSettings2 } from "react-icons/lu";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ImagesProfile from "../features/pictures/ImagesProfile";
@@ -68,13 +67,6 @@ function Profile() {
             ? "What's on your mind?"
             : `Write something to ${profile.firstName}...`}
         </AddPost>
-        <div className="bg-primary flex flex-row items-center justify-between rounded-md px-4 py-2">
-          <p className="text-xl font-bold">Posts</p>
-          <div className="bg-tertiary bg-tertiary-hover flex cursor-pointer flex-row items-center gap-1.5 rounded-lg p-2 font-semibold">
-            <LuSettings2 />
-            <span>Filters</span>
-          </div>
-        </div>
         <ProfilePosts />
       </div>
     </div>

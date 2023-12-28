@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useEffect } from "react";
+import { ReactNode, createContext, useContext, useLayoutEffect } from "react";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 export type DarkModeOptions = "off" | "on" | "auto";
@@ -26,7 +26,7 @@ function DarkModeProvider({ children }: { children: ReactNode }) {
   const isDarkMode =
     darkMode === "on" || (darkMode === "auto" && userSystemDarkMode);
 
-  useEffect(
+  useLayoutEffect(
     function () {
       if (darkMode === "on" || (darkMode === "auto" && userSystemDarkMode)) {
         document.documentElement.classList.add("dark-mode");
