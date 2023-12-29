@@ -1,5 +1,6 @@
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Modal from "../../ui/Modal";
+import ChangeBirthDate from "./ChangeBirthDateForm";
 import ChangeEmailForm from "./ChangeEmailForm";
 import ChangeNameForm from "./ChangeNameForm";
 import ChangePasswordForm from "./ChangePasswordForm";
@@ -54,6 +55,17 @@ function UserSettings() {
             </Modal.Open>
             <Modal.Window name="password" type="center" width="375px">
               <ChangePasswordForm />
+            </Modal.Window>
+          </div>
+          <div className="flex w-[150px] flex-row items-center justify-between gap-2 text-xl">
+            <span>Birth date</span>
+            <Modal.Open opens="birthDate">
+              <button className="bg-primary bg-tertiary-hover shake flex rounded-full p-2 text-lg">
+                <IoIosArrowForward />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="birthDate" type="center" width="375px">
+              <ChangeBirthDate />
             </Modal.Window>
           </div>
         </div>

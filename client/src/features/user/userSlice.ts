@@ -39,7 +39,17 @@ const userSlice = createSlice({
     },
     changedSetting(state, action: PayloadAction<SettingsChangePayload>) {
       if (state.user) {
-        state.user[action.payload.field] = action.payload.value;
+        if (
+          action.payload.field === "birthDate" &&
+          typeof action.payload.value === "object"
+        ) {
+          state.user.birthDate = action.payload.value;
+        } else if (
+          action.payload.field !== "birthDate" &&
+          typeof action.payload.value === "string"
+        ) {
+          state.user[action.payload.field] = action.payload.value;
+        }
         state.isLoading = false;
         Cookies.set("user", JSON.stringify(state.user));
       }

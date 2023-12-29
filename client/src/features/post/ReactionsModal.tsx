@@ -35,12 +35,12 @@ const ReactionsModal = forwardRef<HTMLDivElement, ReactionsModalProps>(
         onMouseEnter={() => {
           setTimeout(() => {
             setActiveLike(true);
-          }, 500);
+          }, 800);
         }}
         onMouseLeave={() => {
           setTimeout(() => {
             setActiveLike(false);
-          }, 500);
+          }, 800);
         }}
       >
         {reactions.map((r) => (

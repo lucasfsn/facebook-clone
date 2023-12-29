@@ -1,13 +1,20 @@
 import { LoginData, SignUpData } from "./auth";
 import {
+  ChangeBirthDateData,
   ChangeEmailData,
   ChangeNameData,
   ChangePasswordData,
 } from "./settings";
 
+export interface BirthDate {
+  birthDay: number;
+  birthMonth: number;
+  birthYear: number;
+}
+
 export interface SettingsChangePayload {
   field: keyof SingleUser;
-  value: string;
+  value: string | BirthDate;
 }
 
 export interface SingleUser {
@@ -17,6 +24,7 @@ export interface SingleUser {
   firstName: string;
   lastName: string;
   email: string;
+  birthDate: BirthDate;
 }
 
 export type FormInputData = {
@@ -25,6 +33,7 @@ export type FormInputData = {
   | ChangePasswordData
   | ChangeNameData
   | ChangeEmailData
+  | ChangeBirthDateData
   | LoginData
   | SignUpData
 );

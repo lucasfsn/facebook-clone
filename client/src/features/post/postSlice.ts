@@ -38,8 +38,8 @@ const postSlice = createSlice({
       state.isLoading = false;
       state.error = false;
     },
-    deletePost(state, action: PayloadAction<SinglePost[]>) {
-      state.posts = action.payload;
+    deletePost(state, action: PayloadAction<string>) {
+      state.posts = state.posts.filter((post) => post._id !== action.payload);
       state.isLoading = false;
       state.error = false;
     },

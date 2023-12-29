@@ -25,9 +25,9 @@ export async function getPosts(userId: string) {
 export async function deletePost(id: string) {
   const { data } = await axios.delete(`${apiUrl}/post/${id}`);
 
-  const { posts, message } = data;
+  const { deletedPostId, message } = data;
 
-  return { posts, message };
+  return { deletedPostId, message };
 }
 
 export async function addComment(

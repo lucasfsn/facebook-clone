@@ -22,7 +22,6 @@ export const signUpValidation = () =>
       ),
     email: Yup.string()
       .required(`You'll use this when you log in.`)
-      .email(`Please enter a valid email address.`)
       .matches(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         "Please enter a valid email address.",
@@ -45,9 +44,7 @@ export const signUpValidation = () =>
 
 export const loginValidation = () =>
   Yup.object({
-    email: Yup.string()
-      .required(`Please enter your email.`)
-      .email(`Please enter a valid email address.`),
+    email: Yup.string().required(`Please enter your email.`),
     password: Yup.string().required(`Please enter your password.`),
   });
 
@@ -85,6 +82,17 @@ export const changeEmailValidation = () =>
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         "Please enter a valid email address.",
       ),
+  });
+
+export const changeBirthDateValidation = () =>
+  Yup.object({
+    birthDay: Yup.number().required(`Please enter your birth day.`),
+    birthMonth: Yup.number().required(`Please enter your birth month.`),
+    birthYear: Yup.number()
+      .required(
+        `It looks like you entered the wrong info. Please be sure to use your real birthday.`,
+      )
+      .max(minAge, "You must be at least 13 years old."),
   });
 
 export const ProfileImportSchema = Yup.object({

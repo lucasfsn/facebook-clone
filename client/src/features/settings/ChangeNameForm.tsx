@@ -22,7 +22,9 @@ function ChangeNameForm({ field }: ChangeNameProps) {
   const { changeSettings } = useChangeSettings();
 
   const formik = useFormik({
-    initialValues: initialState,
+    initialValues: {
+      name: user?.[field] || initialState.name,
+    },
     validationSchema: changeNameValidation,
     onSubmit: handleSubmit,
   });

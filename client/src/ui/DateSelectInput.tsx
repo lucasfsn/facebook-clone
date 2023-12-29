@@ -5,21 +5,25 @@ import { getDays, getMonths, getYears } from "../utils/helpers";
 
 interface DateSelectInputProps<T extends FormInputData> {
   formik: FormikProps<T>;
+  showTitle?: boolean;
 }
 
 function DateSelectInput<T extends FormInputData>({
   formik,
+  showTitle = true,
 }: DateSelectInputProps<T>) {
   const { birthMonth, birthYear } = formik.values;
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex flex-row items-center gap-1 text-sm text-gray-500">
-        <span>Birthday</span>
-        <span>
-          <HiMiniQuestionMarkCircle />
-        </span>
-      </div>
+      {showTitle ? (
+        <div className="flex flex-row items-center gap-1 text-sm text-gray-500">
+          <span>Birthday</span>
+          <span>
+            <HiMiniQuestionMarkCircle />
+          </span>
+        </div>
+      ) : null}
       <div className="grid grid-cols-3 justify-between gap-3">
         <select
           {...formik.getFieldProps("birthMonth")}

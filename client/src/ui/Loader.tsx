@@ -1,6 +1,6 @@
 function Loader() {
   return (
-    <div className="flex justify-center">
+    <div className="flex items-center justify-center">
       <span className="loader"></span>
     </div>
   );

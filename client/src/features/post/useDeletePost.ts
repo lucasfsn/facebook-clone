@@ -31,9 +31,9 @@ export function useDeletePost() {
         await Promise.all(imageDeletionPromises);
       }
 
-      const { posts, message } = await deletePostApi(post._id);
+      const { deletedPostId, message } = await deletePostApi(post._id);
 
-      dispatch(postDelete(posts));
+      dispatch(postDelete(deletedPostId));
       dispatch(getProfile(username));
 
       toast.success(message);

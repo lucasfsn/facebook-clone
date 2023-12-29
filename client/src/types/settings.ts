@@ -1,3 +1,5 @@
+import { BirthDate } from "./user";
+
 export type Gender = "male" | "female" | "other";
 
 export interface ChangeNameData {
@@ -8,6 +10,13 @@ export interface ChangeNameData {
 export interface ChangeEmailData {
   [key: string]: string;
   email: string;
+}
+
+export interface ChangeBirthDateData {
+  [key: string]: number;
+  birthDay: number;
+  birthMonth: number;
+  birthYear: number;
 }
 
 export interface ChangePasswordData {
@@ -21,12 +30,16 @@ export interface ChangePassword {
   password: string;
 }
 
-export type ChangeUserSettingsType = "firstName" | "lastName" | "email";
+export type ChangeUserSettingsType =
+  | "firstName"
+  | "lastName"
+  | "email"
+  | "birthDate";
 
 export interface ChangeUserSettings {
   email: string;
   field: ChangeUserSettingsType;
-  value: string;
+  value: string | BirthDate;
 }
 
 export interface ProfileImport {
