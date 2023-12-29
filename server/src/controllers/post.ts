@@ -23,6 +23,13 @@ interface CommentBody {
   userId: string;
 }
 
+function getPosts(query: Record<string, unknown>) {
+  return PostModel.find(query)
+    .populate('user', 'firstName lastName picture username cover')
+    .populate('comments.author', 'firstName lastName picture username cover')
+    .sort({ createdAt: -1 });
+}
+
 export const createPost: RequestHandler<
   unknown,
   unknown,
@@ -55,27 +62,15 @@ export const allPosts: RequestHandler<
     const userId = req.query.userId;
     const { friends } = await UserModel.findById(userId).select('friends');
 
-    const friendsPostsPromises = friends.map(friend => {
-      return PostModel.find({ user: friend, audience: 'friends' })
-        .populate('user', 'firstName lastName picture username cover')
-        .populate(
-          'comments.author',
-          'firstName lastName picture username cover'
-        )
-        .sort({ createdAt: -1 });
-    });
+    const friendsPostsPromises = friends.map(friend =>
+      getPosts({ user: friend, audience: 'friends' })
+    );
 
     const friendsPosts = (await Promise.all(friendsPostsPromises)).flat();
 
-    const publicPosts = await PostModel.find({ audience: 'public' })
-      .populate('user', 'firstName lastName picture username cover')
-      .populate('comments.author', 'firstName lastName picture username')
-      .sort({ createdAt: -1 });
+    const publicPosts = await getPosts({ audience: 'public' });
 
-    const userPosts = await PostModel.find({ user: userId })
-      .populate('user', 'firstName lastName picture username cover')
-      .populate('comments.author', 'firstName lastName picture username')
-      .sort({ createdAt: -1 });
+    const userPosts = await getPosts({ user: userId });
 
     const posts = [...friendsPosts, ...publicPosts, ...userPosts]
       .filter(
@@ -108,10 +103,8 @@ export const deletePost: RequestHandler<
 
     await PostModel.deleteOne({ _id: id });
 
-    const remainingPosts = await PostModel.find();
-
     res.json({
-      posts: remainingPosts,
+      deletedPostId: id,
       message: 'Post has been successfully deleted',
     });
   } catch (err) {

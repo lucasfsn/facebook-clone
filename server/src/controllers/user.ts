@@ -33,7 +33,7 @@ interface ChangePasswordBody {
 
 interface ChangeUserInfoBody {
   email: string;
-  value: string;
+  value: string | { birthDay: number; birthMonth: number; birthYear: number };
 }
 
 interface ChangeProfileImageBody {
@@ -41,7 +41,7 @@ interface ChangeProfileImageBody {
   image: string;
 }
 
-type ChangeUserInfoData = 'firstName' | 'lastName' | 'email';
+type ChangeUserInfoData = 'firstName' | 'lastName' | 'email' | 'birthDate';
 
 interface UpdateUserDetailsBody {
   details: {
@@ -137,6 +137,11 @@ export const signUp: RequestHandler<
       firstName: newUser.firstName,
       lastName: newUser.lastName,
       email: newUser.email,
+      birthDate: {
+        birthDay: newUser.birthDay,
+        birthMonth: newUser.birthMonth,
+        birthYear: newUser.birthYear,
+      },
     });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
@@ -175,6 +180,11 @@ export const login: RequestHandler<
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      birthDate: {
+        birthDay: user.birthDay,
+        birthMonth: user.birthMonth,
+        birthYear: user.birthYear,
+      },
     });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
@@ -219,8 +229,37 @@ export const changeUserInfo: RequestHandler<
   ChangeUserInfoBody,
   unknown
 > = async (req, res) => {
-  function checkIfNotSame(user: User, field: ChangeUserInfoData, val: string) {
-    if (user[field] === val)
+  function checkIfNotSame(
+    user: User,
+    field: ChangeUserInfoData,
+    val:
+      | string
+      | {
+          birthDay: number;
+          birthMonth: number;
+          birthYear: number;
+        }
+  ) {
+    if (field === 'birthDate' && typeof val !== 'string') {
+      const { birthDay, birthMonth, birthYear } = val;
+      const newBirthDate = new Date(birthYear, birthMonth - 1, birthDay);
+      const currentBirthDate = new Date(
+        user.birthYear,
+        user.birthMonth - 1,
+        user.birthDay
+      );
+
+      if (newBirthDate.getTime() === currentBirthDate.getTime()) {
+        throw createHttpError(
+          400,
+          `Please choose a different birth date than your current one.`
+        );
+      }
+    } else if (
+      typeof val === 'string' &&
+      field !== 'birthDate' &&
+      user[field] === val
+    )
       throw createHttpError(
         400,
         `Please choose a different ${field
@@ -237,35 +276,44 @@ export const changeUserInfo: RequestHandler<
 
     checkIfNotSame(user, data, value);
 
-    if (data === 'firstName' && !validateName(value))
-      throw createHttpError(
-        400,
-        'Invalid first name. Check your data and try again.'
-      );
-
-    if (data === 'lastName' && !validateName(value))
-      throw createHttpError(
-        400,
-        'Invalid last name. Check your data and try again.'
-      );
-
-    if (data === 'email') {
-      if (!validateEmail(value))
+    if (typeof value === 'string') {
+      if (data === 'firstName' && !validateName(value))
         throw createHttpError(
           400,
-          'Invalid email. Check your data and try again.'
+          'Invalid first name. Check your data and try again.'
         );
 
-      const emailExists = await UserModel.findOne({ email: value });
-
-      if (emailExists)
+      if (data === 'lastName' && !validateName(value))
         throw createHttpError(
           400,
-          'This email is already in use. Please choose a different email.'
+          'Invalid last name. Check your data and try again.'
         );
+
+      if (data === 'email') {
+        if (!validateEmail(value))
+          throw createHttpError(
+            400,
+            'Invalid email. Check your data and try again.'
+          );
+
+        const emailExists = await UserModel.findOne({ email: value });
+
+        if (emailExists)
+          throw createHttpError(
+            400,
+            'This email is already in use. Please choose a different email.'
+          );
+      }
     }
 
-    user[data] = value;
+    if (data === 'birthDate' && typeof value !== 'string') {
+      const { birthDay, birthMonth, birthYear } = value;
+      user.birthDay = birthDay;
+      user.birthMonth = birthMonth;
+      user.birthYear = birthYear;
+    } else if (data !== 'birthDate' && typeof value === 'string') {
+      user[data] = value;
+    }
 
     await user.save();
 
