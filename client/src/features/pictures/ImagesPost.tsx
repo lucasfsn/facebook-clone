@@ -8,9 +8,10 @@ interface ImagesPostProps {
     type: SinglePost["type"];
     user?: SinglePost["user"];
   };
+  enableSlider?: boolean;
 }
 
-function ImagesPost({ post }: ImagesPostProps) {
+function ImagesPost({ post, enableSlider = true }: ImagesPostProps) {
   const [showSlider, setShowSlider] = useState(false);
   const [selectedImage, setSelectedImage] = useState<number>(0);
 
@@ -20,7 +21,7 @@ function ImagesPost({ post }: ImagesPostProps) {
 
   return (
     <>
-      {showSlider && (
+      {enableSlider && showSlider && (
         <ImageSlider
           images={post.images}
           close={handleCloseSlider}

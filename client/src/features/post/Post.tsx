@@ -77,6 +77,41 @@ function Post({ post }: PostProps) {
     reactions.reaction ? setReaction("") : setReaction("like");
   }
 
+  function postContent() {
+    switch (post.type) {
+      case "post":
+        return (
+          <span className="text-lg font-semibold">
+            {post.user.firstName} {post.user.lastName}
+          </span>
+        );
+      case "cover":
+      case "profile":
+        return (
+          <div className="flex flex-row items-center gap-1.5">
+            <span className="font-semibold">
+              {post.user.firstName} {post.user.lastName}
+            </span>
+            <span className="text-tertiary">
+              updated{" "}
+              {post.type === "cover" ? "cover photo" : "profile picture"}.
+            </span>
+          </div>
+        );
+      case "details":
+        return (
+          <div className="flex flex-row items-center gap-1.5">
+            <span className="font-semibold">
+              {post.user.firstName} {post.user.lastName}
+            </span>
+            <span className="text-tertiary">updated {post.key}</span>
+          </div>
+        );
+      default:
+        return null;
+    }
+  }
+
   return (
     <div className="bg-primary flex flex-col gap-2 rounded-lg">
       <div className="px-3 pt-3">
@@ -90,45 +125,7 @@ function Post({ post }: PostProps) {
               />
             </Link>
             <div className="flex flex-col">
-              {(() => {
-                switch (post.type) {
-                  case "post":
-                    return (
-                      <span className="text-lg font-semibold">
-                        {post.user.firstName} {post.user.lastName}
-                      </span>
-                    );
-                  case "cover":
-                  case "profile":
-                    return (
-                      <div className="flex flex-row items-center gap-1.5">
-                        <span className="font-semibold">
-                          {post.user.firstName} {post.user.lastName}
-                        </span>
-                        <span className="text-tertiary">
-                          updated{" "}
-                          {post.type === "cover"
-                            ? "cover photo"
-                            : "profile picture"}
-                          .
-                        </span>
-                      </div>
-                    );
-                  case "details":
-                    return (
-                      <div className="flex flex-row items-center gap-1.5">
-                        <span className="font-semibold">
-                          {post.user.firstName} {post.user.lastName}
-                        </span>
-                        <span className="text-tertiary">
-                          updated {post.key}
-                        </span>
-                      </div>
-                    );
-                  default:
-                    return null;
-                }
-              })()}
+              {postContent()}
               <div className="text-tertiary flex flex-row items-center gap-1.5 text-xs">
                 <span>{formatDistanceToNow(new Date(post.createdAt))}</span>
                 <span>{audienceIcon}</span>
@@ -170,23 +167,28 @@ function Post({ post }: PostProps) {
             <div className="flex items-center gap-0.5">
               {reactions.reactions
                 .map(
-                  (r) =>
-                    r.count > 0 && (
-                      <div key={r.reaction} className="relative rounded-full">
+                  (reaction) =>
+                    reaction.count > 0 && (
+                      <div
+                        key={reaction.reaction}
+                        className="relative rounded-full"
+                      >
                         <img
-                          src={`../../../reaction-emoji/${r.reaction}.jpg`}
+                          src={`../../../reaction-emoji/${reaction.reaction}.jpg`}
                           className="aspect-square h-[15px] cursor-pointer rounded-full"
-                          onMouseEnter={() => setHoverReaction(r.reaction)}
+                          onMouseEnter={() =>
+                            setHoverReaction(reaction.reaction)
+                          }
                           onMouseLeave={() => setHoverReaction(null)}
                         />
-                        {hoverReaction === r.reaction && (
+                        {hoverReaction === reaction.reaction && (
                           <span className="absolute bottom-full left-0 flex w-fit rounded-md bg-black bg-opacity-80 text-white">
                             <div className="flex flex-col gap-1 px-2.5 py-1.5">
                               <span className="text-sm font-semibold">
-                                {capitalize(r.reaction)}
+                                {capitalize(reaction.reaction)}
                               </span>
                               <div className="flex flex-col text-xs shadow-3xl">
-                                {r.users
+                                {reaction.users
                                   .map((user, i) => (
                                     <span
                                       key={`${user._id}-${i}`}
@@ -196,8 +198,10 @@ function Post({ post }: PostProps) {
                                     </span>
                                   ))
                                   .slice(0, 10)}
-                                {r.users.length > 10 && (
-                                  <span>and {r.users.length - 10} more</span>
+                                {reaction.users.length > 10 && (
+                                  <span>
+                                    and {reaction.users.length - 10} more
+                                  </span>
                                 )}
                               </div>
                             </div>
@@ -234,7 +238,6 @@ function Post({ post }: PostProps) {
               postId={post._id}
               setActiveLike={setActiveLike}
               currentReaction={reactions.reaction}
-              setReaction={setReaction}
             />
           </CSSTransition>
           <button

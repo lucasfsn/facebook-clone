@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import ImageSlider from "../../ui/ImageSlider";
 import Loading from "../../ui/Loading";
@@ -21,8 +21,9 @@ function ImagesProfile({ space, location }: ImagesProfileProps) {
     setShowSlider(false);
   }
 
-  const profileImages = images.filter(
-    (image) => image.owner === currentProfile.username,
+  const profileImages = useMemo(
+    () => images.filter((image) => image.owner === currentProfile.username),
+    [images, currentProfile.username],
   );
 
   if (loading) return <Loading />;

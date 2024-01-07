@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from "react";
+import { useReducer } from "react";
 import {
   addReaction as addReactionApi,
   getReactions as getReactionsApi,
@@ -56,7 +56,7 @@ export function useReaction() {
     }
   }
 
-  const getReactions = useCallback(async (postId: string, userId: string) => {
+  async function getReactions(postId: string, userId: string) {
     try {
       const res = await getReactionsApi(postId, userId);
       dispatch({
@@ -70,7 +70,7 @@ export function useReaction() {
     } catch (err) {
       handleError(err as ResponseError);
     }
-  }, []);
+  }
 
   function setReaction(reaction: ReactionType | "") {
     dispatch({ type: "SET_REACTION", payload: reaction });

@@ -83,7 +83,7 @@ function AddPostFormImage({
           onChange={handleAddImages}
           accept="image/jpeg,image/png,image/gif"
         />
-        <ImagesPost post={{ images, type: "post" }} />
+        <ImagesPost post={{ images, type: "post" }} enableSlider={false} />
         {images.length === 0 && (
           <div
             className="flex h-[150px] flex-col items-center justify-center"

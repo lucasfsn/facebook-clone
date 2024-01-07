@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { Dispatch, SetStateAction, forwardRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { reactions } from "../../../data/reactions";
 import { ReactionType } from "../../types/posts";
@@ -8,16 +8,15 @@ import { useReaction } from "./useReaction";
 
 interface ReactionsModalProps {
   postId: string;
-  setActiveLike: (active: boolean) => void;
-  setReaction: (reaction: ReactionType | "") => void;
+  setActiveLike: Dispatch<SetStateAction<boolean>>;
   currentReaction: string | undefined;
 }
 
 const ReactionsModal = forwardRef<HTMLDivElement, ReactionsModalProps>(
-  ({ postId, setActiveLike, setReaction, currentReaction }, ref) => {
+  ({ postId, setActiveLike, currentReaction }, ref) => {
     const [activeReaction, setActiveReaction] = useState<string | null>(null);
 
-    const { addReaction } = useReaction();
+    const { addReaction, setReaction } = useReaction();
 
     const userId = useSelector(getUserId);
 
