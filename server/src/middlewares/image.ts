@@ -11,7 +11,7 @@ export async function uploadImage(
 ) {
   try {
     if (!req.files || Object.values(req.files).length === 0)
-      res.status(400).json({ message: 'No files were uploaded.' });
+      res.status(400).json({ message: 'No files were uploaded' });
 
     Object.values(req.files)
       .flat()
@@ -23,7 +23,7 @@ export async function uploadImage(
 
           return res
             .status(400)
-            .json({ message: 'Only images or gifs are allowed.' });
+            .json({ message: 'Only images or gifs are allowed' });
         }
 
         if (file.size > MAX_FILE_SIZE) {
@@ -33,7 +33,7 @@ export async function uploadImage(
 
           return res
             .status(400)
-            .json({ message: 'File size should be less than 5MB.' });
+            .json({ message: 'File size should be less than 5MB' });
         }
       });
     next();
