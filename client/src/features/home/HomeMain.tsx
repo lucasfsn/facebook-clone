@@ -3,10 +3,10 @@ import { FiPlus } from "react-icons/fi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { stories } from "../../../data/stories";
+import HomeStory from "./HomeStory";
 import AddPost from "../post/AddPost";
 import Posts from "../post/Posts";
 import { getUser } from "../user/userSlice";
-import HomeStory from "./HomeStory";
 
 type Direction = "left" | "right";
 
@@ -130,8 +130,8 @@ function HomeMain() {
           <IoIosArrowBack className="text-2xl" />
         </button>
       )}
-      {2 * state.position <
-        state.storyWidth * stories.length - state.mainWidth && (
+      {state.position <
+        state.storyWidth * (stories.length + 1) - state.mainWidth && (
         <button
           onClick={() => handleClick("right")}
           className="bg-primary bg-tertiary-hover absolute right-3 top-[90px] z-10 flex h-[45px] w-[45px] items-center justify-center rounded-full shadow-md"
@@ -141,7 +141,7 @@ function HomeMain() {
       )}
       <div
         ref={storiesRef}
-        className="justify-left flex flex-row gap-[10px] overflow-x-hidden"
+        className="justify-left main-middle flex flex-row gap-[10px] overflow-x-hidden"
       >
         <div className="middle-story bg-primary scale-image flex h-[225px] w-[150px] min-w-[150px] cursor-pointer flex-col gap-2 overflow-hidden rounded-xl shadow-md">
           <div className="h-[75%] overflow-hidden">
