@@ -12,8 +12,8 @@ function PageNotAvailable() {
           This Page Isn't Available Yet
         </h1>
         <p className="text-tertiary max-w-[400px] text-center">
-          It may be that the page you are looking for has not been created yet.
-          It's currently under development.
+          It may be that the page you are looking for has not been created yet
+          or is currently under development.
         </p>
       </div>
       <Link

@@ -31,37 +31,31 @@ function LoginForm() {
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-col gap-4 rounded-lg bg-white p-4 text-center shadow-3xl">
-        <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
-          <FormInput<LoginData>
-            placeholder="Email or phone number"
-            name="email"
-            type="text"
-            purpose="login"
-            formik={formik}
-          />
-          <FormInput<LoginData>
-            placeholder="Password"
-            name="password"
-            type="password"
-            purpose="login"
-            formik={formik}
-          />
-          <Button className="bg-blue-500">Log In</Button>
-        </form>
-        <Link
-          to="/recover"
-          className="border-b pb-5 text-sm text-blue-600 hover:underline"
-        >
-          Forgot password?
-        </Link>
-        <SignUp />
-      </div>
-      <Link to="/" className="px-10 py-6 text-sm">
-        <span className="font-bold">Create a Page</span> for a celebrity, brand
-        or business.
+    <div className="min-w flex min-w-[400px] flex-col gap-4 rounded-lg bg-white p-4 text-center shadow-3xl">
+      <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
+        <FormInput<LoginData>
+          placeholder="Email or phone number"
+          name="email"
+          type="text"
+          purpose="login"
+          formik={formik}
+        />
+        <FormInput<LoginData>
+          placeholder="Password"
+          name="password"
+          type="password"
+          purpose="login"
+          formik={formik}
+        />
+        <Button className="bg-blue-500">Log In</Button>
+      </form>
+      <Link
+        to="/recover"
+        className="border-b pb-5 text-sm text-blue-600 hover:underline"
+      >
+        Forgot password?
       </Link>
+      <SignUp />
     </div>
   );
 }

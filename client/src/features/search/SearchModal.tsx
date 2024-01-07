@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { HiArrowLeft, HiXMark } from "react-icons/hi2";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -12,7 +12,7 @@ import { useSearchHistory } from "./useSearchHistory";
 import { useSearchResults } from "./useSearchResults";
 
 interface SearchModalProps {
-  setShowSearchPanel: (arg: boolean) => void;
+  setShowSearchPanel: Dispatch<SetStateAction<boolean>>;
 }
 
 function SearchModal({ setShowSearchPanel }: SearchModalProps) {

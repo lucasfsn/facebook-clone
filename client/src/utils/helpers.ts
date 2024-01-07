@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Theme } from "emoji-picker-react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 import { DarkModeOptions } from "../context/DarkModeContext";
@@ -139,7 +139,7 @@ export function setEmojiPickerMode(
 
 export function handleAddImage(
   e: ChangeEvent<HTMLInputElement>,
-  setImage: (image: string) => void,
+  setImage: Dispatch<SetStateAction<string>>,
 ) {
   if (!e.target.files) return;
 
@@ -192,7 +192,7 @@ export function handleAddCover(
       img.src = e.target?.result as string;
       img.onload = () => {
         if (img.width < MIN_COVER_WIDTH) {
-          toast.error("This cover photo is too small");
+          toast.error("Selected cover photo is too small");
           return;
         }
         setImage(img.src);

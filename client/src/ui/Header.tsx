@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { CgMenuGridO } from "react-icons/cg";
-import { FaFacebookMessenger } from "react-icons/fa";
 import {
   HiBuildingStorefront,
   HiOutlineBuildingStorefront,
@@ -134,9 +133,6 @@ function Header() {
           <Modal.Window name="menu" type="custom">
             <MenuModal />
           </Modal.Window>
-          <button className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]">
-            <FaFacebookMessenger />
-          </button>
           <div className="relative">
             <button
               className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl  active:h-[39px] active:min-w-[39px]"

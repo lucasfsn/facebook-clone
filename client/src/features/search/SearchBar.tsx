@@ -1,4 +1,4 @@
-import { RefObject, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useState } from "react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { useSelector } from "react-redux";
 import { SearchUser } from "../../types/search";
@@ -8,12 +8,12 @@ import { useSearchResults } from "./useSearchResults";
 interface SearchBarProps {
   placeholder: string;
   showIcon?: boolean;
-  setShowIcon?: (arg: boolean) => void;
+  setShowIcon?: Dispatch<SetStateAction<boolean>>;
   onClick?: () => void;
   full?: boolean;
   input?: RefObject<HTMLInputElement>;
   filterFriends?: boolean;
-  setContactsResults?: (arg: SearchUser[]) => void;
+  setContactsResults?: Dispatch<SetStateAction<SearchUser[]>>;
 }
 
 function SearchBar({

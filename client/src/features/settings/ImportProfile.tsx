@@ -19,7 +19,7 @@ function ImportProfile() {
     const file = event.target.files[0];
 
     if (file.type !== "application/json") {
-      toast.error("Invalid file type.");
+      toast.error("Invalid file type");
       event.target.value = "";
       return;
     }

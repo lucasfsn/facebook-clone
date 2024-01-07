@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CiCirclePlus } from "react-icons/ci";
 import { FaGlobeEurope } from "react-icons/fa";
 import { useSelector } from "react-redux";
@@ -10,8 +10,8 @@ interface EditDetailProps {
   detail: keyof Details;
   title?: string;
   details: Details;
-  setDetails: React.Dispatch<React.SetStateAction<Details>>;
-  setDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  setDetails: Dispatch<SetStateAction<Details>>;
+  setDisabled: Dispatch<SetStateAction<boolean>>;
   children: string;
 }
 

@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Details } from "../../types/profile";
 import Button from "../../ui/Button";
 import EditDetail from "./EditDetail";
 
 interface EditDetailsProps {
   details: Details;
-  setDetails: React.Dispatch<React.SetStateAction<Details>>;
+  setDetails: Dispatch<SetStateAction<Details>>;
   handleSave: () => Promise<void>;
   handleCancel: () => void;
 }
