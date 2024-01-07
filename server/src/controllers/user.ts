@@ -6,7 +6,13 @@ import PostModel from '../models/post';
 import ReactionModel from '../models/reaction';
 import UserModel, { User } from '../models/user';
 import { generateUsername } from '../utils/generateUsername';
-import { validateEmail, validateName } from '../utils/validateUserData';
+import {
+  ProfileImportSchema,
+  validateBirthdate,
+  validateEmail,
+  validateName,
+  validatePassword,
+} from '../utils/validateUserData';
 
 type Gender = 'male' | 'female' | 'other';
 
@@ -41,7 +47,12 @@ interface ChangeProfileImageBody {
   image: string;
 }
 
-type ChangeUserInfoData = 'firstName' | 'lastName' | 'email' | 'birthDate';
+type ChangeUserInfoData =
+  | 'firstName'
+  | 'lastName'
+  | 'email'
+  | 'birthDate'
+  | 'password';
 
 interface UpdateUserDetailsBody {
   details: {
@@ -113,7 +124,16 @@ export const signUp: RequestHandler<
         'A user with this email address already exists. Please choose a different one or log in instead.'
       );
 
+    if (!validatePassword(password))
+      throw createHttpError(
+        400,
+        'Password must be at least 8-character long combination of at least one uppercase letter, one lowercase letter, one number, and one special character'
+      );
+
     const passwordHashed = await bcrypt.hash(password, 10);
+
+    if (!validateBirthdate(birthYear))
+      throw createHttpError(400, 'Invalid age');
 
     const generatedUsername = await generateUsername(firstName.toLowerCase());
 
@@ -209,6 +229,12 @@ export const changePassword: RequestHandler<
         'Please choose a different password than your current one.'
       );
 
+    if (!validatePassword(password))
+      throw createHttpError(
+        400,
+        'Password must be at least 8-character long combination of at least one uppercase letter, one lowercase letter, one number, and one special character'
+      );
+
     const passwordHashed = await bcrypt.hash(password, 10);
 
     user.password = passwordHashed;
@@ -255,6 +281,9 @@ export const changeUserInfo: RequestHandler<
           `Please choose a different birth date than your current one.`
         );
       }
+
+      if (!validateBirthdate(birthYear))
+        throw createHttpError(400, 'Invalid age');
     } else if (
       typeof val === 'string' &&
       field !== 'birthDate' &&
@@ -287,6 +316,12 @@ export const changeUserInfo: RequestHandler<
         throw createHttpError(
           400,
           'Invalid last name. Check your data and try again.'
+        );
+
+      if (data === 'password' && !validatePassword(value))
+        throw createHttpError(
+          400,
+          'Password must be at least 8-character long combination of at least one uppercase letter, one lowercase letter, one number, and one special character'
         );
 
       if (data === 'email') {
@@ -875,20 +910,25 @@ export const importProfile: RequestHandler<
   ProfileImport,
   unknown
 > = async (req, res) => {
-  const { userId } = req.params;
-  const profile = req.body;
+  try {
+    const { userId } = req.params;
+    const profile = req.body;
 
-  const user = await UserModel.findById(userId);
+    await ProfileImportSchema.validate(profile, { strict: true });
+    const user = await UserModel.findById(userId);
 
-  if (!user) {
-    return res.status(404).send({ error: 'User not found' });
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+
+    const result = await UserModel.findOneAndUpdate(
+      { _id: userId },
+      { $set: profile },
+      { new: true }
+    );
+
+    res.json({ user: result, message: 'Profile imported successfully' });
+  } catch (err) {
+    res.status(err.status || 500).json({ message: err.message });
   }
-
-  const result = await UserModel.findOneAndUpdate(
-    { _id: userId },
-    { $set: profile },
-    { new: true }
-  );
-
-  res.send({ user: result, message: 'Profile imported successfully' });
 };
