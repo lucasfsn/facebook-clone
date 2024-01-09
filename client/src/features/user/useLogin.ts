@@ -15,13 +15,15 @@ export function useLogin() {
     dispatch(loading());
 
     try {
-      const { message, loginData } = await loginApi(user);
+      const { message, user: loginData, token } = await loginApi(user);
 
       Cookies.set("user", JSON.stringify(loginData), {
         expires: 1 / 24,
         sameSite: "None",
         secure: true,
       });
+
+      Cookies.set("token", token);
 
       dispatch(login(loginData));
 

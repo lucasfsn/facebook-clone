@@ -30,7 +30,12 @@ function SignUpForm() {
     initialValues: initialState,
     validationSchema: signUpValidation,
     onSubmit: async (values) => {
-      await signUpUser(values);
+      await signUpUser({
+        ...values,
+        birthDay: Number(values.birthDay),
+        birthMonth: Number(values.birthMonth),
+        birthYear: Number(values.birthYear),
+      });
     },
   });
 

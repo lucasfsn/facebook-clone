@@ -14,13 +14,15 @@ export function useSignup() {
   async function signUpUser(user: SignUpData) {
     dispatch(loading());
     try {
-      const { message, signUpData } = await signupApi(user);
+      const { message, user: signUpData, token } = await signupApi(user);
 
       Cookies.set("user", JSON.stringify(signUpData), {
         expires: 1 / 24,
         sameSite: "None",
         secure: true,
       });
+
+      Cookies.set("token", token);
 
       dispatch(login(signUpData));
 

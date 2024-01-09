@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Theme } from "emoji-picker-react";
+import Cookies from "js-cookie";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
@@ -11,6 +12,16 @@ import {
   VALID_MIMETYPES,
   VALID_PROFILE_PHOTO_MIMETYPES,
 } from "./constants";
+
+export function authToken() {
+  const token = Cookies.get("token");
+
+  return {
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+}
 
 export const relationshipOptions: RelationshipType[] = [
   "Single",

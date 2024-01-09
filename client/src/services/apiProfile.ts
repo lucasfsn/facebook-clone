@@ -1,10 +1,14 @@
 import axios from "axios";
 import { Details } from "../types/profile";
+import { authToken } from "../utils/helpers";
 
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
 export async function getProfile(username: string) {
-  const { data } = await axios.get(`${apiUrl}/profile/${username}`);
+  const { data } = await axios.get(
+    `${apiUrl}/profile/${username}`,
+    authToken(),
+  );
 
   return data;
 }
