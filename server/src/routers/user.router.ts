@@ -1,28 +1,61 @@
 import 'dotenv/config';
 import { Router } from 'express';
 import * as UserController from '../controllers/user';
+import { authenticateToken } from '../middlewares/auth';
 
 export const userRouter = Router()
-  .get('/profile/:username', UserController.getUserProfile)
   .post('/signup', UserController.signUp)
   .post('/login', UserController.login)
-  .patch('/change-password', UserController.changePassword)
-  .put('/change/:data', UserController.changeUserInfo)
-  .delete('/:id', UserController.deleteUser)
-  .patch('/profile/updatePicture', UserController.updateProfileImage)
-  .patch('/profile/updateCover', UserController.updateCoverImage)
-  .delete('/profile/:id/removeCover', UserController.removeCoverPhoto)
-  .delete('/profile/:id/removePicture', UserController.removeProfilePicture)
-  .patch('/profile/updateDetails', UserController.updateDetails)
-  .post('/profile/:id/add', UserController.addFriend)
-  .put('/profile/:id/cancel', UserController.cancelFriendRequest)
-  .put('/profile/:id/accept', UserController.acceptFriendRequest)
-  .delete('/profile/:id/remove', UserController.removeFriend)
-  .delete('/profile/:id/removeRequest', UserController.removeFriendRequest)
-  .get('/user/:id', UserController.getUserById)
-  .get('/search/:id/get', UserController.searchGet)
-  .post('/search/:user', UserController.searchUser)
-  .put('/search/:user/add', UserController.searchAdd)
-  .delete('/search/:user', UserController.searchDelete)
-  .post('/import/:userId', UserController.importProfile)
-  .get('/export/:userId', UserController.exportProfile);
+  .get('/profile/:username', authenticateToken, UserController.getUserProfile)
+  .patch('/change-password', authenticateToken, UserController.changePassword)
+  .put('/change/:data', authenticateToken, UserController.changeUserInfo)
+  .delete('/:id', authenticateToken, UserController.deleteUser)
+  .patch(
+    '/profile/updatePicture',
+    authenticateToken,
+    UserController.updateProfileImage
+  )
+  .patch(
+    '/profile/updateCover',
+    authenticateToken,
+    UserController.updateCoverImage
+  )
+  .delete(
+    '/profile/:id/removeCover',
+    authenticateToken,
+    UserController.removeCoverPhoto
+  )
+  .delete(
+    '/profile/:id/removePicture',
+    authenticateToken,
+    UserController.removeProfilePicture
+  )
+  .patch(
+    '/profile/updateDetails',
+    authenticateToken,
+    UserController.updateDetails
+  )
+  .post('/profile/:id/add', authenticateToken, UserController.addFriend)
+  .put(
+    '/profile/:id/cancel',
+    authenticateToken,
+    UserController.cancelFriendRequest
+  )
+  .put(
+    '/profile/:id/accept',
+    authenticateToken,
+    UserController.acceptFriendRequest
+  )
+  .delete('/profile/:id/remove', authenticateToken, UserController.removeFriend)
+  .delete(
+    '/profile/:id/removeRequest',
+    authenticateToken,
+    UserController.removeFriendRequest
+  )
+  .get('/user/:id', authenticateToken, UserController.getUserById)
+  .get('/search/:id/get', authenticateToken, UserController.searchGet)
+  .post('/search/:user', authenticateToken, UserController.searchUser)
+  .put('/search/:user/add', authenticateToken, UserController.searchAdd)
+  .delete('/search/:user', authenticateToken, UserController.searchDelete)
+  .post('/import/:userId', authenticateToken, UserController.importProfile)
+  .get('/export/:userId', authenticateToken, UserController.exportProfile);

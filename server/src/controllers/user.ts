@@ -1,11 +1,13 @@
 import bcrypt from 'bcrypt';
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
+import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import PostModel from '../models/post';
 import ReactionModel from '../models/reaction';
 import UserModel, { User } from '../models/user';
 import { generateUsername } from '../utils/generateUsername';
+import env from '../utils/validateEnv';
 import {
   ProfileImportSchema,
   validateBirthdate,
@@ -98,17 +100,8 @@ export const signUp: RequestHandler<
   } = req.body;
 
   try {
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !password ||
-      !password ||
-      !birthDay ||
-      !birthMonth ||
-      !birthYear ||
-      !gender
-    )
+    console.log(req.body);
+    if (!firstName || !lastName || !email || !password || !gender)
       throw createHttpError(400, 'Parameters missing');
 
     if (!validateName(firstName) || !validateName(lastName))
@@ -149,19 +142,24 @@ export const signUp: RequestHandler<
       gender,
     });
 
+    const token = jwt.sign({ id: newUser._id.toString() }, env.JWT_SECRET);
+
     res.send({
       message: 'Signed up successfully',
-      id: newUser._id,
-      username: newUser.username,
-      picture: newUser.picture,
-      firstName: newUser.firstName,
-      lastName: newUser.lastName,
-      email: newUser.email,
-      birthDate: {
-        birthDay: newUser.birthDay,
-        birthMonth: newUser.birthMonth,
-        birthYear: newUser.birthYear,
+      user: {
+        id: newUser._id,
+        username: newUser.username,
+        picture: newUser.picture,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+        birthDate: {
+          birthDay: newUser.birthDay,
+          birthMonth: newUser.birthMonth,
+          birthYear: newUser.birthYear,
+        },
       },
+      token,
     });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
@@ -192,19 +190,24 @@ export const login: RequestHandler<
         'Invalid password. Check your data and try again.'
       );
 
+    const token = jwt.sign({ id: user._id.toString() }, env.JWT_SECRET);
+
     res.send({
       message: 'Logged in successfully',
-      id: user._id,
-      username: user.username,
-      picture: user.picture,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      birthDate: {
-        birthDay: user.birthDay,
-        birthMonth: user.birthMonth,
-        birthYear: user.birthYear,
+      user: {
+        id: user._id,
+        username: user.username,
+        picture: user.picture,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        birthDate: {
+          birthDay: user.birthDay,
+          birthMonth: user.birthMonth,
+          birthYear: user.birthYear,
+        },
       },
+      token,
     });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
