@@ -2,19 +2,23 @@
   "name": "server",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "tsnd src/server.ts",
-    "build": "rimraf dist && tsc",
-    "ts.check": "tsc --project tsconfig.json",
-    "add-build": "git add dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "pre-prod": "rimraf dist && npm run build",
+    "dev": "nodemon --watch src --exec ts-node src/server.ts",
+    "predev": "npm run build",
+    "prepare:enviroment": "node scripts/dev-enviroment.cjs",
+    "format": "prettier --write \"src/**/*.(js|ts)\"",
+    "lint": "eslint src --ext .js,.ts",
+    "lint:fix": "eslint src --fix --ext .js,.ts",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
-  "pre-commit": [
-    "ts.check",
-    "build",
-    "add-build"
-  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -29,6 +33,7 @@
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.0",
+    "type-fest": "^4.9.0",
     "yup": "^1.3.3"
   },
   "devDependencies": {
@@ -42,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "eslint": "^8.53.0",
+    "nodemon": "^3.0.2",
     "pre-commit": "^1.2.2",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
