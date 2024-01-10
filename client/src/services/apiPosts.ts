@@ -78,11 +78,8 @@ export async function getReactions(postId: string, userId: string) {
   const { data } = await axios.get(
     `${apiUrl}/reaction/get/${postId}/${userId}`,
   );
-  return {
-    reactions: data.reactions,
-    userReaction: data.userReaction,
-    reactionsCount: data.reactionsCount,
-  };
+
+  return data;
 }
 
 export async function editPost(

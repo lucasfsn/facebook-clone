@@ -8,11 +8,16 @@ import { TbListDetails } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
-import { PostAudience, SingleComment, SinglePost } from "../../types/posts";
+import {
+  PostAudience,
+  ReactionType,
+  SingleComment,
+  SinglePost,
+} from "../../types/posts";
 import { MAX_COMMENTS } from "../../utils/constants";
 import { capitalize, reactionColor } from "../../utils/helpers";
 import ImagesPost from "../pictures/ImagesPost";
-import { getUserId } from "../user/userSlice";
+import { getUser } from "../user/userSlice";
 import AddComment from "./AddComment";
 import Comment from "./Comment";
 import PostMenu from "./PostMenu";
@@ -32,28 +37,35 @@ function Post({ post }: PostProps) {
   const [activeLike, setActiveLike] = useState<boolean>(false);
   const [hoverReaction, setHoverReaction] = useState<string | null>(null);
   const [timeoutId, setTimeoutId] = useState<number | null>(null);
+  const [addedNewReaction, setAddedNewReaction] = useState<boolean>(false);
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const nodeRef = useRef(null);
   const commentRef = useRef<HTMLInputElement>(null);
 
-  const userId = useSelector(getUserId);
+  const user = useSelector(getUser);
 
-  const { reactions, getReactions, addReaction, setReaction } = useReaction();
+  const { reactions, reaction, reactionsCount, getReactions, addReaction } =
+    useReaction();
 
   useEffect(() => {
     setComments([...post.comments].reverse());
   }, [post.comments]);
 
   useEffect(() => {
-    if (!userId) return;
+    if (!user) return;
+
     async function getAllReactions() {
-      if (!userId) return;
-      await getReactions(post._id, userId);
+      if (!user) return;
+
+      await getReactions(post._id, user.id);
+
+      setAddedNewReaction(false);
     }
 
     getAllReactions();
-  }, [post._id, userId, reactions.reaction, getReactions]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post._id, user, addedNewReaction]);
 
   function handleShowMoreComments() {
     if (commentsCount < comments.length)
@@ -71,10 +83,11 @@ function Post({ post }: PostProps) {
     }
   }, [post.audience]);
 
-  async function handleAddReaction() {
-    if (!userId) return;
-    await addReaction(reactions.reaction || "like", post._id, userId);
-    reactions.reaction ? setReaction("") : setReaction("like");
+  async function handleAddReaction(r: ReactionType | undefined = reaction) {
+    if (!user) return;
+
+    await addReaction(r || "like", post._id, user);
+    setAddedNewReaction(true);
   }
 
   function postContent() {
@@ -132,7 +145,7 @@ function Post({ post }: PostProps) {
               </div>
             </div>
           </div>
-          {post.user._id === userId && (
+          {post.user._id === user?.id && (
             <div className="relative">
               <button
                 className="bg-tertiary-hover cursor-pointer rounded-full p-1.5 text-center"
@@ -165,9 +178,9 @@ function Post({ post }: PostProps) {
         <div className="separator flex flex-row justify-between border-b pb-1">
           <div className="text-tertiary flex items-center gap-1.5">
             <div className="flex items-center gap-0.5">
-              {reactions.reactions
-                .map(
-                  (reaction) =>
+              {reactions
+                ?.map((reaction) => {
+                  return (
                     reaction.count > 0 && (
                       <div
                         key={reaction.reaction}
@@ -208,13 +221,12 @@ function Post({ post }: PostProps) {
                           </span>
                         )}
                       </div>
-                    ),
-                )
+                    )
+                  );
+                })
                 .slice(0, 3)}
             </div>
-            <span>
-              {reactions.reactionsCount > 0 ? reactions.reactionsCount : ""}
-            </span>
+            <span>{reactionsCount > 0 ? reactionsCount : ""}</span>
           </div>
           {comments.length > 0 && (
             <div
@@ -235,13 +247,12 @@ function Post({ post }: PostProps) {
           >
             <ReactionsModal
               ref={nodeRef}
-              postId={post._id}
               setActiveLike={setActiveLike}
-              currentReaction={reactions.reaction}
+              handleAddReaction={handleAddReaction}
             />
           </CSSTransition>
           <button
-            className="bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 rounded-md p-0.5 text-xl font-semibold"
+            className="bg-tertiary-hover flex flex-row items-center justify-center gap-1.5 rounded-md p-0.5 text-xl font-semibold disabled:cursor-not-allowed"
             onMouseEnter={() => {
               const id = setTimeout(() => {
                 setActiveLike(true);
@@ -260,19 +271,18 @@ function Post({ post }: PostProps) {
               }
               handleAddReaction();
             }}
+            disabled={addedNewReaction}
           >
-            {reactions.reaction ? (
+            {reaction ? (
               <img
-                src={`../../../reaction-emoji/${reactions.reaction}.jpg`}
+                src={`../../../reaction-emoji/${reaction}.jpg`}
                 className="aspect-square w-[18px] translate-y-[1px] rounded-full"
               />
             ) : (
               <AiOutlineLike />
             )}
-            <span
-              className={`text-[0.95rem] ${reactionColor(reactions.reaction)}`}
-            >
-              {reactions.reaction ? capitalize(reactions.reaction) : "Like"}
+            <span className={`text-[0.95rem] ${reactionColor(reaction)}`}>
+              {reaction ? capitalize(reaction) : "Like"}
             </span>
           </button>
           <button

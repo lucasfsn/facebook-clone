@@ -1,31 +1,16 @@
 import { Dispatch, SetStateAction, forwardRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { reactions } from "../../../data/reactions";
+import { reactions as reactionsGif } from "../../../data/reactions";
 import { ReactionType } from "../../types/posts";
 import { capitalize } from "../../utils/helpers";
-import { getUserId } from "../user/userSlice";
-import { useReaction } from "./useReaction";
 
 interface ReactionsModalProps {
-  postId: string;
   setActiveLike: Dispatch<SetStateAction<boolean>>;
-  currentReaction: string | undefined;
+  handleAddReaction: (reaction: ReactionType) => Promise<void>;
 }
 
 const ReactionsModal = forwardRef<HTMLDivElement, ReactionsModalProps>(
-  ({ postId, setActiveLike, currentReaction }, ref) => {
+  ({ setActiveLike, handleAddReaction }, ref) => {
     const [activeReaction, setActiveReaction] = useState<string | null>(null);
-
-    const { addReaction, setReaction } = useReaction();
-
-    const userId = useSelector(getUserId);
-
-    async function handleAddReaction(reaction: ReactionType) {
-      if (userId) await addReaction(reaction, postId, userId);
-      currentReaction === reaction && currentReaction
-        ? setReaction("")
-        : setReaction(reaction);
-    }
 
     return (
       <div
@@ -42,7 +27,7 @@ const ReactionsModal = forwardRef<HTMLDivElement, ReactionsModalProps>(
           }, 800);
         }}
       >
-        {reactions.map((r) => (
+        {reactionsGif.map((r) => (
           <div
             key={r.id}
             className="relative cursor-pointer"

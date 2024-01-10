@@ -38,7 +38,7 @@ function Comment({ comment, postId }: CommentProps) {
           className="aspect-square h-[35px] rounded-full"
         />
       </Link>
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         <div className="bg-tertiary relative flex w-fit flex-col rounded-[1.25rem] px-3 py-2">
           <div className="text-secondary">
             {comment.author.firstName} {comment.author.lastName}
