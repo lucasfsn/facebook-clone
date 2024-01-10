@@ -126,7 +126,7 @@ function Header() {
       <div className="flex flex-row items-center justify-end gap-2">
         <Modal>
           <Modal.Open opens="menu">
-            <button className="bg-tertiary text-secondary bg-tertiary-hover relative flex h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl active:h-[39px] active:min-w-[39px]">
+            <button className="bg-tertiary text-secondary bg-tertiary-hover relative hidden h-[40px] min-w-[40px] cursor-pointer items-center justify-center rounded-full text-2xl active:h-[39px] active:min-w-[39px] sm:flex">
               <CgMenuGridO />
             </button>
           </Modal.Open>

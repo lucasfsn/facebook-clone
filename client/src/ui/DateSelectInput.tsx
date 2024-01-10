@@ -24,7 +24,7 @@ function DateSelectInput<T extends FormInputData>({
           </span>
         </div>
       ) : null}
-      <div className="grid grid-cols-3 justify-between gap-3">
+      <div className="grid grid-cols-1 justify-between gap-3 sm:grid-cols-3">
         <select
           {...formik.getFieldProps("birthMonth")}
           className={`focus:outline-none ${

@@ -6,7 +6,7 @@ function ProfilePanelFriends() {
   const profile = useSelector(getUserProfile);
 
   return (
-    <div className="grid grid-cols-3 gap-1.5">
+    <div className="grid grid-cols-5 gap-1.5 md:grid-cols-3">
       {profile.friends.map((friend) => (
         <Link to={`/profile/${friend.username}`} key={friend._id}>
           <img

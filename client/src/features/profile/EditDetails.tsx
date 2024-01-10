@@ -85,18 +85,18 @@ function EditDetails({
         </EditDetail>
       </div>
       <div className="separator flex items-center justify-between border-t px-4 pt-4">
-        <div className="font-semibold text-blue-300">
+        <div className="text-sm font-semibold text-blue-300 sm:text-base">
           Update Your Information
         </div>
         <div className="flex gap-2">
           <Button
-            className="bg-tertiary bg-tertiary-hover text-secondary font-semibold"
+            className="bg-tertiary bg-tertiary-hover text-secondary text-sm font-semibold sm:text-lg"
             onClick={handleCancel}
           >
             Cancel
           </Button>
           <Button
-            className="bg-blue-500 font-semibold text-white hover:bg-blue-400"
+            className="bg-blue-500 text-sm font-semibold text-white hover:bg-blue-400 sm:text-lg"
             onClick={handleSave}
             disabled={disabled}
           >

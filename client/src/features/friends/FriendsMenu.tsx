@@ -10,7 +10,7 @@ function FriendsMenu() {
   }
 
   return (
-    <div className="bg-primary flex w-1/3 flex-col gap-4 p-4">
+    <div className="bg-primary flex w-full flex-col gap-4 p-4 sm:w-1/3">
       <div className="text-2xl font-bold">Friends</div>
       <div className="flex flex-col gap-1">
         <Link

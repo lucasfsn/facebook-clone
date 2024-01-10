@@ -46,7 +46,7 @@ function ProfileHeader() {
       <div className="flex flex-row">
         <div className="bg-primary flex w-full flex-col gap-2">
           <ProfileCover isProfileOwner={isProfileOwner} />
-          <div className="flex flex-row items-center px-3 xl:mx-auto xl:w-4/6">
+          <div className="flex flex-col items-center px-3 sm:flex-row xl:mx-auto xl:w-4/6">
             <div className="relative h-[110px]">
               <div className="bg-primary relative -translate-y-1/2 cursor-pointer rounded-full p-1">
                 {showProfilePictureModal && (
@@ -81,12 +81,12 @@ function ProfileHeader() {
               <h1 className="whitespace-nowrap text-xl font-bold md:text-3xl">
                 {profile.firstName} {profile.lastName}
               </h1>
-              <p className="text-tertiary text-sm font-semibold">
+              <p className="text-tertiary mx-auto text-sm font-semibold sm:mx-0">
                 {profile.friends.length}{" "}
                 {profile.friends.length === 1 ? "friend" : "friends"}
               </p>
             </div>
-            <div className="ml-auto p-2">
+            <div className="p-2 sm:ml-auto">
               {isProfileOwner ? (
                 <Modal>
                   <Modal.Open opens="edit-profile">
@@ -109,7 +109,7 @@ function ProfileHeader() {
             </div>
           </div>
           <div className="px-3 xl:mx-auto xl:w-4/6">
-            <div className="separator flex flex-row gap-3 border-t pt-1">
+            <div className="separator flex flex-col gap-3 border-t pt-1 sm:flex-row">
               <div
                 className={`flex justify-center border-b-4 ${
                   activePage === "home"

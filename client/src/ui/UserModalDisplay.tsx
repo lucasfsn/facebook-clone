@@ -27,7 +27,9 @@ function UserModalDisplay({ handleGoBack }: UserModalDisplayProps) {
         >
           <FaArrowLeft />
         </div>
-        <p className="px-2 text-2xl font-bold">Display & accessibility</p>
+        <p className="px-2 text-xl font-bold sm:text-2xl">
+          Display & accessibility
+        </p>
       </div>
       <div className="flex justify-start gap-2">
         <div className="bg-tertiary h-fit rounded-full p-2 text-xl">

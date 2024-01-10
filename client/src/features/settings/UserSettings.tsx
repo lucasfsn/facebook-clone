@@ -20,7 +20,7 @@ function UserSettings() {
                 <IoIosArrowForward />
               </button>
             </Modal.Open>
-            <Modal.Window name="firstName" type="center" width="375px">
+            <Modal.Window name="firstName" type="center" width="w-[375px]">
               <ChangeNameForm field="firstName" />
             </Modal.Window>
           </div>
@@ -31,7 +31,7 @@ function UserSettings() {
                 <IoIosArrowForward />
               </button>
             </Modal.Open>
-            <Modal.Window name="lastName" type="center" width="375px">
+            <Modal.Window name="lastName" type="center" width="w-[375px]">
               <ChangeNameForm field="lastName" />
             </Modal.Window>
           </div>
@@ -42,7 +42,7 @@ function UserSettings() {
                 <IoIosArrowForward />
               </button>
             </Modal.Open>
-            <Modal.Window name="email" type="center" width="375px">
+            <Modal.Window name="email" type="center" width="w-[375px]">
               <ChangeEmailForm />
             </Modal.Window>
           </div>
@@ -53,7 +53,7 @@ function UserSettings() {
                 <IoIosArrowForward />
               </button>
             </Modal.Open>
-            <Modal.Window name="password" type="center" width="375px">
+            <Modal.Window name="password" type="center" width="w-[375px]">
               <ChangePasswordForm />
             </Modal.Window>
           </div>
@@ -64,7 +64,7 @@ function UserSettings() {
                 <IoIosArrowForward />
               </button>
             </Modal.Open>
-            <Modal.Window name="birthDate" type="center" width="375px">
+            <Modal.Window name="birthDate" type="center" width="w-[375px]">
               <ChangeBirthDate />
             </Modal.Window>
           </div>

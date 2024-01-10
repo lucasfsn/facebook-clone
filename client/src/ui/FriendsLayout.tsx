@@ -3,7 +3,7 @@ import FriendsMenu from "../features/friends/FriendsMenu";
 
 function FriendsLayout() {
   return (
-    <div className="text-secondary separator bg-secondary flex w-full border-t">
+    <div className="text-secondary separator bg-secondary flex w-full flex-col border-t sm:flex-row">
       <FriendsMenu />
       <Outlet />
     </div>

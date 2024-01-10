@@ -19,10 +19,10 @@ function Profile() {
       <div className="flex flex-col gap-4 md:w-[42.5%]">
         <ProfilePanelIntro isProfileOwner={isProfileOwner} />
         <div className="bg-primary flex flex-col gap-3 rounded-md px-4 py-2">
-          <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row items-center justify-between gap-2">
             <Link
               to={`/profile/${profile.username}/photos`}
-              className="cursor-pointer text-xl font-bold hover:underline"
+              className="cursor-pointer text-base font-bold hover:underline sm:text-xl"
             >
               Photos
             </Link>
@@ -30,7 +30,9 @@ function Profile() {
               to={`/profile/${profile.username}/photos`}
               className="bg-tertiary-hover cursor-pointer rounded-md px-2 py-1"
             >
-              <span className="text-lg text-blue-400">See all photos</span>
+              <span className="text-sm text-blue-400 sm:text-lg">
+                See all photos
+              </span>
             </Link>
           </div>
           <div className="h-fit">
@@ -39,10 +41,10 @@ function Profile() {
         </div>
         <div className="bg-primary flex flex-col gap-3 rounded-md px-4 py-2">
           <div className="flex flex-col">
-            <div className="flex flex-row items-center justify-between">
+            <div className="flex flex-row items-center justify-between gap-2">
               <Link
                 to={`/profile/${profile.username}/friends`}
-                className="cursor-pointer text-xl font-bold hover:underline"
+                className="cursor-pointer text-base font-bold hover:underline sm:text-xl"
               >
                 Friends
               </Link>
@@ -50,7 +52,9 @@ function Profile() {
                 to={`/profile/${profile.username}/friends`}
                 className="bg-tertiary-hover cursor-pointer rounded-md px-2 py-1"
               >
-                <span className="text-lg text-blue-400">See all friends</span>
+                <span className="text-sm text-blue-400 sm:text-lg">
+                  See all friends
+                </span>
               </Link>
             </div>
             <span className="text-tertiary">

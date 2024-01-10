@@ -23,7 +23,7 @@ function AddPost({ username, children }: AddPostProps) {
             className="h-[40px] w-auto cursor-pointer rounded-full transition-all hover:brightness-95"
           />
           <Modal.Open opens="post-text">
-            <button className="bg-tertiary bg-tertiary-hover w-full rounded-full px-3 text-left">
+            <button className="bg-tertiary bg-tertiary-hover w-full rounded-full px-3 text-left text-xs sm:text-lg">
               {children}
             </button>
           </Modal.Open>
@@ -31,7 +31,7 @@ function AddPost({ username, children }: AddPostProps) {
             <AddPostForm username={username} openImages={true} />
           </Modal.Window>
         </div>
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
           <Modal.Open opens="post-images">
             <div className="bg-tertiary-hover flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm lg:px-5 lg:text-base">
               <IoImages className="text-xl text-green-500 lg:text-2xl" />

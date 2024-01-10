@@ -13,7 +13,7 @@ function Friends() {
   if (loading) return <Spinner />;
 
   return (
-    <div className="text-secondary grid w-2/3 grid-cols-3 gap-2 p-6 font-semibold lg:grid-cols-4 xl:grid-cols-5">
+    <div className="text-secondary grid w-full grid-cols-2 gap-2 p-6 font-semibold sm:w-2/3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {profile.friends.map((friend) => (
         <div
           key={friend._id}

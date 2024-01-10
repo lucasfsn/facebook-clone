@@ -31,7 +31,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-w flex min-w-[400px] flex-col gap-4 rounded-lg bg-white p-4 text-center shadow-3xl">
+    <div className="flex w-[95%] flex-col gap-4 rounded-lg bg-white p-4 text-center shadow-3xl sm:w-[400px]">
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-4">
         <FormInput<LoginData>
           placeholder="Email or phone number"
@@ -47,7 +47,7 @@ function LoginForm() {
           purpose="login"
           formik={formik}
         />
-        <Button className="bg-blue-500">Log In</Button>
+        <Button className="bg-blue-500 text-sm sm:text-lg">Log In</Button>
       </form>
       <Link
         to="/recover"

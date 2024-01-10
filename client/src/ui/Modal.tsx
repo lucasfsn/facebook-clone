@@ -66,7 +66,7 @@ function Window({
   children,
   name,
   type,
-  width = "475px",
+  width = "w-[95%] sm:w-[475px]",
   onClose,
   alwaysClose = true,
 }: WindowProps) {
@@ -89,8 +89,7 @@ function Window({
       <div className="fixed bottom-0 left-0 right-0 top-0 z-50 backdrop-blur-sm">
         <div
           ref={ref}
-          style={{ width }}
-          className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white shadow-3xl`}
+          className={`shadow-3xl] absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col rounded-lg bg-white ${width}`}
         >
           <button
             onClick={handleClose}

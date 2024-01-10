@@ -54,18 +54,18 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
 
   if (user?.id === profile._id && !status.sender && !status.receiver)
     return (
-      <div className="separator flex items-center gap-1 rounded-md border p-4">
+      <div className="separator flex flex-col items-center gap-1 rounded-md border p-2 sm:flex-row sm:p-4">
         <Link
           to={`/profile/${friend.username}`}
           className="flex w-full items-center justify-between rounded-md"
         >
-          <div className="flex items-center gap-3">
+          <div className="mx-auto flex flex-col items-center gap-1 sm:mx-0 sm:flex-row sm:gap-3">
             <img
               src={friend.picture}
               alt={friend.firstName}
               className="aspect-square h-[80px] rounded-md"
             />
-            <span className="text-secondary text-lg font-semibold">
+            <span className="text-secondary text-sm font-semibold sm:text-lg">
               {friend.firstName} {friend.lastName}
             </span>
           </div>

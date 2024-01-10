@@ -13,7 +13,7 @@ function ChoosePicture() {
 
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md py-4">
-      <div className="separator border-b pb-4 text-center text-xl font-bold">
+      <div className="separator border-b pb-4 text-center text-base font-bold sm:text-xl">
         Choose profile picture
       </div>
       {image ? (

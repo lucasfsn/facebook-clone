@@ -19,7 +19,7 @@ function UserModal() {
     return <UserModalDisplay handleGoBack={() => setShowDisplau(false)} />;
 
   return (
-    <div className="bg-primary absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[300px] flex-col gap-3 rounded-lg p-3 shadow-md">
+    <div className="bg-primary absolute right-[10px] top-[50px] z-50 flex max-h-[90vh] w-[95%] flex-col gap-3 rounded-lg p-3 shadow-md sm:w-[300px]">
       <div className="bg-tertiary rounded-lg p-1 shadow-3xl">
         <Link
           to="/profile"

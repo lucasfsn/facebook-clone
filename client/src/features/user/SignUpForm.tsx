@@ -42,7 +42,7 @@ function SignUpForm() {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="flex flex-col gap-3 p-3">
+    <div className="flex w-[95%] flex-col gap-3 p-3">
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-2">
         <div className="flex flex-row justify-between gap-3">
           <FormInput<SignUpData>
@@ -77,7 +77,7 @@ function SignUpForm() {
         <DateSelectInput<SignUpData> formik={formik} />
         <GenderSelectInput<SignUpData> name="gender" formik={formik} />
         <SignUpFooter />
-        <Button className="mx-auto my-4 w-1/2 bg-green-500 hover:bg-green-600">
+        <Button className="mx-auto my-4 w-1/2 bg-green-500 text-sm hover:bg-green-600 sm:text-lg">
           Sign Up
         </Button>
       </form>

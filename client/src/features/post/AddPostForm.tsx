@@ -67,7 +67,7 @@ function AddPostForm({ username, openImages = false }: AddPostFormProps) {
 
   return (
     <div className="bg-primary text-secondary flex flex-col gap-3 rounded-md">
-      <div className="separator border-b p-3 text-center text-xl font-bold">
+      <div className="separator text-basesm:text-xl border-b p-3 text-center font-bold">
         Create post
       </div>
       <div className="flex flex-col gap-3 px-3 pb-3">

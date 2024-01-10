@@ -19,7 +19,7 @@ function GenderSelectInput<T extends FormInputData>({
           <HiMiniQuestionMarkCircle />
         </span>
       </div>
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <label
           htmlFor="female"
           className={`flex cursor-pointer flex-row justify-between gap-2 rounded-[5px] border p-1 ${

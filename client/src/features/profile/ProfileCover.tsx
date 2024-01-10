@@ -224,7 +224,7 @@ function ProfileCover({ isProfileOwner }: ProfileConverProps) {
               ref={coverBtnRef}
             >
               <FaCamera />
-              <span>
+              <span className="hidden sm:block">
                 {profile?.cover ? "Edit cover photo" : "Add cover photo"}
               </span>
             </button>
