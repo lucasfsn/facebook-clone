@@ -85,6 +85,46 @@ export const getReaction: RequestHandler<
       'firstName lastName createdAt'
     );
 
+    // If you want to use aggregate instead of populate, use this code
+    /* const reactions = await ReactionModel.aggregate([
+      {
+        $match: {
+          post: new mongoose.Types.ObjectId(postId),
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'by',
+          foreignField: '_id',
+          as: 'by',
+        },
+      },
+      {
+        $unwind: '$by',
+      },
+      {
+        $project: {
+          'by.password': 0,
+          'by.email': 0,
+          'by.__v': 0,
+          'by.gender': 0,
+          'by.birthDay': 0,
+          'by.birthMonth': 0,
+          'by.birthYear': 0,
+          'by.friends': 0,
+          'by.friendRequests': 0,
+          'by.sentFriendRequests': 0,
+          'by.search': 0,
+          'by.cover': 0,
+          'by.picture': 0,
+          'by.details': 0,
+          'by.updatedAt': 0,
+          'by.username': 0,
+        },
+      },
+    ]); */
+
     const reactionsObj = reactions.reduce((prev: Reactions, curr) => {
       if (!prev[curr.reaction]) prev[curr.reaction] = [];
 
@@ -107,6 +147,7 @@ export const getReaction: RequestHandler<
         users:
           (reactionsObj[reaction] as unknown as ReactionRes[])
             ?.map((r: ReactionRes) => ({
+              _id: r.by._id,
               firstName: r.by.firstName,
               lastName: r.by.lastName,
               createdAt: r.createdAt,
