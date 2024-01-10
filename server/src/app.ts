@@ -5,12 +5,15 @@ import { imageRouter } from './routers/image.router';
 import { postRouter } from './routers/post.router';
 import { reactionRouter } from './routers/reaction.router';
 import { userRouter } from './routers/user.router';
+import env from './utils/validateEnv';
+
+const clientUrl = env.CLIENT_URL;
 
 const app = express();
 
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: clientUrl,
   })
 );
 app.use(json());

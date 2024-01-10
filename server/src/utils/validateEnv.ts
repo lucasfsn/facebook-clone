@@ -7,4 +7,5 @@ export default cleanEnv(process.env, {
   CLOUDINARY_API_SECRET: str(),
   CLOUDINARY_API_KEY: str(),
   JWT_SECRET: str(),
+  CLIENT_URL: str(),
 });
