@@ -11,7 +11,7 @@ Full stack Facebook clone built using the MERN stack that allows you to communic
   - [Technologies Used](#technologies-used)
 - [Run Locally](#get-repository)
 
-### [Live Version](https://github.com/lucasfsn/facebook-clone)
+### [Live Version](https://facebook-clone-lucasfsn.vercel.app)
 
 ### App Preview
 
