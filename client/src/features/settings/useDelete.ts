@@ -19,6 +19,7 @@ export function useDelete() {
       dispatch(deleteUser());
 
       Cookies.remove("user");
+      Cookies.remove("token");
 
       toast.success(message);
 

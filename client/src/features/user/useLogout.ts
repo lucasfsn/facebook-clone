@@ -10,6 +10,7 @@ export function useLogout() {
 
   function logoutUser() {
     Cookies.remove("user");
+    Cookies.remove("token");
 
     dispatch(logout());
 
