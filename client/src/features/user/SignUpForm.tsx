@@ -42,7 +42,7 @@ function SignUpForm() {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="flex w-[95%] flex-col gap-3 p-3">
+    <div className="flex max-h-[85dvh] w-[95%] flex-col gap-3 overflow-y-scroll p-3">
       <form onSubmit={formik.handleSubmit} className="flex flex-col gap-2">
         <div className="flex flex-row justify-between gap-3">
           <FormInput<SignUpData>

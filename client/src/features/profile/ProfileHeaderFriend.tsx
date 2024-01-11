@@ -88,7 +88,7 @@ function ProfileHeaderFriend() {
       {buttonContent}
       {!status.friends && status.sender && showMenu && (
         <div
-          className="bg-primary text-secondary absolute right-0 top-full flex w-[250px] flex-col rounded-md p-1.5 text-start shadow-3xl"
+          className="bg-primary text-secondary absolute right-0 top-full flex flex-col rounded-md p-1.5 text-start shadow-3xl sm:w-[250px]"
           onClick={(e) => e.stopPropagation()}
         >
           <div
@@ -117,7 +117,7 @@ function ProfileHeaderFriend() {
       )}
       {status.friends && showMenu && (
         <div
-          className="bg-primary absolute right-0 top-full flex w-[250px] flex-col rounded-md p-1.5 text-start shadow-3xl"
+          className="bg-primary absolute right-0 top-full flex flex-col rounded-md p-1.5 text-start shadow-3xl sm:w-[250px]"
           onClick={(e) => e.stopPropagation()}
         >
           <div

@@ -105,7 +105,7 @@ function Post({ post }: PostProps) {
             <span className="font-semibold">
               {post.user.firstName} {post.user.lastName}
             </span>
-            <span className="text-tertiary">
+            <span className="text-tertiary text-sm sm:text-base">
               updated{" "}
               {post.type === "cover" ? "cover photo" : "profile picture"}.
             </span>

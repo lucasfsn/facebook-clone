@@ -148,17 +148,20 @@ function Header() {
             </button>
             {showNotifications && (
               <div
-                className="bg-primary text-secondary absolute right-0 w-max rounded-lg px-2 py-3 shadow-3xl"
+                className="bg-primary text-secondary absolute right-0 w-max rounded-lg px-1 py-2 text-sm shadow-3xl sm:px-2 sm:py-3 sm:text-base"
                 ref={ref}
               >
                 {friendRequests > 0 ? (
                   <Link
                     to="/friends/requests"
                     onClick={() => setShowNotifications(false)}
-                    className="bg-tertiary-hover rounded-md px-2.5 py-1"
+                    className="bg-tertiary-hover flex flex-col rounded-md px-2.5 py-1 sm:flex-row"
                   >
-                    You have received <strong>{friendRequests}</strong> friend
-                    request{friendRequests > 1 && "s"}
+                    <span>You have received </span>
+                    <span>
+                      <strong>{friendRequests}</strong> friend request
+                      {friendRequests > 1 && "s"}
+                    </span>
                   </Link>
                 ) : (
                   <p>You're all caught up! No new notifications.</p>

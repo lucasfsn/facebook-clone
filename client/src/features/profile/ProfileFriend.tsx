@@ -92,8 +92,8 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
   } else if (status.receiver) {
     buttonContent = (
       <>
-        <BsFillPersonXFill className="text-xl" />
-        <span>Cancel request</span>
+        <BsFillPersonXFill className="text-base sm:text-xl" />
+        <span className="text-xs sm:text-sm">Cancel request</span>
       </>
     );
   } else if (status.sender) {
@@ -125,25 +125,25 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
   }
 
   return (
-    <div className="separator bg-primary flex items-center gap-1 rounded-md border p-4">
+    <div className="separator flex flex-col items-center gap-1 rounded-md border p-2 sm:flex-row sm:p-4">
       <Link
         to={`/profile/${friend.username}`}
         className="flex w-full items-center justify-between rounded-md"
       >
-        <div className="flex items-center gap-3">
+        <div className="mx-auto flex flex-col items-center gap-1 sm:mx-0 sm:flex-row sm:gap-3">
           <img
             src={friend.picture}
             alt={friend.firstName}
             className="aspect-square h-[80px] rounded-md"
           />
-          <span className="text-secondary text-lg font-semibold">
+          <span className="text-secondary text-sm font-semibold sm:text-lg">
             {friend.firstName} {friend.lastName}
           </span>
         </div>
       </Link>
       {friend._id !== user?.id && (
         <div
-          className={`relative flex cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-lg px-2 py-1 text-sm font-semibold md:px-3 md:py-1.5 md:text-base ${
+          className={`relative flex cursor-pointer items-center justify-center gap-0.5 whitespace-nowrap rounded-lg px-1 py-1 text-sm font-semibold sm:gap-1.5 sm:px-2 md:px-3 md:py-1.5 md:text-base ${
             status.friends
               ? "bg-tertiary bg-tertiar-hover text-secondary"
               : "bg-blue-600 text-white hover:bg-blue-500"
@@ -154,7 +154,7 @@ function ProfileFriend({ friend, onFriendRequestChange }: ProfileFriendProps) {
           {buttonContent}
           {!status.friends && status.sender && showMenu && (
             <div
-              className="bg-primary text-secondary absolute right-0 top-full flex w-[250px] flex-col rounded-md p-1.5 text-start shadow-3xl"
+              className="bg-primary text-secondary absolute right-1/2 top-full flex translate-x-1/2 flex-col rounded-md p-1.5 text-start shadow-3xl sm:right-0 sm:w-[250px] sm:-translate-x-0"
               onClick={(e) => e.stopPropagation()}
             >
               <div

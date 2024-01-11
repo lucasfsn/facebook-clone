@@ -46,7 +46,7 @@ function EditProfile({ profile }: EditProfileProps) {
   );
 
   return (
-    <div className="bg-primary text-secondary flex flex-col rounded-md py-4 shadow-3xl">
+    <div className="bg-primary text-secondary flex max-h-[95dvh] flex-col overflow-y-scroll rounded-md py-4 shadow-3xl">
       <Modal>
         <div className="separator border-b pb-4 text-center text-xl font-bold">
           Edit profile
