@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import createHttpError from 'http-errors';
-// import { Types } from 'mongoose';
+import { Types } from 'mongoose';
 import PostModel from '../models/post';
 import ReactionModel from '../models/reaction';
 import UserModel from '../models/user';
@@ -111,6 +111,26 @@ function getPosts(query: Record<string, unknown>) {
         'comments.author.email': 0,
       },
     },
+    {
+      $project: {
+        _id: 1,
+        type: 1,
+        images: 1,
+        content: 1,
+        user: 1,
+        key: 1,
+        audience: 1,
+        comments: {
+          $filter: {
+            input: '$comments',
+            as: 'comment',
+            cond: { $ne: ['$$comment', {}] },
+          },
+        },
+        createdAt: 1,
+        updatedAt: 1,
+      },
+    },
     { $sort: { createdAt: -1 } },
   ]);
 } */
@@ -155,11 +175,13 @@ export const allPosts: RequestHandler<
 
     const publicPosts = await getPosts({ audience: 'public' });
 
-    const userPosts = await getPosts({ user: userId });
+    const userPosts = await getPosts({ user: new Types.ObjectId(userId) });
 
     const posts = [...friendsPosts, ...publicPosts, ...userPosts]
       .filter(
-        (post, index, self) => index === self.findIndex(p => p.id === post.id)
+        (post, index, self) =>
+          index ===
+          self.findIndex(p => p._id.toString() === post._id.toString())
       )
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
@@ -249,6 +271,12 @@ export const commentPost: RequestHandler<
       { new: true }
     ).populate('comments.author', 'picture firstName lastName username');
 
+    res.json({
+      message: 'Comment added successfully',
+      comments: post.comments,
+      postId,
+    });
+
     // If you want to use aggregate instead of populate, you can use this code
     /* await PostModel.findByIdAndUpdate(postId, {
       $push: {
@@ -320,13 +348,24 @@ export const commentPost: RequestHandler<
           'comments.author.email': 0,
         },
       },
-    ]); */
+      {
+        $project: {
+          comments: {
+            $filter: {
+              input: '$comments',
+              as: 'comment',
+              cond: { $ne: ['$$comment', {}] },
+            },
+          },
+        },
+      },
+    ]);
 
     res.json({
       message: 'Comment added successfully',
-      comments: post.comments,
+      comments: post[0].comments,
       postId,
-    });
+    }); */
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -419,6 +458,17 @@ export const deleteComment: RequestHandler<
           'comments.author.createdAt': 0,
           'comments.author.updatedAt': 0,
           'comments.author.email': 0,
+        },
+      },
+      {
+        $project: {
+          comments: {
+            $filter: {
+              input: '$comments',
+              as: 'comment',
+              cond: { $ne: ['$$comment', {}] },
+            },
+          },
         },
       },
     ]);

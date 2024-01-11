@@ -1054,11 +1054,9 @@ export const exportProfile: RequestHandler<
   unknown
 > = async (req, res) => {
   const { userId } = req.params;
-  const user = await UserModel.findById(userId)
-    .select(
-      'firstName lastName gender birthDay birthMonth birthYear search.user search.createdAt -_id'
-    )
-    .select('-search._id');
+  const user = await UserModel.findById(userId).select(
+    'firstName lastName gender birthDay birthMonth birthYear -_id'
+  );
 
   if (!user) {
     return res.status(404).send({ error: 'User not found' });

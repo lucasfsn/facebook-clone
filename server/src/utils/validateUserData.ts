@@ -52,12 +52,4 @@ export const ProfileImportSchema = Yup.object({
       'Gender must be "male", "female", or "other"'
     )
     .required('Gender is missing'),
-  search: Yup.array()
-    .of(
-      Yup.object().shape({
-        user: Yup.string().required('Search field is missing'),
-        createdAt: Yup.string().required('Search field is missing'),
-      })
-    )
-    .required('Search is missing'),
 }).noUnknown('Unknown key found. Please check your file');
