@@ -18,7 +18,7 @@ interface FilesRequest extends Request {
 }
 
 function clearTmp(path: string) {
-  fs.unlink(path, err => {
+  fs.unlink(path.replace('/var/task', ''), err => {
     if (err) throw err;
   });
 }
@@ -54,11 +54,11 @@ async function cloudinaryUpload(
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload(
-      image.tempFilePath,
+      image.tempFilePath.replace('/var/task', ''),
       { folder: path },
       (err, res) => {
         if (err) {
-          clearTmp(image.tempFilePath);
+          clearTmp(image.tempFilePath.replace('/var/task', ''));
 
           console.error(err);
 

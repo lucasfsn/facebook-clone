@@ -20,6 +20,7 @@ app.use(json());
 app.use(
   fileUpload({
     useTempFiles: true,
+    tempFileDir: '/tmp/',
   })
 );
 
