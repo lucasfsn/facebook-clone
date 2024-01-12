@@ -28,6 +28,7 @@ Create .env file
 
 - MONGO_CONNECTION_STRING
 - PORT
+- CLIENT_URL
 
 You also need to create a Cloudinary account and enter your cloud name, API secret and API key in:
 
