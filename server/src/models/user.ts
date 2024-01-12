@@ -78,7 +78,7 @@ const userSchema = new Schema(
           'In a civil union',
           'In a domestic partnership',
           'In an open relationship',
-          'It is complicated',
+          "It's complicated",
           'Separated',
           'Divorced',
           'Widowed',
