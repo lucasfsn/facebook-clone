@@ -9,6 +9,7 @@ interface PostBody {
   content: string;
   images?: string[];
   userId: string;
+  type: 'profile' | 'cover' | 'post' | 'details';
 }
 
 interface EditPostBody {
@@ -142,6 +143,14 @@ export const createPost: RequestHandler<
   unknown
 > = async (req, res) => {
   try {
+    if (
+      req.body.content.length >= 0 &&
+      req.body.content.trim().length === 0 &&
+      req.body.type === 'post' &&
+      req.body.images.length === 0
+    )
+      throw createHttpError(400, 'Content cannot be only whitespace');
+
     let newPost = await PostModel.create(req.body);
     newPost = await newPost.populate(
       'user',
@@ -232,6 +241,9 @@ export const editPost: RequestHandler<
     const post = await PostModel.findById(id).select('content images audience');
     if (!post) throw createHttpError(404, 'Post not found');
 
+    if (content.length >= 0 && content.trim().length === 0)
+      throw createHttpError(400, 'Content cannot be only whitespace');
+
     if (content) post.content = content;
     if (images) post.images = images;
     if (audience) post.audience = audience;
@@ -255,6 +267,9 @@ export const commentPost: RequestHandler<
 > = async (req, res) => {
   try {
     const { comment, image, postId, userId } = req.body;
+
+    if (comment.length >= 0 && comment.trim().length === 0)
+      throw createHttpError(400, 'Content cannot be only whitespace');
 
     const post = await PostModel.findByIdAndUpdate(
       postId,

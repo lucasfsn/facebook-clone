@@ -305,6 +305,8 @@ export const changeUserInfo: RequestHandler<
 
     const user = await UserModel.findOne({ email });
 
+    if (!user) throw createHttpError(404, 'User not found');
+
     checkIfNotSame(user, data, value);
 
     if (typeof value === 'string') {
@@ -886,7 +888,7 @@ export const getUserById: RequestHandler<
   try {
     const { id } = req.params;
 
-    const user = await UserModel.findById(id);
+    const user = await UserModel.findById(id).select('-password');
 
     if (!user) throw createHttpError(404, 'User not found');
 
@@ -905,13 +907,40 @@ export const searchUser: RequestHandler<
   try {
     const { user } = req.params;
 
-    const result = await UserModel.find({
+    /* const result = await UserModel.find({
       $or: [
         { firstName: { $regex: user, $options: 'i' } },
         { lastName: { $regex: user, $options: 'i' } },
         { username: { $regex: user, $options: 'i' } },
       ],
-    }).select('picture firstName lastName username');
+    }).select('picture firstName lastName username'); */
+
+    // If you want to use aggregate instead of populate, use this code
+    const result = await UserModel.aggregate([
+      {
+        $addFields: {
+          fullName: {
+            $concat: ['$firstName', ' ', '$lastName'],
+          },
+        },
+      },
+      {
+        $match: {
+          $or: [
+            { fullName: { $regex: user, $options: 'i' } },
+            { username: { $regex: user, $options: 'i' } },
+          ],
+        },
+      },
+      {
+        $project: {
+          picture: 1,
+          firstName: 1,
+          lastName: 1,
+          username: 1,
+        },
+      },
+    ]);
 
     res.json(result);
   } catch (err) {

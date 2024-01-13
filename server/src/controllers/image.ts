@@ -58,7 +58,7 @@ async function cloudinaryUpload(
       { folder: path },
       (err, res) => {
         if (err) {
-          clearTmp(image.tempFilePath.replace('/var/task', ''));
+          clearTmp(image.tempFilePath);
 
           console.error(err);
 
