@@ -4,14 +4,11 @@ Full stack Facebook clone built using the MERN stack that allows you to communic
 
 ## Contents
 
-- [Live Version](#live-version)
 - [App Preview](#app-preview)
 - [Overview](#overview)
   - [Features](#features)
   - [Technologies Used](#technologies-used)
 - [Run Locally](#get-repository)
-
-### [Live Version](https://facebook-clone-lucasfsn.vercel.app)
 
 ### App Preview
 
